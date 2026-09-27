@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify 100-Variant Splitter (UAT Free Mode)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4 font-sans">
+
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-800 bg-purple-100 border border-purple-300 py-1 px-3 rounded-full mb-3">
+        <span>⚡ Tool 3 • Bypass Shopify's 100-Variant Cap</span>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
+        Shopify 100-Variant Splitter
+      </h1>
+      <p class="mt-2 text-sm text-slate-600 max-w-xl mx-auto">
+        Shopify rejects products with over 100 variants. Drop your catalog here to detect oversized variant lists and automatically split them into compliant child products.
+      </p>
+    </div>
+
+    <!-- Dropzone -->
+    <div class="bg-white border-2 border-dashed border-slate-300 hover:border-purple-500 rounded-xl p-8 text-center transition-colors shadow-sm cursor-pointer">
+      <input type="file" id="csvFileInput" accept=".csv" class="hidden">
+      <label for="csvFileInput" class="cursor-pointer flex flex-col items-center">
+        <svg class="w-12 h-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+        </svg>
+        <span class="text-sm font-semibold text-slate-700" id="fileLabel">Drop Shopify CSV with large variant sets</span>
+        <span class="text-xs text-slate-400 mt-1">Accepts raw CSV up to 50MB</span>
+      </label>
+    </div>
+
+    <!-- Results Area -->
+    <div id="resultsArea" class="mt-8 space-y-6 hidden">
+      <!-- Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+          <span class="text-xs font-medium text-slate-500 uppercase">Total Distinct Products</span>
+          <p id="totalProductsCount" class="text-2xl font-bold text-slate-900 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-red-200 bg-red-50/50 shadow-sm">
+          <span class="text-xs font-medium text-red-600 uppercase">> 100 Variants (Blocked)</span>
+          <p id="oversizedCount" class="text-2xl font-bold text-red-600 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-emerald-200 bg-emerald-50/50 shadow-sm">
+          <span class="text-xs font-medium text-emerald-600 uppercase">New Split Products Created</span>
+          <p id="newProductsCount" class="text-2xl font-bold text-emerald-600 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Action Log -->
+      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">Product Split Actions Log</h3>
+        <div id="splitLog" class="max-h-56 overflow-y-auto space-y-2 text-xs divide-y divide-slate-100">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Download Banner -->
+      <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+        <div>
+          <h4 class="text-lg font-bold">Export Split Shopify CSV</h4>
+          <p class="text-xs text-slate-400 mt-1">All products are partitioned below the 100-variant ceiling and ready for direct import.</p>
+        </div>
+        <button id="downloadSplitBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-sm transition-colors whitespace-nowrap shadow-sm">
+          Download Split CSV
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let finalSplitData = [];
+    let currentFileName = "split_variants.csv";
+
+    document.getElementById('csvFileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      currentFileName = file.name;
+      document.getElementById('fileLabel').textContent = `Loaded: ${file.name}`;
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: 'greedy',
+        transformHeader: h => h.trim(),
+        complete: function(results) {
+          processVariantSplitting(results.data);
+        }
+      });
+    });
+
+    function processVariantSplitting(rows) {
+      // 1. Group rows by Product Handle
+      const products = {};
+      let currentHandle = "";
+
+      rows.forEach((row, idx) => {
+        let handle = (row['Handle'] || '').trim();
+        if (handle) {
+          currentHandle = handle;
+        } else if (currentHandle) {
+          handle = currentHandle;
+        }
+
+        if (!handle) {
+          handle = `unnamed-product-${idx}`;
+          currentHandle = handle;
+        }
+
+        if (!products[handle]) {
+          products[handle] = [];
+        }
+        products[handle].push(row);
+      });
+
+      const productHandles = Object.keys(products);
+      let oversized = 0;
+      let extraCreated = 0;
+      const splitRows = [];
+      const logContainer = document.getElementById('splitLog');
+      logContainer.innerHTML = '';
+
+      // 2. Partition groups > 100 variants
+      productHandles.forEach(handle => {
+        const productRows = products[handle];
+        const count = productRows.length;
+
+        if (count <= 100) {
+          // Compliant product: keep as is
+          productRows.forEach(r => splitRows.push(r));
+        } else {
+          oversized++;
+          const chunks = [];
+          for (let i = 0; i < count; i += 100) {
+            chunks.push(productRows.slice(i, i + 100));
+          }
+
+          extraCreated += (chunks.length - 1);
+
+          chunks.forEach((chunk, partIndex) => {
+            const partNum = partIndex + 1;
+            const newHandle = `${handle}-part-${partNum}`;
+            const baseTitle = chunk[0]['Title'] || handle;
+            const newTitle = `${baseTitle} (Part ${partNum})`;
+
+            chunk.forEach((row, rowIdx) => {
+              const updatedRow = { ...row };
+              updatedRow['Handle'] = newHandle;
+              // Set title only on parent row (first row of each split partition)
+              if (rowIdx === 0) {
+                updatedRow['Title'] = newTitle;
+              } else {
+                updatedRow['Title'] = '';
+              }
+              splitRows.push(updatedRow);
+            });
+
+            // Log event
+            const item = document.createElement('div');
+            item.className = 'py-2 flex items-center justify-between text-xs';
+            item.innerHTML = `
+              <span class="font-bold text-slate-700">${handle} (${count} variants)</span>
+              <span class="text-purple-600 font-mono">→ Created "${newHandle}" (${chunk.length} variants)</span>
+            `;
+            logContainer.appendChild(item);
+          });
+        }
+      });
+
+      if (oversized === 0) {
+        logContainer.innerHTML = '<p class="text-emerald-600 font-semibold p-2">✓ All products have 100 or fewer variants. No splitting needed!</p>';
+      }
+
+      finalSplitData = splitRows;
+
+      // Update counters
+      document.getElementById('totalProductsCount').textContent = productHandles.length;
+      document.getElementById('oversizedCount').textContent = oversized;
+      document.getElementById('newProductsCount').textContent = extraCreated;
+
+      document.getElementById('resultsArea').classList.remove('hidden');
+    }
+
+    document.getElementById('downloadSplitBtn').addEventListener('click', function() {
+      if (finalSplitData.length === 0) return;
+      const csv = Papa.unparse(finalSplitData);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `split_${currentFileName}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify Image URL & Link Scanner (UAT Free Mode)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4 font-sans">
+
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-800 bg-sky-100 border border-sky-300 py-1 px-3 rounded-full mb-3">
+        <span>🖼️ Tool 4 • Pre-Import Media Diagnostic Engine</span>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
+        Shopify Image URL Scanner
+      </h1>
+      <p class="mt-2 text-sm text-slate-600 max-w-xl mx-auto">
+        Scan all product image columns before import. Detect local file paths (C:\), unsecure HTTP protocols, and dead URL formats that crash Shopify's media loader.
+      </p>
+    </div>
+
+    <!-- Dropzone -->
+    <div class="bg-white border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-xl p-8 text-center transition-colors shadow-sm cursor-pointer">
+      <input type="file" id="csvFileInput" accept=".csv" class="hidden">
+      <label for="csvFileInput" class="cursor-pointer flex flex-col items-center">
+        <svg class="w-12 h-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <span class="text-sm font-semibold text-slate-700" id="fileLabel">Upload Shopify CSV to Audit Images</span>
+        <span class="text-xs text-slate-400 mt-1">Accepts raw CSV up to 50MB</span>
+      </label>
+    </div>
+
+    <!-- Results Area -->
+    <div id="resultsArea" class="mt-8 space-y-6 hidden">
+      <!-- Metrics -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+          <span class="text-xs font-medium text-slate-500 uppercase">Image URLs Scanned</span>
+          <p id="totalImagesCount" class="text-2xl font-bold text-slate-900 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-red-200 bg-red-50/50 shadow-sm">
+          <span class="text-xs font-medium text-red-600 uppercase">Invalid / Local Paths Removed</span>
+          <p id="invalidImagesCount" class="text-2xl font-bold text-red-600 mt-1">0</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg border border-amber-200 bg-amber-50/50 shadow-sm">
+          <span class="text-xs font-medium text-amber-600 uppercase">HTTP Warning (Insecure)</span>
+          <p id="httpWarningCount" class="text-2xl font-bold text-amber-600 mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Live Log -->
+      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">Image Link Diagnostics</h3>
+        <div id="imageIssuesLog" class="max-h-56 overflow-y-auto space-y-2 text-xs divide-y divide-slate-100">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Action Banner -->
+      <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+        <div>
+          <h4 class="text-lg font-bold">Download Clean CSV (Sanitized Images)</h4>
+          <p class="text-xs text-slate-400 mt-1">Dead links and local file references stripped to prevent import freezes.</p>
+        </div>
+        <button id="downloadSanitizedBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-sm transition-colors whitespace-nowrap shadow-sm">
+          Download Sanitized CSV
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let sanitizedImageRows = [];
+    let currentFileName = "image_sanitized.csv";
+
+    document.getElementById('csvFileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      currentFileName = file.name;
+      document.getElementById('fileLabel').textContent = `Loaded: ${file.name}`;
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: 'greedy',
+        transformHeader: h => h.trim(),
+        complete: function(results) {
+          auditImages(results.data);
+        }
+      });
+    });
+
+    function auditImages(rows) {
+      let totalImages = 0;
+      let invalidCount = 0;
+      let httpCount = 0;
+      const issues = [];
+      const cleaned = [];
+
+      const imageColumns = ['Image Src', 'Variant Image'];
+
+      rows.forEach((row, idx) => {
+        const rowNum = idx + 2;
+        const cleanedRow = { ...row };
+
+        imageColumns.forEach(col => {
+          if (col in cleanedRow && cleanedRow[col]) {
+            const rawUrl = cleanedRow[col].trim();
+            if (!rawUrl) return;
+
+            totalImages++;
+
+            // 1. Detect local paths (e.g., C:\, file:///)
+            if (rawUrl.match(/^([a-zA-Z]:\\|\/Users\/|file:\/\/)/i)) {
+              issues.push({
+                row: rowNum,
+                col: col,
+                type: 'critical',
+                msg: 'Local hard-drive path detected. Shopify cannot import local files.',
+                val: rawUrl
+              });
+              invalidCount++;
+              cleanedRow[col] = ''; // Strip invalid local path
+            } 
+            // 2. Check for missing protocol
+            else if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
+              issues.push({
+                row: rowNum,
+                col: col,
+                type: 'critical',
+                msg: 'Missing web protocol (http/https).',
+                val: rawUrl
+              });
+              invalidCount++;
+              cleanedRow[col] = '';
+            }
+            // 3. Warn about non-HTTPS links
+            else if (rawUrl.startsWith('http://')) {
+              issues.push({
+                row: rowNum,
+                col: col,
+                type: 'warning',
+                msg: 'Insecure HTTP link. Shopify recommends HTTPS.',
+                val: rawUrl
+              });
+              httpCount++;
+            }
+          }
+        });
+
+        cleaned.push(cleanedRow);
+      });
+
+      sanitizedImageRows = cleaned;
+
+      // Update counters
+      document.getElementById('totalImagesCount').textContent = totalImages;
+      document.getElementById('invalidImagesCount').textContent = invalidCount;
+      document.getElementById('httpWarningCount').textContent = httpCount;
+
+      // Render issues log
+      const logContainer = document.getElementById('imageIssuesLog');
+      logContainer.innerHTML = '';
+
+      if (issues.length === 0) {
+        logContainer.innerHTML = '<p class="text-emerald-600 font-semibold p-2">✓ All image URLs use valid HTTPS protocols!</p>';
+      } else {
+        issues.slice(0, 20).forEach(iss => {
+          const item = document.createElement('div');
+          item.className = 'py-2 flex items-center justify-between';
+          const badgeClass = iss.type === 'critical' ? 'text-red-600 bg-red-50' : 'text-amber-600 bg-amber-50';
+          item.innerHTML = `
+            <div>
+              <span class="font-bold text-slate-700">Row ${iss.row} [${iss.col}]:</span>
+              <span class="text-slate-600 ml-1">${iss.msg}</span>
+              <div class="font-mono text-[10px] text-slate-400 truncate max-w-md">${iss.val}</div>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeClass}">${iss.type.toUpperCase()}</span>
+          `;
+          logContainer.appendChild(item);
+        });
+
+        if (issues.length > 20) {
+          const more = document.createElement('p');
+          more.className = 'text-center text-slate-400 py-1';
+          more.textContent = `+ ${issues.length - 20} more image issues handled.`;
+          logContainer.appendChild(more);
+        }
+      }
+
+      document.getElementById('resultsArea').classList.remove('hidden');
+    }
+
+    document.getElementById('downloadSanitizedBtn').addEventListener('click', function() {
+      if (sanitizedImageRows.length === 0) return;
+      const csv = Papa.unparse(sanitizedImageRows);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `images_cleaned_${currentFileName}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  </script>
+</body>
+</html>

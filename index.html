@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopiClean — High-Performance Shopify CSV Utilities</title>
+  <meta name="description" content="Client-side Shopify CSV auditor, supplier catalog converter, 100-variant splitter, and broken image URL scanner. 100% private in-browser processing.">
+  <link rel="canonical" href="https://shopiclean.com/">
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header / Navigation -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+      </a>
+
+      <!-- Desktop Tool Navigation Menu -->
+      <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
+        <a href="/csv-validator/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">CSV Auditor & Fixer</a>
+        <a href="/supplier-converter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Supplier Converter</a>
+        <a href="/variant-splitter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">100-Variant Splitter</a>
+        <a href="/image-checker/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Image Scanner</a>
+      </nav>
+
+      <!-- Action Button -->
+      <div class="flex items-center gap-3">
+        <a href="/csv-validator/" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors">
+          Audit CSV Free
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow">
+    <section class="relative pt-16 pb-14 border-b border-slate-200/80 bg-gradient-to-b from-white to-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <!-- Privacy Guarantee Pill -->
+        <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-800 mb-6">
+          <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          100% Client-Side • Your Files Never Leave Your Browser Memory
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+          Shopify CSVs Fixed in Seconds.<br>
+          <span class="text-blue-600">Zero Spreadsheet Headaches.</span>
+        </h1>
+        <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+          Browser-native utilities engineered to automatically repair import rejections, map third-party supplier catalogs, bypass the 100-variant ceiling, and purge dead image links.
+        </p>
+
+        <!-- CTA Group -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
+          <a href="/csv-validator/" class="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm">
+            Launch CSV Auditor & Fixer →
+          </a>
+          <a href="/supplier-converter/" class="px-6 py-3.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all border border-slate-300 shadow-sm">
+            Convert Supplier Sheet →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tool Cards Grid -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="text-center mb-12">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Operational Suite</h2>
+        <p class="text-2xl font-extrabold text-slate-900 mt-1">Select a Tool to Begin</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Tool 1 Card -->
+        <a href="/csv-validator/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+          <div class="flex items-start justify-between">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <span class="text-[11px] font-bold text-blue-800 uppercase tracking-wider bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">Flagship</span>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">CSV Error Auditor & Auto-Fixer</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Identifies syntax rejections, strips currency symbols ($/£), forces valid inventory policies, and auto-generates missing variant handles.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
+            Audit CSV <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 2 Card -->
+        <a href="/supplier-converter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+          <div class="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Supplier Catalog Converter</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Convert wholesale exports from Faire, Square POS, and WooCommerce into official Shopify schemas with intuitive header mapping.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-bold text-indigo-600">
+            Remap Catalog <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 3 Card -->
+        <a href="/variant-splitter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+          <div class="w-10 h-10 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 mb-4 group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-sky-600 transition-colors">100-Variant Splitter</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Bypass Shopify's hard 100-variant limit. Automatically partition oversized catalogs into clean part-1 and part-2 products without breaking SKUs.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-bold text-sky-600">
+            Split Products <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </a>
+
+        <!-- Tool 4 Card -->
+        <a href="/image-checker/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+          <div class="w-10 h-10 rounded-lg bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-600 mb-4 group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">Shopify Image URL Scanner</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Check media links before upload. Strips local drive paths (C:\) and non-HTTPS endpoints that cause the Shopify import modal to freeze.
+          </p>
+          <div class="mt-4 flex items-center text-xs font-bold text-cyan-600">
+            Scan Links <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <!-- Col 1: Identity -->
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation -->
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator & Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">100-Variant Splitter</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Legal & Company -->
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust & Legal</div>
+          <ul class="space-y-2">
+            <li><button onclick="openModal('privacyModal')" class="hover:text-blue-600 transition-colors">Privacy Policy</button></li>
+            <li><button onclick="openModal('termsModal')" class="hover:text-blue-600 transition-colors">Terms of Service</button></li>
+            <li><button onclick="openModal('aboutModal')" class="hover:text-blue-600 transition-colors">About Us</button></li>
+            <li><a href="mailto:dilroyalforever47@gmail.com" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Verified Statement -->
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Component -->
+  <div id="modalOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white border border-slate-200 rounded-xl max-w-xl w-full p-6 text-slate-700 relative max-h-[85vh] overflow-y-auto text-xs shadow-xl">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+
+      <!-- Privacy Content -->
+      <div id="privacyModal" class="modal-tab hidden space-y-3">
+        <h3 class="text-base font-bold text-slate-900 mb-2">Privacy Policy</h3>
+        <p><strong>Effective Date:</strong> January 1, 2026</p>
+        <p>At <strong>ShopiClean.com</strong>, we maintain a strict privacy-first model: we never store, view, transmit, or monetize your product data.</p>
+        <p><strong>Local Processing:</strong> All CSV parsing, column adjustments, image diagnostics, and variant splitting occur entirely within your device's browser memory (Client-Side) using HTML5 File APIs. Your product catalogs and vendor pricing never leave your computer.</p>
+        <p><strong>Analytics & Cookies:</strong> We do not track personal identifying information (PII) or sell telemetry to third-party brokers.</p>
+        <p>For questions regarding our privacy architecture, contact: <a href="mailto:dilroyalforever47@gmail.com" class="text-blue-600 underline font-semibold">dilroyalforever47@gmail.com</a>.</p>
+      </div>
+
+      <!-- Terms Content -->
+      <div id="termsModal" class="modal-tab hidden space-y-3">
+        <h3 class="text-base font-bold text-slate-900 mb-2">Terms of Service</h3>
+        <p><strong>Effective Date:</strong> January 1, 2026</p>
+        <p>By using <strong>ShopiClean.com</strong>, you agree to these operational terms:</p>
+        <p><strong>Usage:</strong> Our tools are provided as client-side software utilities to assist e-commerce operations in sanitizing files according to public Shopify CSV schemas.</p>
+        <p><strong>Disclaimer:</strong> While our tools are designed to adhere to Shopify's documented specifications, ShopiClean is an independent utility and is not officially affiliated, sponsored, or endorsed by Shopify Inc. Always review catalog exports before executing mass imports into your production stores.</p>
+      </div>
+
+      <!-- About Us Content -->
+      <div id="aboutModal" class="modal-tab hidden space-y-3">
+        <h3 class="text-base font-bold text-slate-900 mb-2">About ShopiClean</h3>
+        <p><strong>ShopiClean.com</strong> was developed to eliminate the frustrating, time-consuming spreadsheet errors e-commerce operators encounter during bulk catalog imports.</p>
+        <p>Instead of relying on fragile manual Excel formulas or bloated enterprise apps, we engineer sharp, lightweight browser utilities that repair thousands of rows instantly with zero configuration and total data privacy.</p>
+        <p><strong>Contact:</strong> Support & inquiries: <a href="mailto:dilroyalforever47@gmail.com" class="text-blue-600 underline font-semibold">dilroyalforever47@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      document.querySelectorAll('.modal-tab').forEach(el => el.classList.add('hidden'));
+      document.getElementById(modalId).classList.remove('hidden');
+      document.getElementById('modalOverlay').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.add('hidden');
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
