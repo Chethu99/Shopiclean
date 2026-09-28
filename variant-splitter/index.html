@@ -1,204 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <title>Shopify 100-Variant Splitter (UAT Free Mode)</title>
+  <title>100-Variant Splitter — ShopiClean</title>
+  <meta name="description" content="Split catalogs with over 100 variants into compliant, linked multi-part products for direct Shopify imports.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4 font-sans">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-800 bg-purple-100 border border-purple-300 py-1 px-3 rounded-full mb-3">
-        <span>⚡ Tool 3 • Bypass Shopify's 100-Variant Cap</span>
+  <!-- Sticky Header with Return Navigation -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center group-hover:border-sky-500 transition-colors">
+          <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-sky-700 transition-colors">Shopi<span class="text-sky-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          All Tools
+        </a>
       </div>
-      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
-        Shopify 100-Variant Splitter
-      </h1>
-      <p class="mt-2 text-sm text-slate-600 max-w-xl mx-auto">
-        Shopify rejects products with over 100 variants. Drop your catalog here to detect oversized variant lists and automatically split them into compliant child products.
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-sky-600">Catalog Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">100-Variant Splitter</h1>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+        Shopify enforces a hard ceiling of 100 variants per product handle. This tool detects oversized items and partitions them into linked Part 1 and Part 2 catalogs automatically.
       </p>
     </div>
 
-    <!-- Dropzone -->
-    <div class="bg-white border-2 border-dashed border-slate-300 hover:border-purple-500 rounded-xl p-8 text-center transition-colors shadow-sm cursor-pointer">
-      <input type="file" id="csvFileInput" accept=".csv" class="hidden">
-      <label for="csvFileInput" class="cursor-pointer flex flex-col items-center">
-        <svg class="w-12 h-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Dropzone Area -->
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+      <input type="file" id="fileInput" accept=".csv" class="hidden">
+      <div class="w-12 h-12 rounded-full bg-sky-50 text-sky-600 mx-auto flex items-center justify-center mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
         </svg>
-        <span class="text-sm font-semibold text-slate-700" id="fileLabel">Drop Shopify CSV with large variant sets</span>
-        <span class="text-xs text-slate-400 mt-1">Accepts raw CSV up to 50MB</span>
-      </label>
+      </div>
+      <p class="text-sm font-bold text-slate-800">Select Shopify CSV to evaluate variant limits</p>
+      <p class="text-xs text-slate-400 mt-1">100% In-browser processing</p>
     </div>
 
-    <!-- Results Area -->
-    <div id="resultsArea" class="mt-8 space-y-6 hidden">
-      <!-- Metrics -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <span class="text-xs font-medium text-slate-500 uppercase">Total Distinct Products</span>
-          <p id="totalProductsCount" class="text-2xl font-bold text-slate-900 mt-1">0</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg border border-red-200 bg-red-50/50 shadow-sm">
-          <span class="text-xs font-medium text-red-600 uppercase">> 100 Variants (Blocked)</span>
-          <p id="oversizedCount" class="text-2xl font-bold text-red-600 mt-1">0</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg border border-emerald-200 bg-emerald-50/50 shadow-sm">
-          <span class="text-xs font-medium text-emerald-600 uppercase">New Split Products Created</span>
-          <p id="newProductsCount" class="text-2xl font-bold text-emerald-600 mt-1">0</p>
-        </div>
-      </div>
-
-      <!-- Action Log -->
-      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">Product Split Actions Log</h3>
-        <div id="splitLog" class="max-h-56 overflow-y-auto space-y-2 text-xs divide-y divide-slate-100">
-          <!-- Injected via JavaScript -->
-        </div>
-      </div>
-
-      <!-- Download Banner -->
-      <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div>
-          <h4 class="text-lg font-bold">Export Split Shopify CSV</h4>
-          <p class="text-xs text-slate-400 mt-1">All products are partitioned below the 100-variant ceiling and ready for direct import.</p>
-        </div>
-        <button id="downloadSplitBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-sm transition-colors whitespace-nowrap shadow-sm">
-          Download Split CSV
+    <!-- Output Box -->
+    <div id="outputCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+      <h2 class="text-base font-bold text-slate-900">Analysis Results</h2>
+      <p id="splitSummary" class="text-xs text-slate-600 mt-1"></p>
+      <div class="mt-6 flex gap-3">
+        <button id="downloadSplitBtn" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+          Download Split-Safe Catalog
         </button>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="/privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="/terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="/about/" class="hover:text-blue-600">About</a>
+        <a href="/contact/" class="hover:text-blue-600">Contact</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    let finalSplitData = [];
-    let currentFileName = "split_variants.csv";
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('dropzone');
+    const outputCard = document.getElementById('outputCard');
+    const splitSummary = document.getElementById('splitSummary');
+    const downloadSplitBtn = document.getElementById('downloadSplitBtn');
 
-    document.getElementById('csvFileInput').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+    let processedCatalog = [];
 
-      currentFileName = file.name;
-      document.getElementById('fileLabel').textContent = `Loaded: ${file.name}`;
-
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: 'greedy',
-        transformHeader: h => h.trim(),
-        complete: function(results) {
-          processVariantSplitting(results.data);
-        }
-      });
+    dropzone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) {
+        Papa.parse(e.target.files[0], {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(res) {
+            splitCatalog(res.data);
+          }
+        });
+      }
     });
 
-    function processVariantSplitting(rows) {
-      // 1. Group rows by Product Handle
-      const products = {};
-      let currentHandle = "";
+    function splitCatalog(rows) {
+      const groups = {};
+      let currentHandle = '';
 
-      rows.forEach((row, idx) => {
-        let handle = (row['Handle'] || '').trim();
-        if (handle) {
-          currentHandle = handle;
-        } else if (currentHandle) {
-          handle = currentHandle;
-        }
-
-        if (!handle) {
-          handle = `unnamed-product-${idx}`;
-          currentHandle = handle;
-        }
-
-        if (!products[handle]) {
-          products[handle] = [];
-        }
-        products[handle].push(row);
+      rows.forEach(row => {
+        if (row['Handle']) currentHandle = row['Handle'];
+        if (!groups[currentHandle]) groups[currentHandle] = [];
+        groups[currentHandle].push(row);
       });
 
-      const productHandles = Object.keys(products);
-      let oversized = 0;
-      let extraCreated = 0;
-      const splitRows = [];
-      const logContainer = document.getElementById('splitLog');
-      logContainer.innerHTML = '';
+      let splitProductsCount = 0;
+      const finalRows = [];
 
-      // 2. Partition groups > 100 variants
-      productHandles.forEach(handle => {
-        const productRows = products[handle];
-        const count = productRows.length;
-
-        if (count <= 100) {
-          // Compliant product: keep as is
-          productRows.forEach(r => splitRows.push(r));
+      Object.keys(groups).forEach(handle => {
+        const items = groups[handle];
+        if (items.length <= 100) {
+          finalRows.push(...items);
         } else {
-          oversized++;
-          const chunks = [];
-          for (let i = 0; i < count; i += 100) {
-            chunks.push(productRows.slice(i, i + 100));
-          }
-
-          extraCreated += (chunks.length - 1);
-
-          chunks.forEach((chunk, partIndex) => {
-            const partNum = partIndex + 1;
-            const newHandle = `${handle}-part-${partNum}`;
-            const baseTitle = chunk[0]['Title'] || handle;
-            const newTitle = `${baseTitle} (Part ${partNum})`;
-
-            chunk.forEach((row, rowIdx) => {
-              const updatedRow = { ...row };
-              updatedRow['Handle'] = newHandle;
-              // Set title only on parent row (first row of each split partition)
-              if (rowIdx === 0) {
-                updatedRow['Title'] = newTitle;
-              } else {
-                updatedRow['Title'] = '';
+          splitProductsCount++;
+          const partCount = Math.ceil(items.length / 100);
+          for (let p = 0; p < partCount; p++) {
+            const chunk = items.slice(p * 100, (p + 1) * 100);
+            const partSuffix = `-part-${p + 1}`;
+            chunk.forEach((r, idx) => {
+              const clone = { ...r };
+              clone['Handle'] = `${handle}${partSuffix}`;
+              if (idx === 0 && clone['Title']) {
+                clone['Title'] = `${clone['Title']} (Part ${p + 1})`;
               }
-              splitRows.push(updatedRow);
+              finalRows.push(clone);
             });
-
-            // Log event
-            const item = document.createElement('div');
-            item.className = 'py-2 flex items-center justify-between text-xs';
-            item.innerHTML = `
-              <span class="font-bold text-slate-700">${handle} (${count} variants)</span>
-              <span class="text-purple-600 font-mono">→ Created "${newHandle}" (${chunk.length} variants)</span>
-            `;
-            logContainer.appendChild(item);
-          });
+          }
         }
       });
 
-      if (oversized === 0) {
-        logContainer.innerHTML = '<p class="text-emerald-600 font-semibold p-2">✓ All products have 100 or fewer variants. No splitting needed!</p>';
-      }
-
-      finalSplitData = splitRows;
-
-      // Update counters
-      document.getElementById('totalProductsCount').textContent = productHandles.length;
-      document.getElementById('oversizedCount').textContent = oversized;
-      document.getElementById('newProductsCount').textContent = extraCreated;
-
-      document.getElementById('resultsArea').classList.remove('hidden');
+      processedCatalog = finalRows;
+      outputCard.classList.remove('hidden');
+      splitSummary.textContent = splitProductsCount > 0 
+        ? `Found ${splitProductsCount} products exceeding 100 variants. Partitioned into compliant parts.`
+        : `All products within the 100-variant limit. Cleaned handles preserved.`;
     }
 
-    document.getElementById('downloadSplitBtn').addEventListener('click', function() {
-      if (finalSplitData.length === 0) return;
-      const csv = Papa.unparse(finalSplitData);
+    downloadSplitBtn.addEventListener('click', () => {
+      if (!processedCatalog.length) return;
+      const csv = Papa.unparse(processedCatalog);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `split_${currentFileName}`);
-      document.body.appendChild(link);
+      link.href = URL.createObjectURL(blob);
+      link.download = 'shopify-split-variants.csv';
       link.click();
-      document.body.removeChild(link);
     });
   </script>
 </body>

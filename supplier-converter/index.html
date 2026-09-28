@@ -1,329 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <title>Supplier to Shopify Catalog Converter (UAT Free Mode)</title>
-  <!-- Tailwind CSS via CDN -->
+  <title>Supplier Catalog Converter — ShopiClean</title>
+  <meta name="description" content="Map and convert wholesale CSV exports from Faire, Square, or WooCommerce to Shopify standard product schemas.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse for in-browser CSV handling via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4 font-sans">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-800 bg-indigo-100 border border-indigo-300 py-1 px-3 rounded-full mb-3">
-        <span>🔄 Tool 2 • Supplier Catalog Mapping Engine</span>
+  <!-- Sticky Header with Return Navigation -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center group-hover:border-indigo-500 transition-colors">
+          <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-indigo-700 transition-colors">Shopi<span class="text-indigo-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          All Tools
+        </a>
       </div>
-      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
-        Supplier to Shopify Catalog Converter
-      </h1>
-      <p class="mt-2 text-sm text-slate-600 max-w-xl mx-auto">
-        Transform messy wholesaler and POS exports (Faire, Square, WooCommerce, or Custom) into Shopify's exact product column hierarchy in seconds.
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-indigo-600">Schema Mapper</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Supplier Catalog Converter</h1>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+        Map arbitrary wholesale columns (Faire, WooCommerce, Square) into Shopify’s native CSV specification without manual spreadsheet copying.
       </p>
     </div>
 
-    <!-- Step 1: Preset Selection & Upload -->
-    <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-5">
+    <!-- Dropzone Area -->
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+      <input type="file" id="fileInput" accept=".csv" class="hidden">
+      <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mx-auto flex items-center justify-center mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+        </svg>
+      </div>
+      <p class="text-sm font-bold text-slate-800">Select supplier CSV catalog</p>
+      <p class="text-xs text-slate-400 mt-1">Runs entirely client-side</p>
+    </div>
+
+    <!-- Mapping Interface -->
+    <div id="mapperCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+      <h2 class="text-base font-bold text-slate-900 pb-3 border-b border-slate-100">Map Columns to Shopify Schema</h2>
+      <div id="mappingGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+      </div>
+      <button id="convertBtn" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+        Convert & Export Shopify CSV
+      </button>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">1. Select Source Format / Supplier</label>
-        <select id="presetSelect" class="w-full sm:w-72 bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-sm font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-          <option value="custom">Generic / Custom Supplier CSV</option>
-          <option value="faire">Faire Wholesale Export</option>
-          <option value="square">Square POS Product Catalog</option>
-          <option value="woocommerce">WooCommerce Product Export</option>
-        </select>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
-
-      <div class="border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-xl p-8 text-center transition-colors cursor-pointer">
-        <input type="file" id="supplierFileInput" accept=".csv" class="hidden">
-        <label for="supplierFileInput" class="cursor-pointer flex flex-col items-center">
-          <svg class="w-12 h-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          <span class="text-sm font-semibold text-slate-700" id="fileLabel">Upload Supplier / POS Export CSV</span>
-          <span class="text-xs text-slate-400 mt-1">Accepts raw CSV up to 50MB</span>
-        </label>
+      <div class="flex gap-4">
+        <a href="/privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="/terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="/about/" class="hover:text-blue-600">About</a>
+        <a href="/contact/" class="hover:text-blue-600">Contact</a>
       </div>
     </div>
-
-    <!-- Step 2: Visual Mapping Workspace (Hidden initially) -->
-    <div id="mappingArea" class="mt-8 space-y-6 hidden">
-      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h3 class="text-base font-bold text-slate-800">2. Review & Map Column Headers</h3>
-            <p class="text-xs text-slate-500 mt-0.5">We matched known headers automatically. Verify or adjust dropdowns below.</p>
-          </div>
-          <span id="detectedRowsCount" class="text-xs font-semibold bg-slate-100 text-slate-700 py-1 px-3 rounded-full">0 rows detected</span>
-        </div>
-
-        <!-- Dynamic Mapping Form -->
-        <div id="mappingGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <!-- Populated via JavaScript -->
-        </div>
-
-        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
-          <button id="convertBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-lg text-sm transition-colors shadow-sm">
-            Generate Shopify CSV
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3: Result & Download (Hidden initially) -->
-    <div id="outputArea" class="mt-8 space-y-6 hidden">
-      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">Converted Preview (First 5 Rows)</h3>
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-xs text-left border border-slate-200">
-            <thead class="bg-slate-50 border-b border-slate-200 font-semibold text-slate-700">
-              <tr>
-                <th class="p-2 border-r">Handle</th>
-                <th class="p-2 border-r">Title</th>
-                <th class="p-2 border-r">SKU</th>
-                <th class="p-2 border-r">Price</th>
-                <th class="p-2">Inventory Policy</th>
-              </tr>
-            </thead>
-            <tbody id="convertedTableBody" class="divide-y divide-slate-100">
-              <!-- Injected via JavaScript -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
-        <div>
-          <h4 class="text-lg font-bold">Ready to Import to Shopify</h4>
-          <p class="text-xs text-slate-400 mt-1">All columns re-ordered and mapped strictly to Shopify's CSV structure.</p>
-        </div>
-        <button id="downloadShopifyCsvBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-sm transition-colors whitespace-nowrap shadow-sm">
-          Download Converted Shopify CSV
-        </button>
-      </div>
-    </div>
-  </div>
+  </footer>
 
   <script>
-    // Official Target Target Columns for Shopify
-    const TARGET_FIELDS = [
-      { key: 'Title', label: 'Product Title / Name', required: true },
-      { key: 'Handle', label: 'Handle (Slug)', required: false },
-      { key: 'Body (HTML)', label: 'Description / Body HTML', required: false },
-      { key: 'Vendor', label: 'Vendor / Brand', required: false },
-      { key: 'Type', label: 'Product Category / Type', required: false },
-      { key: 'Tags', label: 'Tags', required: false },
-      { key: 'Variant SKU', label: 'SKU', required: false },
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('dropzone');
+    const mapperCard = document.getElementById('mapperCard');
+    const mappingGrid = document.getElementById('mappingGrid');
+    const convertBtn = document.getElementById('convertBtn');
+
+    let parsedRows = [];
+    let detectedHeaders = [];
+
+    const shopifyFields = [
+      { key: 'Title', label: 'Product Title', required: true },
       { key: 'Variant Price', label: 'Price', required: true },
-      { key: 'Variant Compare At Price', label: 'Compare At / Retail Price', required: false },
-      { key: 'Variant Barcode', label: 'Barcode / UPC / EAN', required: false },
-      { key: 'Option1 Name', label: 'Option 1 Name (e.g., Size)', required: false },
-      { key: 'Option1 Value', label: 'Option 1 Value (e.g., L)', required: false },
-      { key: 'Image Src', label: 'Image URL', required: false }
+      { key: 'Variant SKU', label: 'SKU', required: false },
+      { key: 'Body (HTML)', label: 'Description', required: false },
+      { key: 'Vendor', label: 'Vendor / Brand', required: false },
+      { key: 'Variant Inventory Qty', label: 'Inventory Quantity', required: false }
     ];
 
-    // Presets for known platforms
-    const PRESET_MAPPINGS = {
-      faire: {
-        'Title': ['Product Name', 'Title'],
-        'Body (HTML)': ['Description', 'Product Description'],
-        'Variant SKU': ['SKU'],
-        'Variant Price': ['Wholesale Price', 'Price'],
-        'Variant Compare At Price': ['Retail Price', 'MSRP'],
-        'Option1 Name': ['Option 1 Name'],
-        'Option1 Value': ['Option 1 Value'],
-        'Image Src': ['Images', 'Image 1']
-      },
-      square: {
-        'Title': ['Item Name'],
-        'Body (HTML)': ['Description'],
-        'Type': ['Category'],
-        'Variant SKU': ['SKU'],
-        'Variant Price': ['Price'],
-        'Variant Barcode': ['GTIN', 'Barcode'],
-        'Option1 Name': ['Option 1 Name'],
-        'Option1 Value': ['Option 1 Value']
-      },
-      woocommerce: {
-        'Title': ['Name'],
-        'Body (HTML)': ['Description'],
-        'Type': ['Categories'],
-        'Tags': ['Tags'],
-        'Variant SKU': ['SKU'],
-        'Variant Price': ['Regular price', 'Sale price'],
-        'Image Src': ['Images']
-      }
-    };
-
-    let rawSupplierRows = [];
-    let uploadedHeaders = [];
-    let convertedShopifyRows = [];
-    let uploadedFileName = "supplier_catalog.csv";
-
-    function slugify(text) {
-      return text.toString().toLowerCase().trim()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-');
-    }
-
-    document.getElementById('supplierFileInput').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      uploadedFileName = file.name;
-      document.getElementById('fileLabel').textContent = `Loaded: ${file.name}`;
-
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: 'greedy',
-        transformHeader: h => h.trim(),
-        complete: function(results) {
-          rawSupplierRows = results.data;
-          uploadedHeaders = results.meta.fields || [];
-          document.getElementById('detectedRowsCount').textContent = `${rawSupplierRows.length} rows detected`;
-          renderMappingWorkspace();
-        }
-      });
-    });
-
-    document.getElementById('presetSelect').addEventListener('change', () => {
-      if (uploadedHeaders.length > 0) {
-        renderMappingWorkspace();
+    dropzone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) {
+        Papa.parse(e.target.files[0], {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(res) {
+            parsedRows = res.data;
+            detectedHeaders = res.meta.fields || [];
+            buildMappingUI();
+          }
+        });
       }
     });
 
-    function renderMappingWorkspace() {
-      const grid = document.getElementById('mappingGrid');
-      grid.innerHTML = '';
-      const selectedPreset = document.getElementById('presetSelect').value;
-      const presetRules = PRESET_MAPPINGS[selectedPreset] || {};
+    function buildMappingUI() {
+      mapperCard.classList.remove('hidden');
+      mappingGrid.innerHTML = '';
 
-      TARGET_FIELDS.forEach(field => {
-        const item = document.createElement('div');
-        item.className = 'p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-col gap-1.5';
+      shopifyFields.forEach(field => {
+        const div = document.createElement('div');
+        div.className = 'flex flex-col gap-1';
+        
+        const label = document.createElement('label');
+        label.className = 'text-xs font-bold text-slate-700';
+        label.textContent = `${field.label} ${field.required ? '*' : ''}`;
 
-        // Auto-match heuristic
-        let autoMatch = "";
-        if (presetRules[field.key]) {
-          autoMatch = presetRules[field.key].find(candidate => uploadedHeaders.includes(candidate)) || "";
-        }
-        if (!autoMatch) {
-          autoMatch = uploadedHeaders.find(h => 
-            h.toLowerCase() === field.key.toLowerCase() || 
-            h.toLowerCase().includes(field.key.toLowerCase())
-          ) || "";
-        }
+        const select = document.createElement('select');
+        select.className = 'w-full p-2 border border-slate-200 rounded-lg text-xs bg-slate-50 font-medium';
+        select.dataset.target = field.key;
 
-        const requiredBadge = field.required ? '<span class="text-red-500 font-bold ml-0.5">*</span>' : '';
+        const defOpt = document.createElement('option');
+        defOpt.value = '';
+        defOpt.textContent = '-- Select Supplier Column --';
+        select.appendChild(defOpt);
 
-        item.innerHTML = `
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-slate-700">${field.label} ${requiredBadge}</span>
-            <span class="text-[10px] font-mono text-slate-400">Shopify: ${field.key}</span>
-          </div>
-          <select id="map_${field.key}" class="mapping-dropdown bg-white border border-slate-300 rounded p-1.5 text-xs text-slate-800">
-            <option value="">-- Ignore / Leave Blank --</option>
-            ${uploadedHeaders.map(h => `<option value="${h}" ${h === autoMatch ? 'selected' : ''}>${h}</option>`).join('')}
-          </select>
-        `;
-        grid.appendChild(item);
+        detectedHeaders.forEach(header => {
+          const opt = document.createElement('option');
+          opt.value = header;
+          opt.textContent = header;
+          // Auto-select exact match
+          if (header.toLowerCase().includes(field.key.toLowerCase().split(' ')[0])) {
+            opt.selected = true;
+          }
+          select.appendChild(opt);
+        });
+
+        div.appendChild(label);
+        div.appendChild(select);
+        mappingGrid.appendChild(div);
       });
-
-      document.getElementById('mappingArea').classList.remove('hidden');
-      document.getElementById('outputArea').classList.add('hidden');
     }
 
-    document.getElementById('convertBtn').addEventListener('click', function() {
-      if (rawSupplierRows.length === 0) return;
-
-      const mapping = {};
-      TARGET_FIELDS.forEach(field => {
-        const dropdown = document.getElementById(`map_${field.key}`);
-        if (dropdown && dropdown.value) {
-          mapping[field.key] = dropdown.value;
-        }
+    convertBtn.addEventListener('click', () => {
+      const selects = mappingGrid.querySelectorAll('select');
+      const map = {};
+      selects.forEach(sel => {
+        if (sel.value) map[sel.dataset.target] = sel.value;
       });
 
-      convertedShopifyRows = rawSupplierRows.map(row => {
-        const shopifyRow = {
-          'Handle': '',
-          'Title': mapping['Title'] ? (row[mapping['Title']] || '').trim() : '',
-          'Body (HTML)': mapping['Body (HTML)'] ? row[mapping['Body (HTML)']] || '' : '',
-          'Vendor': mapping['Vendor'] ? row[mapping['Vendor']] || '' : '',
-          'Type': mapping['Type'] ? row[mapping['Type']] || '' : '',
-          'Tags': mapping['Tags'] ? row[mapping['Tags']] || '' : '',
-          'Published': 'TRUE',
-          'Option1 Name': mapping['Option1 Name'] ? row[mapping['Option1 Name']] || 'Title' : 'Title',
-          'Option1 Value': mapping['Option1 Value'] ? row[mapping['Option1 Value']] || 'Default Title' : 'Default Title',
-          'Variant SKU': mapping['Variant SKU'] ? row[mapping['Variant SKU']] || '' : '',
-          'Variant Inventory Policy': 'deny',
-          'Variant Fulfillment Service': 'manual',
-          'Variant Price': '0.00',
-          'Variant Compare At Price': '',
-          'Variant Requires Shipping': 'TRUE',
-          'Variant Taxable': 'TRUE',
-          'Variant Barcode': mapping['Variant Barcode'] ? row[mapping['Variant Barcode']] || '' : '',
-          'Image Src': mapping['Image Src'] ? row[mapping['Image Src']] || '' : '',
+      const converted = parsedRows.map(row => {
+        const item = {
+          'Handle': (row[map['Title']] || 'product').toLowerCase().replace(/[^a-z0-9\-]/g, '-'),
+          'Title': row[map['Title']] || '',
+          'Body (HTML)': row[map['Body (HTML)']] || '',
+          'Vendor': row[map['Vendor']] || '',
+          'Variant SKU': row[map['Variant SKU']] || '',
+          'Variant Price': (row[map['Variant Price']] || '0.00').toString().replace(/[^0-9.]/g, ''),
+          'Variant Inventory Qty': row[map['Variant Inventory Qty']] || '0',
+          'Variant Inventory Tracker': 'shopify',
           'Status': 'active'
         };
-
-        // Handle generation
-        if (mapping['Handle'] && row[mapping['Handle']]) {
-          shopifyRow['Handle'] = slugify(row[mapping['Handle']]);
-        } else if (shopifyRow['Title']) {
-          shopifyRow['Handle'] = slugify(shopifyRow['Title']);
-        }
-
-        // Price sanitization
-        if (mapping['Variant Price'] && row[mapping['Variant Price']]) {
-          const rawPrice = row[mapping['Variant Price']].toString().replace(/[$£€,\s]/g, '');
-          shopifyRow['Variant Price'] = isNaN(Number(rawPrice)) ? '0.00' : rawPrice;
-        }
-
-        if (mapping['Variant Compare At Price'] && row[mapping['Variant Compare At Price']]) {
-          const rawComp = row[mapping['Variant Compare At Price']].toString().replace(/[$£€,\s]/g, '');
-          shopifyRow['Variant Compare At Price'] = isNaN(Number(rawComp)) ? '' : rawComp;
-        }
-
-        return shopifyRow;
+        return item;
       });
 
-      // Render Preview Table
-      const previewBody = document.getElementById('convertedTableBody');
-      previewBody.innerHTML = '';
-      convertedShopifyRows.slice(0, 5).forEach(row => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50';
-        tr.innerHTML = `
-          <td class="p-2 border-r font-mono text-slate-600">${row['Handle']}</td>
-          <td class="p-2 border-r text-slate-800">${row['Title']}</td>
-          <td class="p-2 border-r font-mono text-slate-600">${row['Variant SKU']}</td>
-          <td class="p-2 border-r font-mono text-slate-900">$${row['Variant Price']}</td>
-          <td class="p-2 text-emerald-600 font-semibold">${row['Variant Inventory Policy']}</td>
-        `;
-        previewBody.appendChild(tr);
-      });
-
-      document.getElementById('outputArea').classList.remove('hidden');
-      document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.getElementById('downloadShopifyCsvBtn').addEventListener('click', function() {
-      if (convertedShopifyRows.length === 0) return;
-      const csv = Papa.unparse(convertedShopifyRows);
+      const csv = Papa.unparse(converted);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `shopify_formatted_${uploadedFileName}`);
-      document.body.appendChild(link);
+      link.download = 'shopify-catalog-converted.csv';
       link.click();
-      document.body.removeChild(link);
     });
   </script>
 </body>

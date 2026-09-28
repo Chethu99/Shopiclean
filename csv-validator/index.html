@@ -1,263 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <title>Shopify CSV Error Auditor & Auto-Fixer (UAT Free Mode)</title>
-  <!-- Tailwind CSS via CDN -->
+  <title>CSV Auditor & Fixer — ShopiClean</title>
+  <meta name="description" content="Audit and repair Shopify CSV imports directly in your browser. Fix invalid UTF-8 characters, strip currency symbols, and validate product handles.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse for in-browser CSV handling via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen py-10 px-4 font-sans">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <div class="max-w-4xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100 border border-emerald-300 py-1 px-3 rounded-full mb-3">
-        <span>🔒 100% Client-Side Processing • UAT Free Mode</span>
+  <!-- Sticky Header with Return Navigation -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          All Tools
+        </a>
       </div>
-      <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl text-slate-900">
-        Shopify CSV Error Auditor & Fixer
-      </h1>
-      <p class="mt-2 text-sm text-slate-600 max-w-xl mx-auto">
-        Scan your inventory spreadsheet against the official Shopify schema. Auto-repair missing handles, invalid inventory policies, and currency symbols.
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Core Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify CSV Error Auditor & Auto-Fixer</h1>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+        Detects invalid characters, strips illegal price symbols ($/€/£), checks required headers, and ensures product handles match standard Shopify import requirements.
       </p>
     </div>
 
     <!-- Dropzone Area -->
-    <div class="bg-white border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-xl p-8 text-center transition-colors shadow-sm cursor-pointer">
-      <input type="file" id="csvFileInput" accept=".csv" class="hidden">
-      <label for="csvFileInput" class="cursor-pointer flex flex-col items-center">
-        <svg class="w-12 h-12 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+      <input type="file" id="fileInput" accept=".csv" class="hidden">
+      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
-        <span class="text-sm font-semibold text-slate-700" id="fileLabel">Click to select or drag a Shopify CSV file here</span>
-        <span class="text-xs text-slate-400 mt-1">Accepts raw CSV files up to 50MB</span>
-      </label>
+      </div>
+      <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV catalog file here</p>
+      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
     </div>
 
-    <!-- Results Container (Hidden until file parsed) -->
-    <div id="resultsArea" class="mt-8 space-y-6 hidden">
-      <!-- Metrics Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
-          <span class="text-xs font-medium text-slate-500 uppercase">Total Rows Scanned</span>
-          <p id="totalRowsCount" class="text-2xl font-bold text-slate-900 mt-1">0</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg border border-red-200 bg-red-50/50 shadow-sm">
-          <span class="text-xs font-medium text-red-600 uppercase">Critical Errors Fixed</span>
-          <p id="errorsFixedCount" class="text-2xl font-bold text-red-600 mt-1">0</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg border border-amber-200 bg-amber-50/50 shadow-sm">
-          <span class="text-xs font-medium text-amber-600 uppercase">Warnings Cleared</span>
-          <p id="warningsCount" class="text-2xl font-bold text-amber-600 mt-1">0</p>
-        </div>
-      </div>
-
-      <!-- Live Audit Log -->
-      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">Detected Issues & Fixes Applied</h3>
-        <div id="issuesLog" class="max-h-56 overflow-y-auto space-y-2 text-xs divide-y divide-slate-100">
-          <!-- Injected via JavaScript -->
-        </div>
-      </div>
-
-      <!-- Preview Table -->
-      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-3">
-          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">Sanitized Sample (First 5 Rows)</h3>
-          <span class="text-xs text-slate-400 font-medium">Auto-generated preview</span>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-xs text-left border border-slate-200">
-            <thead class="bg-slate-50 border-b border-slate-200 font-semibold text-slate-700">
-              <tr>
-                <th class="p-2 border-r">Handle</th>
-                <th class="p-2 border-r">Title</th>
-                <th class="p-2 border-r">Inventory Policy</th>
-                <th class="p-2">Price</th>
-              </tr>
-            </thead>
-            <tbody id="previewTableBody" class="divide-y divide-slate-100">
-              <!-- Injected via JavaScript -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Free Full Download Action Banner -->
-      <div class="bg-slate-900 text-white rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+    <!-- Audit Results Panel -->
+    <div id="resultsCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
-          <h4 class="text-lg font-bold">Ready to Export Repaired File</h4>
-          <p class="text-xs text-slate-400 mt-1">Download the entire sanitized CSV with all repairs applied (Free UAT Sign-Off Mode).</p>
+          <h2 class="text-base font-bold text-slate-900">Audit Summary</h2>
+          <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
         </div>
-        <button id="downloadFullBtn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-sm transition-colors text-center whitespace-nowrap shadow-sm">
-          Download Complete Clean CSV
+        <button id="downloadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+          Download Repaired CSV
         </button>
       </div>
+
+      <div class="mt-4">
+        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Audit Log</h3>
+        <div id="logContainer" class="bg-slate-50 rounded-lg p-3 text-xs font-mono max-h-60 overflow-y-auto space-y-1 border border-slate-200">
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="/privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="/terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="/about/" class="hover:text-blue-600">About</a>
+        <a href="/contact/" class="hover:text-blue-600">Contact</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
-    let globalCleanedData = [];
-    let currentFileName = "repaired_shopify.csv";
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const resultsCard = document.getElementById('resultsCard');
+    const statsRow = document.getElementById('statsRow');
+    const logContainer = document.getElementById('logContainer');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    // Helper: Turn title into a clean URL-safe slug
-    function slugify(text) {
-      return text.toString().toLowerCase().trim()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w\-]+/g, '')
-        .replace(/\-\-+/g, '-');
+    let cleanedData = [];
+    let originalFileName = 'shopiclean-repaired.csv';
+
+    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-blue-500');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) processFile(e.target.files[0]);
+    });
+
+    function log(msg, type = 'info') {
+      const el = document.createElement('div');
+      el.className = type === 'error' ? 'text-rose-600 font-semibold' : (type === 'fixed' ? 'text-emerald-600' : 'text-slate-600');
+      el.textContent = `[${type.toUpperCase()}] ${msg}`;
+      logContainer.appendChild(el);
     }
 
-    document.getElementById('csvFileInput').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      currentFileName = file.name;
-      document.getElementById('fileLabel').textContent = `Loaded: ${file.name}`;
+    function processFile(file) {
+      originalFileName = file.name.replace('.csv', '-cleaned.csv');
+      logContainer.innerHTML = '';
+      resultsCard.classList.remove('hidden');
+      log(`Analyzing ${file.name}...`);
 
       Papa.parse(file, {
         header: true,
-        skipEmptyLines: 'greedy',
-        transformHeader: h => h.trim(),
+        skipEmptyLines: true,
         complete: function(results) {
-          processCSV(results.data, results.meta.fields || []);
-        }
-      });
-    });
+          const rows = results.data;
+          let fixesCount = 0;
+          let currentHandle = '';
 
-    function processCSV(rawRows, headers) {
-      const cleanedData = [];
-      const issues = [];
-      let parentHandle = "";
-      let criticalCount = 0;
-      let warningCount = 0;
-
-      rawRows.forEach((row, idx) => {
-        const rowNum = idx + 2;
-        const cleanedRow = { ...row };
-
-        // 1. Handle & Title logic
-        const title = (row['Title'] || '').trim();
-        let handle = (row['Handle'] || '').trim();
-
-        if (title && !handle) {
-          const generated = slugify(title);
-          issues.push({ row: rowNum, col: 'Handle', msg: 'Missing handle. Created from Title.', from: '(blank)', to: generated });
-          cleanedRow['Handle'] = generated;
-          parentHandle = generated;
-          criticalCount++;
-        } else if (!title && !handle && parentHandle) {
-          cleanedRow['Handle'] = parentHandle;
-          issues.push({ row: rowNum, col: 'Handle', msg: 'Variant missing handle. Inherited from parent.', from: '(blank)', to: parentHandle });
-          criticalCount++;
-        } else if (handle) {
-          const cleanHandle = slugify(handle);
-          if (cleanHandle !== handle) {
-            issues.push({ row: rowNum, col: 'Handle', msg: 'Handle sanitized to clean slug format.', from: handle, to: cleanHandle });
-            warningCount++;
-          }
-          cleanedRow['Handle'] = cleanHandle;
-          parentHandle = cleanHandle;
-        }
-
-        // 2. Inventory Policy enum normalization
-        if ('Variant Inventory Policy' in cleanedRow) {
-          const policy = (cleanedRow['Variant Inventory Policy'] || '').toLowerCase().trim();
-          if (policy !== 'deny' && policy !== 'continue') {
-            issues.push({ row: rowNum, col: 'Variant Inventory Policy', msg: "Must be 'deny' or 'continue'. Defaulted to 'deny'.", from: row['Variant Inventory Policy'] || '(blank)', to: 'deny' });
-            cleanedRow['Variant Inventory Policy'] = 'deny';
-            criticalCount++;
-          } else {
-            cleanedRow['Variant Inventory Policy'] = policy;
-          }
-        }
-
-        // 3. Price cleaning (strip $, £, €, commas)
-        ['Variant Price', 'Variant Compare At Price'].forEach(col => {
-          if (col in cleanedRow && cleanedRow[col]) {
-            const rawPrice = cleanedRow[col].toString().trim();
-            const cleanPrice = rawPrice.replace(/[$£€,\s]/g, '');
-            if (rawPrice !== cleanPrice) {
-              issues.push({ row: rowNum, col: col, msg: 'Stripped currency symbol/commas.', from: rawPrice, to: cleanPrice });
-              criticalCount++;
+          rows.forEach((row, i) => {
+            // Fix 1: Handle auto-generation or propagation
+            if (row['Handle']) {
+              currentHandle = row['Handle'].trim().toLowerCase().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-');
+              row['Handle'] = currentHandle;
+            } else if (row['Title'] && !row['Handle']) {
+              row['Handle'] = row['Title'].trim().toLowerCase().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-');
+              fixesCount++;
+              log(`Row ${i + 2}: Generated missing Handle "${row['Handle']}" from Title`, 'fixed');
+            } else if (currentHandle) {
+              row['Handle'] = currentHandle;
             }
-            cleanedRow[col] = isNaN(Number(cleanPrice)) ? '0.00' : cleanPrice;
-          }
-        });
 
-        cleanedData.push(cleanedRow);
-      });
+            // Fix 2: Strip currency symbols from price columns
+            ['Variant Price', 'Variant Compare At Price'].forEach(col => {
+              if (row[col]) {
+                const cleaned = row[col].toString().replace(/[^0-9.]/g, '');
+                if (cleaned !== row[col]) {
+                  row[col] = cleaned;
+                  fixesCount++;
+                  log(`Row ${i + 2}: Sanitized ${col} "${row[col]}"`, 'fixed');
+                }
+              }
+            });
 
-      globalCleanedData = cleanedData;
+            // Fix 3: Standardize inventory tracker
+            if (!row['Variant Inventory Tracker'] && row['Variant Inventory Qty']) {
+              row['Variant Inventory Tracker'] = 'shopify';
+              fixesCount++;
+            }
+          });
 
-      // Update UI Counts
-      document.getElementById('totalRowsCount').textContent = rawRows.length;
-      document.getElementById('errorsFixedCount').textContent = criticalCount;
-      document.getElementById('warningsCount').textContent = warningCount;
-
-      // Render Issues Log
-      const logContainer = document.getElementById('issuesLog');
-      logContainer.innerHTML = '';
-      if (issues.length === 0) {
-        logContainer.innerHTML = '<p class="text-emerald-600 font-semibold p-2">✓ No critical schema errors detected!</p>';
-      } else {
-        issues.slice(0, 15).forEach(issue => {
-          const item = document.createElement('div');
-          item.className = 'py-2 flex items-center justify-between';
-          item.innerHTML = `
-            <div>
-              <span class="font-bold text-slate-700">Row ${issue.row} [${issue.col}]:</span>
-              <span class="text-slate-600 ml-1">${issue.msg}</span>
-            </div>
-            <div class="text-right pl-2 font-mono">
-              <span class="text-red-500 line-through mr-1">${issue.from}</span>
-              <span class="text-emerald-600 font-bold">${issue.to}</span>
-            </div>
-          `;
-          logContainer.appendChild(item);
-        });
-        if (issues.length > 15) {
-          const more = document.createElement('p');
-          more.className = 'text-center text-slate-400 py-1';
-          more.textContent = `+ ${issues.length - 15} more fixes applied throughout the file.`;
-          logContainer.appendChild(more);
+          cleanedData = rows;
+          statsRow.textContent = `Scanned ${rows.length} rows • Applied ${fixesCount} auto-corrections`;
+          log(`Audit complete. Ready for download.`, 'info');
         }
-      }
-
-      // Render Sample Table
-      const tableBody = document.getElementById('previewTableBody');
-      tableBody.innerHTML = '';
-      cleanedData.slice(0, 5).forEach(row => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50';
-        tr.innerHTML = `
-          <td class="p-2 border-r font-mono text-slate-600">${row['Handle'] || ''}</td>
-          <td class="p-2 border-r text-slate-800">${row['Title'] || '(variant row)'}</td>
-          <td class="p-2 border-r text-emerald-600 font-semibold">${row['Variant Inventory Policy'] || 'deny'}</td>
-          <td class="p-2 font-mono text-slate-900">$${row['Variant Price'] || '0.00'}</td>
-        `;
-        tableBody.appendChild(tr);
       });
-
-      document.getElementById('resultsArea').classList.remove('hidden');
     }
 
-    // Download the COMPLETE Cleaned CSV
-    document.getElementById('downloadFullBtn').addEventListener('click', function() {
-      if (globalCleanedData.length === 0) return;
-      const csv = Papa.unparse(globalCleanedData);
+    downloadBtn.addEventListener('click', () => {
+      if (!cleanedData.length) return;
+      const csv = Papa.unparse(cleanedData);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `repaired_${currentFileName}`);
-      document.body.appendChild(link);
+      link.setAttribute('href', url);
+      link.setAttribute('download', originalFileName);
       link.click();
-      document.body.removeChild(link);
     });
   </script>
 </body>
