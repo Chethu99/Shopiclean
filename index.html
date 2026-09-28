@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShopiClean — High-Performance Shopify CSV Utilities</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <meta name="description" content="Client-side Shopify CSV auditor, supplier catalog converter, 100-variant splitter, and broken image URL scanner. 100% private in-browser processing.">
   <link rel="canonical" href="https://shopiclean.com/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -34,11 +34,15 @@
         <a href="/image-checker/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Image Scanner</a>
       </nav>
 
-      <!-- Action Button -->
-      <div class="flex items-center gap-3">
-        <a href="/csv-validator/" class="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors">
-          Launch Auditor
-        </a>
+      <!-- Merchant-Friendly Privacy & Security Indicator -->
+      <div class="flex items-center">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-semibold text-emerald-800 shadow-xs">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span>100% Private & Secure</span>
+        </div>
       </div>
     </div>
   </header>
@@ -98,7 +102,7 @@
             Identifies syntax rejections, strips currency symbols ($/£), forces valid inventory policies, and auto-generates missing variant handles.
           </p>
           <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
-            Audit CSV <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+            Open Tool <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </a>
 
@@ -204,7 +208,7 @@
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Do I need to install any apps or give access to my Shopify store?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              No. ShopiClean requires zero Shopify store access, API keys, or permissions. It is an independent browser utility: you fix the file on this page, and then upload the repaired CSV into your store yourself.
+              No. ShopiClean requires zero Shopify store access, API keys, or permissions. It is an independent browser utility: you inspect and repair your catalog file directly on this page, and then upload the verified CSV into your store yourself.
             </p>
           </div>
 
