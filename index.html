@@ -165,6 +165,9 @@
           <div class="text-[11px] text-slate-400">
             © 2026 ShopiClean. All rights reserved.
           </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
         </div>
 
         <!-- Col 2: Navigation -->
@@ -182,10 +185,10 @@
         <div>
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust & Legal</div>
           <ul class="space-y-2">
-            <li><button onclick="openModal('privacyModal')" class="hover:text-blue-600 transition-colors">Privacy Policy</button></li>
-            <li><button onclick="openModal('termsModal')" class="hover:text-blue-600 transition-colors">Terms of Service</button></li>
-            <li><button onclick="openModal('aboutModal')" class="hover:text-blue-600 transition-colors">About Us</button></li>
-            <li><a href="mailto:dilroyalforever47@gmail.com" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+            <li><a href="/privacy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service & Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
           </ul>
         </div>
 
@@ -205,58 +208,5 @@
     </div>
   </footer>
 
-  <!-- Modal Component -->
-  <div id="modalOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white border border-slate-200 rounded-xl max-w-xl w-full p-6 text-slate-700 relative max-h-[85vh] overflow-y-auto text-xs shadow-xl">
-      <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-
-      <!-- Privacy Content -->
-      <div id="privacyModal" class="modal-tab hidden space-y-3">
-        <h3 class="text-base font-bold text-slate-900 mb-2">Privacy Policy</h3>
-        <p><strong>Effective Date:</strong> January 1, 2026</p>
-        <p>At <strong>ShopiClean.com</strong>, we maintain a strict privacy-first model: we never store, view, transmit, or monetize your product data.</p>
-        <p><strong>Local Processing:</strong> All CSV parsing, column adjustments, image diagnostics, and variant splitting occur entirely within your device's browser memory (Client-Side) using HTML5 File APIs. Your product catalogs and vendor pricing never leave your computer.</p>
-        <p><strong>Analytics & Cookies:</strong> We do not track personal identifying information (PII) or sell telemetry to third-party brokers.</p>
-        <p>For questions regarding our privacy architecture, contact: <a href="mailto:dilroyalforever47@gmail.com" class="text-blue-600 underline font-semibold">dilroyalforever47@gmail.com</a>.</p>
-      </div>
-
-      <!-- Terms Content -->
-      <div id="termsModal" class="modal-tab hidden space-y-3">
-        <h3 class="text-base font-bold text-slate-900 mb-2">Terms of Service</h3>
-        <p><strong>Effective Date:</strong> January 1, 2026</p>
-        <p>By using <strong>ShopiClean.com</strong>, you agree to these operational terms:</p>
-        <p><strong>Usage:</strong> Our tools are provided as client-side software utilities to assist e-commerce operations in sanitizing files according to public Shopify CSV schemas.</p>
-        <p><strong>Disclaimer:</strong> While our tools are designed to adhere to Shopify's documented specifications, ShopiClean is an independent utility and is not officially affiliated, sponsored, or endorsed by Shopify Inc. Always review catalog exports before executing mass imports into your production stores.</p>
-      </div>
-
-      <!-- About Us Content -->
-      <div id="aboutModal" class="modal-tab hidden space-y-3">
-        <h3 class="text-base font-bold text-slate-900 mb-2">About ShopiClean</h3>
-        <p><strong>ShopiClean.com</strong> was developed to eliminate the frustrating, time-consuming spreadsheet errors e-commerce operators encounter during bulk catalog imports.</p>
-        <p>Instead of relying on fragile manual Excel formulas or bloated enterprise apps, we engineer sharp, lightweight browser utilities that repair thousands of rows instantly with zero configuration and total data privacy.</p>
-        <p><strong>Contact:</strong> Support & inquiries: <a href="mailto:dilroyalforever47@gmail.com" class="text-blue-600 underline font-semibold">dilroyalforever47@gmail.com</a></p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openModal(modalId) {
-      document.querySelectorAll('.modal-tab').forEach(el => el.classList.add('hidden'));
-      document.getElementById(modalId).classList.remove('hidden');
-      document.getElementById('modalOverlay').classList.remove('hidden');
-    }
-
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.add('hidden');
-    }
-
-    document.getElementById('modalOverlay').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
-  </script>
 </body>
 </html>
