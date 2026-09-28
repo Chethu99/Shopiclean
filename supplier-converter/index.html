@@ -5,16 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supplier Catalog Converter — ShopiClean</title>
   <meta name="description" content="Map and convert wholesale CSV exports from Faire, Square, or WooCommerce to Shopify standard product schemas.">
+  <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/supplier-converter/">
+  <meta property="og:title" content="Supplier Catalog Converter — ShopiClean">
+  <meta property="og:description" content="Map and convert wholesale CSV exports from Faire, Square, or WooCommerce to Shopify standard product schemas.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Supplier Catalog Converter — ShopiClean">
+  <meta name="twitter:description" content="Map and convert wholesale CSV exports from Faire, Square, or WooCommerce to Shopify standard product schemas.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD: SoftwareApplication (Page-Specific) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Shopify Supplier Catalog Converter",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All (Web-based)",
+    "url": "https://shopiclean.com/supplier-converter/",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    },
+    "description": "Convert wholesale CSV exports into standard Shopify format using interactive client-side column mapping."
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Sticky Header with Return Navigation -->
+  <!-- Sticky Header with Relative Home Navigation -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center group-hover:border-indigo-500 transition-colors">
           <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -24,7 +57,7 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
@@ -76,10 +109,10 @@
         <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
-        <a href="/privacy/" class="hover:text-blue-600">Privacy</a>
-        <a href="/terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="/about/" class="hover:text-blue-600">About</a>
-        <a href="/contact/" class="hover:text-blue-600">Contact</a>
+        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../about/" class="hover:text-blue-600">About</a>
+        <a href="../contact/" class="hover:text-blue-600">Contact</a>
       </div>
     </div>
   </footer>
@@ -143,7 +176,6 @@
           const opt = document.createElement('option');
           opt.value = header;
           opt.textContent = header;
-          // Auto-select exact match
           if (header.toLowerCase().includes(field.key.toLowerCase().split(' ')[0])) {
             opt.selected = true;
           }
@@ -164,7 +196,7 @@
       });
 
       const converted = parsedRows.map(row => {
-        const item = {
+        return {
           'Handle': (row[map['Title']] || 'product').toLowerCase().replace(/[^a-z0-9\-]/g, '-'),
           'Title': row[map['Title']] || '',
           'Body (HTML)': row[map['Body (HTML)']] || '',
@@ -175,7 +207,6 @@
           'Variant Inventory Tracker': 'shopify',
           'Status': 'active'
         };
-        return item;
       });
 
       const csv = Papa.unparse(converted);

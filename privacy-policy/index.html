@@ -3,55 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Privacy Policy — ShopiClean</title>
+  <meta name="description" content="ShopiClean Privacy Policy. Guaranteed 100% client-side data processing with zero server-side file transmission.">
+  <link rel="canonical" href="https://shopiclean.com/privacy/">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
-  <!-- Nav -->
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header Navigation -->
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 font-bold">✓</div>
-        <span class="text-base font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span></span>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="../" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
-      <a href="/" class="text-xs font-semibold text-slate-600 hover:text-blue-600">← Back to Tools</a>
+      <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        All Tools
+      </a>
     </div>
   </header>
 
   <!-- Content -->
-  <main class="flex-grow max-w-3xl mx-auto px-4 py-12">
-    <div class="bg-white border border-slate-200 rounded-xl p-8 shadow-sm space-y-6">
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 py-12">
+    <div class="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
       <div class="border-b border-slate-100 pb-4">
-        <h1 class="text-2xl font-black text-slate-900">Privacy Policy</h1>
+        <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Legal Agreement</span>
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Privacy Policy</h1>
         <p class="text-xs text-slate-500 mt-1">Last Updated: 2026</p>
       </div>
 
-      <section class="space-y-2 text-sm leading-relaxed text-slate-600">
+      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
         <h2 class="text-base font-bold text-slate-800">1. Client-Side Architecture & Zero Data Collection</h2>
-        <p>At <strong>ShopiClean.com</strong>, privacy is guaranteed by system architecture. All spreadsheet evaluations, column sanitization, image validations, and variant partitions are computed strictly in your device's browser memory (RAM) using standard JavaScript APIs.</p>
-        <p><strong>Your CSV files and customer catalogs are never uploaded, transmitted, or hosted on our servers.</strong></p>
+        <p>At <strong>ShopiClean.com</strong>, privacy is guaranteed by system architecture. All spreadsheet evaluations, column sanitization, image validations, and variant partitions are computed strictly in your device's browser memory (RAM) using standard client-side JavaScript APIs.</p>
+        <p class="text-slate-800 font-semibold bg-blue-50/60 p-3 rounded-lg border border-blue-100">
+          Your CSV files, catalog matrices, and customer data are never uploaded, transmitted, or hosted on our servers.
+        </p>
       </section>
 
-      <section class="space-y-2 text-sm leading-relaxed text-slate-600">
+      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
         <h2 class="text-base font-bold text-slate-800">2. Payment Processing</h2>
-        <p>Financial transactions are handled through Stripe's certified checkout infrastructure. ShopiClean does not collect, record, or store raw debit/credit card numbers or billing credentials.</p>
+        <p>Financial transactions are handled through certified checkout infrastructure. ShopiClean does not collect, record, or store raw debit/credit card numbers or sensitive billing credentials.</p>
       </section>
 
-      <section class="space-y-2 text-sm leading-relaxed text-slate-600">
+      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
         <h2 class="text-base font-bold text-slate-800">3. Analytics & Telemetry</h2>
-        <p>We do not run tracking cookies, behavioral tracking scripts, or data brokers. Standard anonymous server access logs (IP addresses and page response metrics) are collected strictly for network security and DDoS mitigation via CDN infrastructure.</p>
+        <p>We do not run invasive tracking cookies, behavioral tracking scripts, or sell data to third-party brokers. Standard anonymous server access logs (IP addresses and page response metrics) are collected strictly for network security and DDoS mitigation via CDN infrastructure.</p>
       </section>
 
-      <section class="space-y-2 text-sm leading-relaxed text-slate-600">
+      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
         <h2 class="text-base font-bold text-slate-800">4. Contact Information</h2>
-        <p>For questions regarding our privacy implementation, contact: <a href="mailto:dilroyalforever47@gmail.com" class="text-blue-600 font-semibold underline">dilroyalforever47@gmail.com</a>.</p>
+        <p>For questions regarding our privacy architecture or policy, contact: <a href="mailto:support@shopiclean.com" class="text-blue-600 font-semibold underline">support@shopiclean.com</a>.</p>
       </section>
     </div>
   </main>
 
-  <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-    © 2026 ShopiClean. All rights reserved.
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="../privacy/" class="hover:text-blue-600 font-semibold text-slate-900">Privacy</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../about/" class="hover:text-blue-600">About</a>
+        <a href="../contact/" class="hover:text-blue-600">Contact</a>
+      </div>
+    </div>
   </footer>
+
 </body>
 </html>

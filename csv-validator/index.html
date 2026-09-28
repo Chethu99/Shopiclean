@@ -5,16 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSV Auditor & Fixer — ShopiClean</title>
   <meta name="description" content="Audit and repair Shopify CSV imports directly in your browser. Fix invalid UTF-8 characters, strip currency symbols, and validate product handles.">
+  <link rel="canonical" href="https://shopiclean.com/csv-validator/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/csv-validator/">
+  <meta property="og:title" content="Shopify CSV Error Auditor & Auto-Fixer — ShopiClean">
+  <meta property="og:description" content="Audit and repair Shopify CSV imports directly in your browser. Remove invalid characters, fix headers, and format price data.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shopify CSV Error Auditor & Auto-Fixer — ShopiClean">
+  <meta name="twitter:description" content="Audit and repair Shopify CSV imports directly in your browser. Remove invalid characters, fix headers, and format price data.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD: SoftwareApplication (Page-Specific) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Shopify CSV Error Auditor & Auto-Fixer",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All (Web-based)",
+    "url": "https://shopiclean.com/csv-validator/",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    },
+    "description": "Client-side utility to detect invalid characters, strip price currency symbols, and fix product handles for Shopify CSV files."
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Sticky Header with Return Navigation -->
+  <!-- Sticky Header with Relative Home Navigation -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -24,7 +57,7 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
@@ -85,10 +118,10 @@
         <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
-        <a href="/privacy/" class="hover:text-blue-600">Privacy</a>
-        <a href="/terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="/about/" class="hover:text-blue-600">About</a>
-        <a href="/contact/" class="hover:text-blue-600">Contact</a>
+        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../about/" class="hover:text-blue-600">About</a>
+        <a href="../contact/" class="hover:text-blue-600">Contact</a>
       </div>
     </div>
   </footer>
@@ -138,7 +171,6 @@
           let currentHandle = '';
 
           rows.forEach((row, i) => {
-            // Fix 1: Handle auto-generation or propagation
             if (row['Handle']) {
               currentHandle = row['Handle'].trim().toLowerCase().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-');
               row['Handle'] = currentHandle;
@@ -150,7 +182,6 @@
               row['Handle'] = currentHandle;
             }
 
-            // Fix 2: Strip currency symbols from price columns
             ['Variant Price', 'Variant Compare At Price'].forEach(col => {
               if (row[col]) {
                 const cleaned = row[col].toString().replace(/[^0-9.]/g, '');
@@ -162,7 +193,6 @@
               }
             });
 
-            // Fix 3: Standardize inventory tracker
             if (!row['Variant Inventory Tracker'] && row['Variant Inventory Qty']) {
               row['Variant Inventory Tracker'] = 'shopify';
               fixesCount++;

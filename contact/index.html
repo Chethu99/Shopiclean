@@ -3,68 +3,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Contact Support — ShopiClean</title>
+  <meta name="description" content="Get direct merchant support for ShopiClean CSV tools, file formatting questions, and license inquiries.">
+  <link rel="canonical" href="https://shopiclean.com/contact/">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased">
-  <!-- Nav -->
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header Navigation -->
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 font-bold">✓</div>
-        <span class="text-base font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span></span>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="../" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
-      <a href="/" class="text-xs font-semibold text-slate-600 hover:text-blue-600">← Back to Tools</a>
+      <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        All Tools
+      </a>
     </div>
   </header>
 
   <!-- Content -->
-  <main class="flex-grow max-w-xl mx-auto px-4 py-12 w-full">
-    <div class="bg-white border border-slate-200 rounded-xl p-8 shadow-sm space-y-6">
-      <div class="border-b border-slate-100 pb-4 text-center">
-        <h1 class="text-2xl font-black text-slate-900">Contact Support</h1>
-        <p class="text-xs text-slate-500 mt-1">Get in touch with the ShopiClean technical team</p>
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 py-12">
+    <div class="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
+      <div class="border-b border-slate-100 pb-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Help Desk</span>
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Contact Support</h1>
+        <p class="text-xs text-slate-500 mt-1">Direct developer and merchant technical support.</p>
       </div>
 
-      <div class="bg-blue-50/60 border border-blue-100 rounded-lg p-4 text-xs text-blue-900 space-y-1">
-        <p class="font-bold">Need assistance with a CSV repair or refund?</p>
-        <p>We review and answer all catalog inquiries, feature requests, and support tickets directly.</p>
-      </div>
-
-      <div class="space-y-4 text-sm">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Direct Email</label>
-          <a href="mailto:dilroyalforever47@gmail.com" class="inline-block font-mono text-sm text-blue-600 font-semibold hover:underline">
-            dilroyalforever47@gmail.com
-          </a>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h2 class="text-sm font-bold text-slate-900">Email Support</h2>
+          <p class="text-xs text-slate-500">For import rejections, refund requests, or diagnostic reviews.</p>
+          <a href="mailto:support@shopiclean.com" class="inline-block text-xs font-bold text-blue-600 hover:underline pt-1">support@shopiclean.com</a>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Response Window</label>
-          <p class="text-slate-600 text-xs">Typically within 12–24 business hours.</p>
-        </div>
-
-        <div class="pt-4 border-t border-slate-100">
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Helpful Details to Include</label>
-          <ul class="list-disc pl-5 text-xs text-slate-600 space-y-1">
-            <li>The exact error message thrown by the Shopify admin modal.</li>
-            <li>Source file type (e.g., Faire export, Square export, custom vendor sheet).</li>
-            <li>Sample row or column headers causing the issue.</li>
-          </ul>
+        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h2 class="text-sm font-bold text-slate-900">Response Window</h2>
+          <p class="text-xs text-slate-500">We respond to technical requests within 24 hours on business days.</p>
+          <div class="text-[11px] font-semibold text-slate-700 pt-1">Monday – Friday: 9 AM - 6 PM UTC</div>
         </div>
       </div>
 
-      <div class="pt-2">
-        <a href="mailto:dilroyalforever47@gmail.com?subject=ShopiClean%20Support%20Inquiry" class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-center text-xs rounded-lg transition-colors shadow-sm">
-          Send Email Now →
-        </a>
+      <div class="p-5 rounded-xl border border-blue-100 bg-blue-50/50 space-y-2">
+        <h3 class="text-xs font-bold text-blue-900 uppercase tracking-wide">Reporting a Shopify Import Rejection?</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          To help us resolve the issue swiftly, please attach the rejection line number and exact error message returned by your Shopify admin (e.g., <em>"Validation failed: Handle can't be blank"</em>).
+        </p>
       </div>
     </div>
   </main>
 
-  <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-    © 2026 ShopiClean. All rights reserved.
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../about/" class="hover:text-blue-600">About</a>
+        <a href="../contact/" class="hover:text-blue-600 font-semibold text-slate-900">Contact</a>
+      </div>
+    </div>
   </footer>
+
 </body>
 </html>

@@ -8,6 +8,78 @@
   <link rel="canonical" href="https://shopiclean.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/">
+  <meta property="og:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
+  <meta property="og:description" content="Fix Shopify CSV errors, split 100+ variant limits, and convert wholesale sheets client-side. Zero server uploads.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
+  <meta name="twitter:description" content="Fix Shopify CSV errors, split 100+ variant limits, and convert wholesale sheets client-side. Zero server uploads.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD Structured Data: SoftwareApplication & FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "ShopiClean",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "All (Web-based)",
+        "url": "https://shopiclean.com/",
+        "offers": {
+          "@type": "Offer",
+          "price": "9.00",
+          "priceCurrency": "USD"
+        },
+        "description": "Client-side utility suite to audit, repair, split, and convert Shopify CSV product catalogs."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do I need to install any apps or give access to my Shopify store?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. ShopiClean requires zero Shopify store access, API keys, or permissions. It is an independent browser utility: you inspect and repair your catalog file directly on this page, and then upload the verified CSV into your store yourself."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is my customer or supplier data private?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, 100%. All processing occurs completely inside your web browser’s memory using client-side JavaScript. Your inventory files, product costs, and supplier data are never sent to or saved on any server."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What common Shopify CSV errors does this fix?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It resolves illegal currency symbols ($/€/£) in price columns, missing or mismatched Handle slugs, invalid UTF-8 characters that corrupt product titles, missing inventory tracker policies, local file path errors (like C:\\), and the 100-variant per product limitation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What if the repaired file still won't import?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We stand behind our tools. If your repaired CSV fails to upload properly to Shopify after following our guidelines, send your file and error log to support@shopiclean.com within 14 days for a full refund."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -16,7 +88,6 @@
   <!-- Header / Navigation -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <!-- Brand Logo -->
       <a href="/" class="flex items-center gap-2 group">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,7 +97,6 @@
         <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
 
-      <!-- Desktop Tool Navigation Menu -->
       <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
         <a href="/csv-validator/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">CSV Auditor & Fixer</a>
         <a href="/supplier-converter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Supplier Converter</a>
@@ -34,7 +104,6 @@
         <a href="/image-checker/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Image Scanner</a>
       </nav>
 
-      <!-- Merchant-Friendly Privacy & Security Indicator -->
       <div class="flex items-center">
         <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-semibold text-emerald-800 shadow-xs">
           <span class="relative flex h-2 w-2">
@@ -51,7 +120,6 @@
   <main class="flex-grow">
     <section class="relative pt-16 pb-14 border-b border-slate-200/80 bg-gradient-to-b from-white to-slate-50">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <!-- Privacy Guarantee Pill -->
         <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold bg-blue-50 border border-blue-200 text-blue-800 mb-6">
           <svg class="w-3.5 h-3.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -67,7 +135,6 @@
           Browser-native utilities engineered to automatically repair import rejections, map third-party supplier catalogs, bypass the 100-variant ceiling, and purge dead image links.
         </p>
 
-        <!-- CTA Group -->
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
           <a href="/csv-validator/" class="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm">
             Launch CSV Auditor & Fixer →
@@ -87,7 +154,6 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Tool 1 Card -->
         <a href="/csv-validator/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="flex items-start justify-between">
             <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
@@ -106,7 +172,6 @@
           </div>
         </a>
 
-        <!-- Tool 2 Card -->
         <a href="/supplier-converter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +187,6 @@
           </div>
         </a>
 
-        <!-- Tool 3 Card -->
         <a href="/variant-splitter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,7 +202,6 @@
           </div>
         </a>
 
-        <!-- Tool 4 Card -->
         <a href="/image-checker/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,7 +228,6 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Step 1 -->
           <div class="text-center p-6 rounded-xl bg-slate-50 border border-slate-200/60">
             <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4">1</div>
             <h3 class="text-sm font-bold text-slate-900">Drop Your Spreadsheet</h3>
@@ -174,7 +236,6 @@
             </p>
           </div>
 
-          <!-- Step 2 -->
           <div class="text-center p-6 rounded-xl bg-slate-50 border border-slate-200/60">
             <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4">2</div>
             <h3 class="text-sm font-bold text-slate-900">Instant Audit & Repair</h3>
@@ -183,7 +244,6 @@
             </p>
           </div>
 
-          <!-- Step 3 -->
           <div class="text-center p-6 rounded-xl bg-slate-50 border border-slate-200/60">
             <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4">3</div>
             <h3 class="text-sm font-bold text-slate-900">Import Directly to Shopify</h3>
@@ -204,7 +264,6 @@
         </div>
 
         <div class="space-y-4">
-          <!-- Q1 -->
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Do I need to install any apps or give access to my Shopify store?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
@@ -212,7 +271,6 @@
             </p>
           </div>
 
-          <!-- Q2 -->
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Is my customer or supplier data private?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
@@ -220,7 +278,6 @@
             </p>
           </div>
 
-          <!-- Q3 -->
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What common Shopify CSV errors does this fix?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
@@ -228,7 +285,6 @@
             </p>
           </div>
 
-          <!-- Q4 -->
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What if the repaired file still won't import?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
@@ -244,7 +300,6 @@
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <!-- Col 1: Identity -->
         <div class="space-y-3">
           <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
           <p class="text-slate-500 leading-relaxed text-xs">
@@ -258,7 +313,6 @@
           </p>
         </div>
 
-        <!-- Col 2: Navigation -->
         <div>
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
           <ul class="space-y-2">
@@ -269,7 +323,6 @@
           </ul>
         </div>
 
-        <!-- Col 3: Legal & Company -->
         <div>
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust & Legal</div>
           <ul class="space-y-2">
@@ -280,7 +333,6 @@
           </ul>
         </div>
 
-        <!-- Col 4: Verified Statement -->
         <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
           <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
             <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
