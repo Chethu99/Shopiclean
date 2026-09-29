@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supplier to Shopify Converter — ShopiClean</title>
-  <meta name="description" content="Map arbitrary vendor and supplier product feeds into standard Shopify import CSV format directly in your browser.">
+  <meta name="description" content="Map arbitrary vendor and supplier product feeds into standard Shopify import CSV format with live preview directly in your browser.">
   <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -12,13 +12,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/supplier-converter/">
   <meta property="og:title" content="Supplier to Shopify Converter — ShopiClean">
-  <meta property="og:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format directly in your browser.">
+  <meta property="og:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format with live preview directly in your browser.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Supplier to Shopify Converter — ShopiClean">
-  <meta name="twitter:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format directly in your browser.">
+  <meta name="twitter:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format with live preview directly in your browser.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- JSON-LD: SoftwareApplication -->
@@ -44,7 +44,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Sticky Header with Relative Home Navigation -->
+  <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
@@ -73,7 +73,7 @@
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Utility</span>
       <h1 class="text-3xl font-black text-slate-900 mt-1">Supplier to Shopify Converter</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Upload any supplier or vendor inventory feed, map columns to standard Shopify headers, and download clean import CSVs.
+        Upload any supplier or vendor inventory feed, auto-map columns to standard Shopify headers, preview output records in real-time, and download ready-to-import CSVs.
       </p>
     </div>
 
@@ -90,32 +90,60 @@
     </div>
 
     <!-- Mapping Panel -->
-    <div id="resultsCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
-      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-        <div>
-          <h2 class="text-base font-bold text-slate-900">Map Catalog Fields</h2>
-          <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
+    <div id="resultsCard" class="hidden mt-8 space-y-6">
+      
+      <!-- Configuration Box -->
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Map Catalog Fields</h2>
+            <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
+          </div>
+          <div class="flex gap-2 w-full sm:w-auto">
+            <button id="resetBtn" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
+              New File
+            </button>
+            <button id="downloadBtn" class="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              Download Converted CSV
+            </button>
+          </div>
         </div>
-        <button id="downloadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
-          Download Converted CSV
-        </button>
+
+        <div id="validationWarning" class="hidden mt-3 p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs font-semibold text-rose-700 flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+          <span id="warningText">Please map at least Product Title and Variant Price.</span>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Column Mapping</h3>
+          <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-600 text-xs font-bold uppercase border-b border-slate-200">
+                  <th class="p-3 w-5/12">Shopify Standard Field</th>
+                  <th class="p-3 w-7/12">Your Supplier Column</th>
+                </tr>
+              </thead>
+              <tbody id="mappingBody" class="divide-y divide-slate-100 text-xs"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      <div class="mt-4">
-        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Column Mapping</h3>
-        <div class="overflow-x-auto border border-slate-200 rounded-lg">
-          <table class="w-full text-left border-collapse">
-            <thead>
-              <tr class="bg-slate-50 text-slate-600 text-xs font-bold uppercase border-b border-slate-200">
-                <th class="p-3 w-1/2">Shopify Standard Column</th>
-                <th class="p-3 w-1/2">Your Supplier Column</th>
-              </tr>
-            </thead>
-            <tbody id="mappingBody" class="divide-y divide-slate-100 text-xs">
-            </tbody>
+      <!-- Live 2-Row Output Preview -->
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Live Converted Preview (First 2 Rows)</h3>
+          <span class="text-[11px] text-blue-600 font-semibold">Updates dynamically</span>
+        </div>
+        <div class="mt-3 overflow-x-auto border border-slate-200 rounded-lg">
+          <table class="w-full text-left border-collapse font-mono text-[11px]">
+            <thead id="previewHead" class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200"></thead>
+            <tbody id="previewBody" class="divide-y divide-slate-100"></tbody>
           </table>
         </div>
       </div>
+
     </div>
   </main>
 
@@ -138,17 +166,17 @@
 
   <script>
     const SHOPIFY_FIELDS = [
-      { id: 'Handle', label: 'Handle (Slug)', aliases: ['handle', 'slug', 'sku', 'product_id', 'id'] },
-      { id: 'Title', label: 'Title (Product Name)', aliases: ['title', 'name', 'product name', 'item_name', 'description'] },
-      { id: 'Body (HTML)', label: 'Body (HTML Description)', aliases: ['body', 'description', 'details', 'long description'] },
-      { id: 'Vendor', label: 'Vendor (Brand)', aliases: ['vendor', 'brand', 'manufacturer'] },
-      { id: 'Type', label: 'Type (Category)', aliases: ['type', 'category', 'item_type'] },
-      { id: 'Tags', label: 'Tags', aliases: ['tags', 'keywords'] },
-      { id: 'Variant SKU', label: 'Variant SKU', aliases: ['sku', 'item_sku', 'part_number'] },
-      { id: 'Variant Price', label: 'Variant Price', aliases: ['price', 'retail_price', 'msrp', 'cost'] },
-      { id: 'Variant Compare At Price', label: 'Compare At Price', aliases: ['compare_price', 'strike_price', 'regular_price'] },
-      { id: 'Variant Inventory Qty', label: 'Variant Inventory Qty', aliases: ['qty', 'quantity', 'stock', 'inventory'] },
-      { id: 'Image Src', label: 'Image Src (Primary Image URL)', aliases: ['image', 'image_url', 'img', 'photo', 'picture'] }
+      { id: 'Title', label: 'Title (Product Name)', required: true, aliases: ['title', 'producttitle', 'name', 'productname', 'itemname', 'description', 'product'] },
+      { id: 'Variant Price', label: 'Variant Price', required: true, aliases: ['variantprice', 'price', 'retailprice', 'msrp', 'unitprice', 'sellingprice', 'cost', 'wholesale'] },
+      { id: 'Handle', label: 'Handle (Slug)', required: false, aliases: ['handle', 'slug', 'sku', 'producthandle', 'itemnumber', 'partnumber', 'id'] },
+      { id: 'Body (HTML)', label: 'Body (HTML Description)', required: false, aliases: ['bodyhtml', 'body', 'description', 'longdescription', 'details', 'itemdescription'] },
+      { id: 'Vendor', label: 'Vendor (Brand)', required: false, aliases: ['vendor', 'brand', 'brandname', 'manufacturer', 'supplier'] },
+      { id: 'Type', label: 'Type (Category)', required: false, aliases: ['type', 'category', 'producttype', 'itemtype', 'class'] },
+      { id: 'Tags', label: 'Tags', required: false, aliases: ['tags', 'keywords', 'labels', 'categories'] },
+      { id: 'Variant SKU', label: 'Variant SKU', required: false, aliases: ['variantsku', 'sku', 'itemsku', 'partnumber', 'upc', 'barcode', 'itemno'] },
+      { id: 'Variant Compare At Price', label: 'Compare At Price', required: false, aliases: ['variantcompareatprice', 'compareprice', 'compareatprice', 'strikeprice', 'regularprice', 'originalprice', 'listprice'] },
+      { id: 'Variant Inventory Qty', label: 'Variant Inventory Qty', required: false, aliases: ['variantinventoryqty', 'inventoryqty', 'qty', 'quantity', 'stock', 'inventory', 'onhand', 'available'] },
+      { id: 'Image Src', label: 'Image Src (Primary Image URL)', required: false, aliases: ['imagesrc', 'image', 'imageurl', 'img', 'photo', 'picture', 'photourl', 'link'] }
     ];
 
     const dropzone = document.getElementById('dropzone');
@@ -156,7 +184,12 @@
     const resultsCard = document.getElementById('resultsCard');
     const statsRow = document.getElementById('statsRow');
     const mappingBody = document.getElementById('mappingBody');
+    const previewHead = document.getElementById('previewHead');
+    const previewBody = document.getElementById('previewBody');
     const downloadBtn = document.getElementById('downloadBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const validationWarning = document.getElementById('validationWarning');
+    const warningText = document.getElementById('warningText');
 
     let parsedRows = [];
     let parsedHeaders = [];
@@ -175,37 +208,64 @@
     });
 
     function processFile(file) {
-      originalFileName = file.name.replace('.csv', '-shopify-converted.csv');
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        alert('Please provide a valid .csv file.');
+        return;
+      }
+
+      originalFileName = file.name.replace(/\.csv$/i, '-shopify-converted.csv');
+      
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
           parsedRows = results.data;
           parsedHeaders = results.meta.fields || [];
-          statsRow.textContent = `Scanned ${parsedRows.length} supplier items • ${parsedHeaders.length} total source columns detected`;
+          statsRow.textContent = `Scanned ${parsedRows.length} supplier items • ${parsedHeaders.length} source columns detected`;
+          dropzone.classList.add('hidden');
           resultsCard.classList.remove('hidden');
           renderMapping();
+          updateLivePreview();
         }
       });
     }
 
     function renderMapping() {
       mappingBody.innerHTML = '';
+      
       SHOPIFY_FIELDS.forEach(field => {
         const tr = document.createElement('tr');
-        
+        const cleanFieldId = field.id.toLowerCase().replace(/[^a-z0-9]/g, '');
+
         let match = '';
-        parsedHeaders.forEach(header => {
-          const cleanH = header.trim().toLowerCase();
-          if (field.aliases.includes(cleanH) && !match) {
-            match = header;
+
+        // 1. Direct or Normalized Match (exact header match)
+        for (const h of parsedHeaders) {
+          const cleanH = h.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (cleanH === cleanFieldId) {
+            match = h;
+            break;
           }
-        });
+        }
+
+        // 2. Substring & Alias Matches
+        if (!match) {
+          for (const h of parsedHeaders) {
+            const cleanH = h.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (field.aliases.some(alias => cleanH === alias || cleanH.includes(alias))) {
+              match = h;
+              break;
+            }
+          }
+        }
 
         tr.innerHTML = `
-          <td class="p-3 font-semibold text-slate-800">${field.label}</td>
           <td class="p-3">
-            <select class="map-select w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-blue-500" data-field="${field.id}">
+            <div class="font-semibold text-slate-800">${field.label}</div>
+            ${field.required ? '<span class="text-[10px] text-rose-500 font-bold uppercase tracking-wider">Required</span>' : '<span class="text-[10px] text-slate-400">Optional</span>'}
+          </td>
+          <td class="p-3">
+            <select class="map-select w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-blue-500" data-field="${field.id}">
               <option value="">-- Ignore Field --</option>
               ${parsedHeaders.map(h => `<option value="${h}" ${h === match ? 'selected' : ''}>${h}</option>`).join('')}
             </select>
@@ -213,49 +273,116 @@
         `;
         mappingBody.appendChild(tr);
       });
+
+      document.querySelectorAll('.map-select').forEach(sel => {
+        sel.addEventListener('change', () => {
+          updateLivePreview();
+          validateMapping();
+        });
+      });
+
+      validateMapping();
+    }
+
+    function getMappings() {
+      const map = {};
+      document.querySelectorAll('.map-select').forEach(sel => {
+        if (sel.value) map[sel.dataset.field] = sel.value;
+      });
+      return map;
+    }
+
+    function validateMapping() {
+      const mappings = getMappings();
+      const hasTitle = Boolean(mappings['Title']);
+      const hasPrice = Boolean(mappings['Variant Price']);
+
+      if (!hasTitle || !hasPrice) {
+        validationWarning.classList.remove('hidden');
+        downloadBtn.disabled = true;
+        warningText.textContent = `Missing required fields: ${!hasTitle ? 'Title ' : ''}${!hasTitle && !hasPrice ? '& ' : ''}${!hasPrice ? 'Variant Price' : ''}.`;
+        return false;
+      } else {
+        validationWarning.classList.add('hidden');
+        downloadBtn.disabled = false;
+        return true;
+      }
+    }
+
+    function buildRowObject(row, mappings, handleTracker) {
+      const rawTitle = mappings['Title'] ? (row[mappings['Title']] || '').trim() : '';
+      let rawHandle = mappings['Handle'] ? (row[mappings['Handle']] || '').trim() : rawTitle;
+
+      let cleanHandle = rawHandle.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '') || 'product';
+
+      // Collision avoidance
+      if (handleTracker) {
+        if (handleTracker[cleanHandle]) {
+          handleTracker[cleanHandle]++;
+          cleanHandle = `${cleanHandle}-${handleTracker[cleanHandle]}`;
+        } else {
+          handleTracker[cleanHandle] = 1;
+        }
+      }
+
+      const rawPrice = mappings['Variant Price'] ? row[mappings['Variant Price']] : '0.00';
+      const cleanPrice = String(rawPrice).replace(/[^0-9.]/g, '') || '0.00';
+
+      const rawCompare = mappings['Variant Compare At Price'] ? row[mappings['Variant Compare At Price']] : '';
+      const cleanCompare = rawCompare ? String(rawCompare).replace(/[^0-9.]/g, '') : '';
+
+      const rawQty = mappings['Variant Inventory Qty'] ? row[mappings['Variant Inventory Qty']] : '0';
+      const cleanQty = String(rawQty).replace(/[^0-9\-]/g, '') || '0';
+
+      return {
+        'Handle': cleanHandle,
+        'Title': rawTitle,
+        'Body (HTML)': mappings['Body (HTML)'] ? (row[mappings['Body (HTML)']] || '') : '',
+        'Vendor': mappings['Vendor'] ? (row[mappings['Vendor']] || '') : '',
+        'Type': mappings['Type'] ? (row[mappings['Type']] || '') : '',
+        'Tags': mappings['Tags'] ? (row[mappings['Tags']] || '') : '',
+        'Published': 'TRUE',
+        'Option1 Name': 'Title',
+        'Option1 Value': 'Default Title',
+        'Variant SKU': mappings['Variant SKU'] ? (row[mappings['Variant SKU']] || '') : '',
+        'Variant Grams': '0',
+        'Variant Inventory Tracker': 'shopify',
+        'Variant Inventory Qty': cleanQty,
+        'Variant Inventory Policy': 'deny',
+        'Variant Fulfillment Service': 'manual',
+        'Variant Price': cleanPrice,
+        'Variant Compare At Price': cleanCompare,
+        'Variant Requires Shipping': 'TRUE',
+        'Variant Taxable': 'TRUE',
+        'Image Src': mappings['Image Src'] ? (row[mappings['Image Src']] || '') : '',
+        'Status': 'active'
+      };
+    }
+
+    function updateLivePreview() {
+      const mappings = getMappings();
+      const previewRows = parsedRows.slice(0, 2).map(r => buildRowObject(r, mappings, null));
+
+      if (!previewRows.length) return;
+
+      const keys = ['Handle', 'Title', 'Variant Price', 'Variant SKU', 'Variant Inventory Qty', 'Vendor'];
+      previewHead.innerHTML = `<tr>${keys.map(k => `<th class="p-2.5 whitespace-nowrap">${k}</th>`).join('')}</tr>`;
+      
+      previewBody.innerHTML = previewRows.map(r => `
+        <tr class="hover:bg-slate-50">
+          ${keys.map(k => `<td class="p-2.5 text-slate-700 whitespace-nowrap overflow-hidden max-w-[150px] truncate">${r[k] || '<span class="text-slate-300">empty</span>'}</td>`).join('')}
+        </tr>
+      `).join('');
     }
 
     downloadBtn.addEventListener('click', () => {
-      const mappings = {};
-      document.querySelectorAll('.map-select').forEach(sel => {
-        if (sel.value) mappings[sel.dataset.field] = sel.value;
-      });
+      if (!validateMapping()) return;
 
-      const convertedRows = parsedRows.map(row => {
-        const titleVal = mappings['Title'] ? (row[mappings['Title']] || '') : '';
-        const rawHandle = mappings['Handle'] ? (row[mappings['Handle']] || '') : titleVal;
-        const cleanHandle = rawHandle.toString().toLowerCase().trim().replace(/[^a-z0-9\-]/g, '-').replace(/-+/g, '-');
-
-        const rawPrice = mappings['Variant Price'] ? row[mappings['Variant Price']] : '0.00';
-        const cleanPrice = String(rawPrice).replace(/[^0-9.]/g, '') || '0.00';
-
-        const rawCompare = mappings['Variant Compare At Price'] ? row[mappings['Variant Compare At Price']] : '';
-        const cleanCompare = rawCompare ? String(rawCompare).replace(/[^0-9.]/g, '') : '';
-
-        return {
-          'Handle': cleanHandle || 'product',
-          'Title': titleVal,
-          'Body (HTML)': mappings['Body (HTML)'] ? (row[mappings['Body (HTML)']] || '') : '',
-          'Vendor': mappings['Vendor'] ? (row[mappings['Vendor']] || '') : '',
-          'Type': mappings['Type'] ? (row[mappings['Type']] || '') : '',
-          'Tags': mappings['Tags'] ? (row[mappings['Tags']] || '') : '',
-          'Published': 'TRUE',
-          'Option1 Name': 'Title',
-          'Option1 Value': 'Default Title',
-          'Variant SKU': mappings['Variant SKU'] ? (row[mappings['Variant SKU']] || '') : '',
-          'Variant Grams': '0',
-          'Variant Inventory Tracker': 'shopify',
-          'Variant Inventory Qty': mappings['Variant Inventory Qty'] ? (row[mappings['Variant Inventory Qty']] || '0') : '0',
-          'Variant Inventory Policy': 'deny',
-          'Variant Fulfillment Service': 'manual',
-          'Variant Price': cleanPrice,
-          'Variant Compare At Price': cleanCompare,
-          'Variant Requires Shipping': 'TRUE',
-          'Variant Taxable': 'TRUE',
-          'Image Src': mappings['Image Src'] ? (row[mappings['Image Src']] || '') : '',
-          'Status': 'active'
-        };
-      });
+      const mappings = getMappings();
+      const handleTracker = {};
+      const convertedRows = parsedRows.map(row => buildRowObject(row, mappings, handleTracker));
 
       const csv = Papa.unparse(convertedRows);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -264,6 +391,14 @@
       link.setAttribute('href', url);
       link.setAttribute('download', originalFileName);
       link.click();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      parsedRows = [];
+      parsedHeaders = [];
+      fileInput.value = '';
+      resultsCard.classList.add('hidden');
+      dropzone.classList.remove('hidden');
     });
   </script>
 </body>
