@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>100-Variant Splitter — ShopiClean</title>
-  <meta name="description" content="Split catalogs with over 100 variants into compliant, linked multi-part products for direct Shopify imports.">
+  <title>Shopify CSV Variant Splitter — ShopiClean</title>
+  <meta name="description" content="Split grouped Shopify product variants into standalone catalog items entirely in your browser.">
   <link rel="canonical" href="https://shopiclean.com/variant-splitter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- OpenGraph Metadata -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/variant-splitter/">
-  <meta property="og:title" content="100-Variant Splitter — ShopiClean">
-  <meta property="og:description" content="Split catalogs with over 100 variants into compliant, linked multi-part products for direct Shopify imports.">
+  <meta property="og:title" content="Shopify CSV Variant Splitter — ShopiClean">
+  <meta property="og:description" content="Split grouped Shopify product variants into standalone catalog items entirely in your browser.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="100-Variant Splitter — ShopiClean">
-  <meta name="twitter:description" content="Split catalogs with over 100 variants into compliant, linked multi-part products for direct Shopify imports.">
+  <meta name="twitter:title" content="Shopify CSV Variant Splitter — ShopiClean">
+  <meta name="twitter:description" content="Split grouped Shopify product variants into standalone catalog items entirely in your browser.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
-  <!-- JSON-LD: SoftwareApplication (Page-Specific) -->
+  <!-- JSON-LD: SoftwareApplication -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "100-Variant Splitter for Shopify",
+    "name": "Shopify CSV Variant Splitter",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All (Web-based)",
     "url": "https://shopiclean.com/variant-splitter/",
@@ -35,7 +35,7 @@
       "price": "9.00",
       "priceCurrency": "USD"
     },
-    "description": "Bypass Shopify's 100-variant limit by automatically partitioning large product listings into compliant multi-part CSV catalogs."
+    "description": "Client-side utility to convert multi-variant grouped product handles into standalone product rows for Shopify."
   }
   </script>
 
@@ -48,12 +48,12 @@
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
-        <div class="w-8 h-8 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center group-hover:border-sky-500 transition-colors">
-          <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
-        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-sky-700 transition-colors">Shopi<span class="text-sky-600">Clean</span></span>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
 
       <div class="flex items-center gap-3">
@@ -70,33 +70,41 @@
   <!-- Main Content -->
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-sky-600">Catalog Utility</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">100-Variant Splitter</h1>
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Variant Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify CSV Variant Splitter</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Shopify enforces a hard ceiling of 100 variants per product handle. This tool detects oversized items and partitions them into linked Part 1 and Part 2 catalogs automatically.
+        Splits grouped multi-variant product rows into distinct standalone catalog items with auto-formatted handles and titles.
       </p>
     </div>
 
     <!-- Dropzone Area -->
-    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-sky-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
       <input type="file" id="fileInput" accept=".csv" class="hidden">
-      <div class="w-12 h-12 rounded-full bg-sky-50 text-sky-600 mx-auto flex items-center justify-center mb-3">
+      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
       </div>
-      <p class="text-sm font-bold text-slate-800">Select Shopify CSV to evaluate variant limits</p>
-      <p class="text-xs text-slate-400 mt-1">100% In-browser processing</p>
+      <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV file here</p>
+      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
     </div>
 
-    <!-- Output Box -->
-    <div id="outputCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
-      <h2 class="text-base font-bold text-slate-900">Analysis Results</h2>
-      <p id="splitSummary" class="text-xs text-slate-600 mt-1"></p>
-      <div class="mt-6 flex gap-3">
-        <button id="downloadSplitBtn" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
-          Download Split-Safe Catalog
+    <!-- Results Panel -->
+    <div id="resultsCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Splitter Summary</h2>
+          <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button id="downloadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+          Download Split CSV
         </button>
+      </div>
+
+      <div class="mt-4">
+        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Split Log</h3>
+        <div id="logContainer" class="bg-slate-50 rounded-lg p-3 text-xs font-mono max-h-60 overflow-y-auto space-y-1 border border-slate-200">
+        </div>
       </div>
     </div>
   </main>
@@ -119,76 +127,104 @@
   </footer>
 
   <script>
-    const fileInput = document.getElementById('fileInput');
     const dropzone = document.getElementById('dropzone');
-    const outputCard = document.getElementById('outputCard');
-    const splitSummary = document.getElementById('splitSummary');
-    const downloadSplitBtn = document.getElementById('downloadSplitBtn');
+    const fileInput = document.getElementById('fileInput');
+    const resultsCard = document.getElementById('resultsCard');
+    const statsRow = document.getElementById('statsRow');
+    const logContainer = document.getElementById('logContainer');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    let processedCatalog = [];
+    let cleanedData = [];
+    let originalFileName = 'split-variants.csv';
 
     dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-blue-500');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) {
-        Papa.parse(e.target.files[0], {
-          header: true,
-          skipEmptyLines: true,
-          complete: function(res) {
-            splitCatalog(res.data);
-          }
-        });
-      }
+      if (e.target.files.length) processFile(e.target.files[0]);
     });
 
-    function splitCatalog(rows) {
-      const groups = {};
-      let currentHandle = '';
-
-      rows.forEach(row => {
-        if (row['Handle']) currentHandle = row['Handle'];
-        if (!groups[currentHandle]) groups[currentHandle] = [];
-        groups[currentHandle].push(row);
-      });
-
-      let splitProductsCount = 0;
-      const finalRows = [];
-
-      Object.keys(groups).forEach(handle => {
-        const items = groups[handle];
-        if (items.length <= 100) {
-          finalRows.push(...items);
-        } else {
-          splitProductsCount++;
-          const partCount = Math.ceil(items.length / 100);
-          for (let p = 0; p < partCount; p++) {
-            const chunk = items.slice(p * 100, (p + 1) * 100);
-            const partSuffix = `-part-${p + 1}`;
-            chunk.forEach((r, idx) => {
-              const clone = { ...r };
-              clone['Handle'] = `${handle}${partSuffix}`;
-              if (idx === 0 && clone['Title']) {
-                clone['Title'] = `${clone['Title']} (Part ${p + 1})`;
-              }
-              finalRows.push(clone);
-            });
-          }
-        }
-      });
-
-      processedCatalog = finalRows;
-      outputCard.classList.remove('hidden');
-      splitSummary.textContent = splitProductsCount > 0 
-        ? `Found ${splitProductsCount} products exceeding 100 variants. Partitioned into compliant parts.`
-        : `All products within the 100-variant limit. Cleaned handles preserved.`;
+    function log(msg, type = 'info') {
+      const el = document.createElement('div');
+      el.className = type === 'error' ? 'text-rose-600 font-semibold' : (type === 'fixed' ? 'text-emerald-600' : 'text-slate-600');
+      el.textContent = `[${type.toUpperCase()}] ${msg}`;
+      logContainer.appendChild(el);
     }
 
-    downloadSplitBtn.addEventListener('click', () => {
-      if (!processedCatalog.length) return;
-      const csv = Papa.unparse(processedCatalog);
+    function processFile(file) {
+      originalFileName = file.name.replace('.csv', '-split.csv');
+      logContainer.innerHTML = '';
+      resultsCard.classList.remove('hidden');
+      log(`Analyzing ${file.name}...`);
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const rows = results.data;
+          let currentTitle = '';
+          let currentVendor = '';
+          let currentType = '';
+          let currentBody = '';
+          const distinctHandles = new Set();
+          const outputRows = [];
+
+          rows.forEach((row, i) => {
+            if (row['Handle']) distinctHandles.add(row['Handle']);
+            if (row['Title']) currentTitle = row['Title'];
+            if (row['Vendor']) currentVendor = row['Vendor'];
+            if (row['Type']) currentType = row['Type'];
+            if (row['Body (HTML)']) currentBody = row['Body (HTML)'];
+
+            const opt1 = row['Option1 Value'] || '';
+            const opt2 = row['Option2 Value'] || '';
+            const opt3 = row['Option3 Value'] || '';
+            const suffix = [opt1, opt2, opt3].filter(Boolean).join(' - ');
+
+            const splitRow = { ...row };
+            const baseTitle = row['Title'] || currentTitle;
+            splitRow['Title'] = suffix && !baseTitle.includes(suffix) ? `${baseTitle} - ${suffix}` : baseTitle;
+            
+            const handleBase = (row['Handle'] || 'product').toLowerCase().replace(/[^a-z0-9\-]/g, '-');
+            const suffixSlug = suffix ? '-' + suffix.toLowerCase().replace(/[^a-z0-9]+/g, '-') : '';
+            splitRow['Handle'] = `${handleBase}${suffixSlug}`;
+
+            splitRow['Vendor'] = row['Vendor'] || currentVendor;
+            splitRow['Type'] = row['Type'] || currentType;
+            splitRow['Body (HTML)'] = row['Body (HTML)'] || currentBody;
+            splitRow['Option1 Name'] = 'Title';
+            splitRow['Option1 Value'] = 'Default Title';
+            splitRow['Option2 Name'] = '';
+            splitRow['Option2 Value'] = '';
+            splitRow['Option3 Name'] = '';
+            splitRow['Option3 Value'] = '';
+
+            outputRows.push(splitRow);
+            if (suffix) {
+              log(`Row ${i + 2}: Split variant "${suffix}" into separate product "${splitRow['Handle']}"`, 'fixed');
+            }
+          });
+
+          cleanedData = outputRows;
+          statsRow.textContent = `Scanned ${rows.length} rows • Transformed ${distinctHandles.size} base handles into ${outputRows.length} independent products`;
+          log(`Splitting complete. Ready for download.`, 'info');
+        }
+      });
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      if (!cleanedData.length) return;
+      const csv = Papa.unparse(cleanedData);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'shopify-split-variants.csv';
+      link.setAttribute('href', url);
+      link.setAttribute('download', originalFileName);
       link.click();
     });
   </script>

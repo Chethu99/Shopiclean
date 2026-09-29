@@ -3,30 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify Image URL Scanner — ShopiClean</title>
-  <meta name="description" content="Scan and sanitize product media links before importing into Shopify. Remove local drive paths and non-HTTPS image links.">
+  <title>Shopify CSV Image Scanner — ShopiClean</title>
+  <meta name="description" content="Detect non-HTTPS links, malformed URLs, and format issues in your Shopify catalog CSV directly in your browser.">
   <link rel="canonical" href="https://shopiclean.com/image-checker/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- OpenGraph Metadata -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/image-checker/">
-  <meta property="og:title" content="Shopify Image URL Scanner — ShopiClean">
-  <meta property="og:description" content="Scan and sanitize product media links before importing into Shopify. Strip broken and local paths.">
+  <meta property="og:title" content="Shopify CSV Image Scanner — ShopiClean">
+  <meta property="og:description" content="Detect non-HTTPS links, malformed URLs, and format issues in your Shopify catalog CSV directly in your browser.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Shopify Image URL Scanner — ShopiClean">
-  <meta name="twitter:description" content="Scan and sanitize product media links before importing into Shopify. Strip broken and local paths.">
+  <meta name="twitter:title" content="Shopify CSV Image Scanner — ShopiClean">
+  <meta name="twitter:description" content="Detect non-HTTPS links, malformed URLs, and format issues in your Shopify catalog CSV directly in your browser.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
-  <!-- JSON-LD: SoftwareApplication (Page-Specific) -->
+  <!-- JSON-LD: SoftwareApplication -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "Shopify Image URL Scanner",
+    "name": "Shopify CSV Image Scanner",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All (Web-based)",
     "url": "https://shopiclean.com/image-checker/",
@@ -35,7 +35,7 @@
       "price": "9.00",
       "priceCurrency": "USD"
     },
-    "description": "Detect broken image links, remove local machine paths (C:\\), and sanitize media URLs for Shopify CSV product imports."
+    "description": "Client-side scanner to validate image URLs and auto-upgrade insecure HTTP links for Shopify CSV files."
   }
   </script>
 
@@ -48,12 +48,12 @@
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
-        <div class="w-8 h-8 rounded-lg bg-cyan-50 border border-cyan-200 flex items-center justify-center group-hover:border-cyan-500 transition-colors">
-          <svg class="w-4 h-4 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
-        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-cyan-700 transition-colors">Shopi<span class="text-cyan-600">Clean</span></span>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
 
       <div class="flex items-center gap-3">
@@ -70,37 +70,41 @@
   <!-- Main Content -->
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-cyan-600">Media Validator</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Image URL Scanner</h1>
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Media Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify CSV Image Scanner</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Shopify requires public, direct-download image links. This tool scrubs non-HTTPS links, invalid file paths (such as `C:\` or local Mac paths), and drops corrupted URLs that stall imports.
+        Detect non-HTTPS links, malformed media paths, and format errors. Auto-upgrade insecure HTTP image URLs before import.
       </p>
     </div>
 
     <!-- Dropzone Area -->
-    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-cyan-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
       <input type="file" id="fileInput" accept=".csv" class="hidden">
-      <div class="w-12 h-12 rounded-full bg-cyan-50 text-cyan-600 mx-auto flex items-center justify-center mb-3">
+      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
       </div>
-      <p class="text-sm font-bold text-slate-800">Select CSV catalog to audit image URLs</p>
-      <p class="text-xs text-slate-400 mt-1">In-browser file processing</p>
+      <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV catalog file here</p>
+      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
     </div>
 
-    <!-- Results Area -->
-    <div id="scanCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+    <!-- Scan Results Panel -->
+    <div id="resultsCard" class="hidden mt-8 bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
         <div>
-          <h2 class="text-base font-bold text-slate-900">Image Audit Results</h2>
-          <p id="imageSummary" class="text-xs text-slate-500 mt-0.5"></p>
+          <h2 class="text-base font-bold text-slate-900">Scan Summary</h2>
+          <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
         </div>
-        <button id="downloadSanitizedBtn" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
-          Download Sanitized CSV
+        <button id="downloadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+          Download Repaired CSV
         </button>
       </div>
-      <div id="badUrlList" class="mt-4 max-h-52 overflow-y-auto space-y-1 text-xs font-mono bg-slate-50 p-3 rounded-lg border border-slate-200">
+
+      <div class="mt-4">
+        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Image URL Log</h3>
+        <div id="logContainer" class="bg-slate-50 rounded-lg p-3 text-xs font-mono max-h-60 overflow-y-auto space-y-1 border border-slate-200">
+        </div>
       </div>
     </div>
   </main>
@@ -123,66 +127,82 @@
   </footer>
 
   <script>
-    const fileInput = document.getElementById('fileInput');
     const dropzone = document.getElementById('dropzone');
-    const scanCard = document.getElementById('scanCard');
-    const imageSummary = document.getElementById('imageSummary');
-    const badUrlList = document.getElementById('badUrlList');
-    const downloadSanitizedBtn = document.getElementById('downloadSanitizedBtn');
+    const fileInput = document.getElementById('fileInput');
+    const resultsCard = document.getElementById('resultsCard');
+    const statsRow = document.getElementById('statsRow');
+    const logContainer = document.getElementById('logContainer');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-    let cleanedRows = [];
+    let cleanedData = [];
+    let originalFileName = 'shopiclean-images-fixed.csv';
 
     dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-blue-500');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) {
-        Papa.parse(e.target.files[0], {
-          header: true,
-          skipEmptyLines: true,
-          complete: function(res) {
-            scanImages(res.data);
-          }
-        });
-      }
+      if (e.target.files.length) processFile(e.target.files[0]);
     });
 
-    function scanImages(rows) {
-      let brokenCount = 0;
-      let totalImages = 0;
-      badUrlList.innerHTML = '';
-
-      rows.forEach((row, i) => {
-        const url = row['Image Src'];
-        if (url) {
-          totalImages++;
-          const isHttp = url.startsWith('http://') || url.startsWith('https://');
-          const isLocal = url.includes(':\\') || url.startsWith('file://') || url.startsWith('/');
-          
-          if (!isHttp || isLocal) {
-            brokenCount++;
-            const item = document.createElement('div');
-            item.className = 'text-rose-600';
-            item.textContent = `Row ${i + 2}: Stripped invalid local/non-web link -> ${url}`;
-            badUrlList.appendChild(item);
-            row['Image Src'] = '';
-          }
-        }
-      });
-
-      cleanedRows = rows;
-      scanCard.classList.remove('hidden');
-      imageSummary.textContent = `Scanned ${totalImages} image links • Sanitized ${brokenCount} invalid URLs`;
-      if (brokenCount === 0) {
-        badUrlList.innerHTML = '<div class="text-emerald-600 font-sans">✓ All image URLs match valid web link specifications.</div>';
-      }
+    function log(msg, type = 'info') {
+      const el = document.createElement('div');
+      el.className = type === 'error' ? 'text-rose-600 font-semibold' : (type === 'fixed' ? 'text-emerald-600' : 'text-slate-600');
+      el.textContent = `[${type.toUpperCase()}] ${msg}`;
+      logContainer.appendChild(el);
     }
 
-    downloadSanitizedBtn.addEventListener('click', () => {
-      if (!cleanedRows.length) return;
-      const csv = Papa.unparse(cleanedRows);
+    function processFile(file) {
+      originalFileName = file.name.replace('.csv', '-images-fixed.csv');
+      logContainer.innerHTML = '';
+      resultsCard.classList.remove('hidden');
+      log(`Analyzing image URLs in ${file.name}...`);
+
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const rows = results.data;
+          let totalImages = 0;
+          let fixedImages = 0;
+          let errors = 0;
+
+          rows.forEach((row, i) => {
+            ['Image Src', 'Variant Image'].forEach(col => {
+              if (row[col] && row[col].trim()) {
+                totalImages++;
+                const url = row[col].trim();
+                if (/^http:\/\//i.test(url)) {
+                  row[col] = url.replace(/^http:\/\//i, 'https://');
+                  fixedImages++;
+                  log(`Row ${i + 2}: Upgraded insecure HTTP link to HTTPS in ${col}`, 'fixed');
+                } else if (!/^https:\/\//i.test(url)) {
+                  errors++;
+                  log(`Row ${i + 2}: Malformed or non-web image path "${url}" in ${col}`, 'error');
+                }
+              }
+            });
+          });
+
+          cleanedData = rows;
+          statsRow.textContent = `Scanned ${totalImages} image links • Upgraded ${fixedImages} HTTP links • Found ${errors} non-standard paths`;
+          log(`Scan complete. Ready for download.`, 'info');
+        }
+      });
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      if (!cleanedData.length) return;
+      const csv = Papa.unparse(cleanedData);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'shopify-images-sanitized.csv';
+      link.setAttribute('href', url);
+      link.setAttribute('download', originalFileName);
       link.click();
     });
   </script>
