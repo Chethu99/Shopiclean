@@ -63,19 +63,35 @@
         <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • Zero server uploads</p>
       </div>
 
-      <!-- Sample Demo Trigger -->
+      <!-- Action-Oriented Interactive Demo Link -->
       <div class="mt-3 text-center">
-        <span class="text-xs text-slate-500">Don't have a CSV handy?</span>
-        <button type="button" id="loadSampleBtn" class="text-xs text-blue-600 hover:text-blue-800 underline font-medium ml-1">
-          Load demo file with unlinked variant rows
+        <span class="text-xs text-slate-500">Want to test it first?</span>
+        <button type="button" id="loadSampleBtn" class="text-xs text-blue-600 hover:text-blue-800 underline font-semibold ml-1">
+          Try interactive demo (auto-repairs sample errors) →
         </button>
       </div>
+    </div>
+
+    <!-- Scanning State Indicator -->
+    <div id="scanningState" class="hidden bg-white border border-slate-200 rounded-2xl p-10 text-center shadow-xs">
+      <div class="inline-block w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin mb-3"></div>
+      <p class="text-sm font-bold text-slate-800">Aligning Multi-Row Variants...</p>
+      <p class="text-xs text-slate-400 mt-1">Propagating parent handle IDs downwards across contiguous option rows.</p>
     </div>
 
     <!-- Audit Results Panel -->
     <div id="resultsCard" class="hidden mt-8 space-y-6">
       <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+        
+        <!-- Metrics Bar -->
+        <div class="flex flex-wrap items-center gap-2 pb-4 mb-4 border-b border-slate-100 text-xs">
+          <span id="metricFileName" class="px-2.5 py-1 bg-slate-100 rounded-md font-mono text-slate-700 font-medium">file.csv</span>
+          <span id="metricRowsCount" class="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md font-medium">0 rows parsed</span>
+          <span id="metricFixCount" class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-md font-medium">0 fixes applied</span>
+          <span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md font-medium">⚡ 100% In-Browser</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div>
             <h2 class="text-base font-bold text-slate-900">Variant Synchronization Report</h2>
             <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
@@ -89,7 +105,33 @@
             </button>
           </div>
         </div>
+
         <div class="mt-4 space-y-2" id="issueLog"></div>
+
+        <!-- Live Before/After Table Preview -->
+        <div class="mt-6 pt-4 border-t border-slate-100">
+          <button type="button" id="togglePreviewBtn" class="text-xs text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
+            <span>▾ View Before vs After Data Preview</span>
+          </button>
+          
+          <div id="diffPreviewContainer" class="mt-3 overflow-x-auto rounded-lg border border-slate-200">
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-slate-100 text-slate-700 border-b border-slate-200 font-sans">
+                <tr>
+                  <th class="p-2.5 font-bold">Variant Row</th>
+                  <th class="p-2.5 font-bold text-red-700">Original Handle (Before)</th>
+                  <th class="p-2.5 font-bold text-emerald-700">Synchronized Handle (After)</th>
+                </tr>
+              </thead>
+              <tbody id="diffPreviewBody" class="divide-y divide-slate-100 bg-white"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Microcopy / Guarantee Note -->
+        <p class="text-[11px] text-slate-400 text-center mt-4">
+          🔒 100% money-back guarantee if this file does not import cleanly into Shopify.
+        </p>
       </div>
     </div>
 
@@ -168,13 +210,10 @@
       <div>
         <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
         <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
         <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
         <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../about/" class="hover:text-blue-600">About</a>
-        <a href="../contact/" class="hover:text-blue-600">Contact</a>
       </div>
     </div>
   </footer>
@@ -182,6 +221,7 @@
   <script>
     const dropzone = document.getElementById('dropzone');
     const dropzoneContainer = document.getElementById('dropzoneContainer');
+    const scanningState = document.getElementById('scanningState');
     const fileInput = document.getElementById('fileInput');
     const loadSampleBtn = document.getElementById('loadSampleBtn');
     const resultsCard = document.getElementById('resultsCard');
@@ -190,6 +230,12 @@
     const downloadBtn = document.getElementById('downloadBtn');
     const resetBtn = document.getElementById('resetBtn');
     const passStatusBadge = document.getElementById('passStatusBadge');
+    const metricFileName = document.getElementById('metricFileName');
+    const metricRowsCount = document.getElementById('metricRowsCount');
+    const metricFixCount = document.getElementById('metricFixCount');
+    const togglePreviewBtn = document.getElementById('togglePreviewBtn');
+    const diffPreviewContainer = document.getElementById('diffPreviewContainer');
+    const diffPreviewBody = document.getElementById('diffPreviewBody');
 
     let fixedRows = [];
     let originalFileName = 'shopify-variants-linked.csv';
@@ -207,6 +253,10 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
       }
     });
 
+    togglePreviewBtn.addEventListener('click', () => {
+      diffPreviewContainer.classList.toggle('hidden');
+    });
+
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500'));
@@ -222,7 +272,7 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
     loadSampleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       originalFileName = 'sample-variants-linked.csv';
-      parseCSVText(SAMPLE_CSV);
+      startScanSimulation(SAMPLE_CSV, 'variants-sample.csv');
     });
 
     function processFile(file) {
@@ -232,8 +282,18 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
       }
       originalFileName = file.name.replace(/\.csv$/i, '-variants-linked.csv');
       const reader = new FileReader();
-      reader.onload = (e) => parseCSVText(e.target.result);
+      reader.onload = (e) => startScanSimulation(e.target.result, file.name);
       reader.readAsText(file);
+    }
+
+    function startScanSimulation(csvText, fileName) {
+      dropzoneContainer.classList.add('hidden');
+      scanningState.classList.remove('hidden');
+
+      setTimeout(() => {
+        scanningState.classList.add('hidden');
+        parseCSVText(csvText, fileName);
+      }, 350);
     }
 
     function createSlug(text) {
@@ -246,7 +306,7 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
         .replace(/^-+|-+$/g, '');
     }
 
-    function parseCSVText(csvContent) {
+    function parseCSVText(csvContent, fileName) {
       Papa.parse(csvContent, {
         header: true,
         skipEmptyLines: true,
@@ -254,6 +314,7 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
           const rows = results.data;
           let fixesCount = 0;
           let currentParentHandle = '';
+          const diffItems = [];
 
           fixedRows = rows.map((row) => {
             const cleanRow = { ...row };
@@ -267,28 +328,47 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
             const isValidSlug = handle && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(handle);
 
             if (!handle || !isValidSlug) {
-              cleanRow['Handle'] = currentParentHandle || createSlug(handle);
+              const newHandle = currentParentHandle || createSlug(handle);
+              cleanRow['Handle'] = newHandle;
               fixesCount++;
+              if (diffItems.length < 5) {
+                diffItems.push({ 
+                  field: cleanRow['Option1 Value'] ? `Variant (${cleanRow['Option1 Value']})` : 'Product Handle', 
+                  before: handle || '[Blank]', 
+                  after: newHandle 
+                });
+              }
             }
 
             return cleanRow;
           });
 
+          metricFileName.textContent = fileName || 'variants.csv';
+          metricRowsCount.textContent = `${rows.length} rows parsed`;
+          metricFixCount.textContent = `${fixesCount} handles linked`;
           statsRow.textContent = `Analyzed ${rows.length} rows • Synchronized ${fixesCount} variant handle instances`;
-          dropzoneContainer.classList.add('hidden');
-          resultsCard.classList.remove('hidden');
+
+          diffPreviewBody.innerHTML = diffItems.map(item => `
+            <tr>
+              <td class="p-2.5 font-bold text-slate-800">${item.field}</td>
+              <td class="p-2.5 text-red-600 bg-red-50/50">${item.before}</td>
+              <td class="p-2.5 text-emerald-700 bg-emerald-50/50 font-semibold">${item.after}</td>
+            </tr>
+          `).join('');
 
           issueLog.innerHTML = `
-            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800">
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
               ✓ Synchronized multi-variant handles to prevent Shopify splitting variants into separate items.
             </div>
-            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-800">
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
               ✓ Converted titles into valid lowercase hyphenated handles.
             </div>
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700">
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
               ✓ Stripped punctuation, ampersands, and whitespace from URL handles.
             </div>
           `;
+
+          resultsCard.classList.remove('hidden');
         }
       });
     }
