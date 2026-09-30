@@ -27,7 +27,8 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <span id="passStatusBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <!-- Guaranteed hidden by default via inline style -->
+        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
         <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
@@ -128,7 +129,6 @@
           </div>
         </div>
 
-        <!-- Microcopy / Guarantee Note -->
         <p class="text-[11px] text-slate-400 text-center mt-4">
           🔒 100% money-back guarantee if this file does not import cleanly into Shopify.
         </p>
@@ -278,9 +278,10 @@ canvas-tote-bag,Canvas Tote Bag,htp://cdn.shopify.com/broken-url.png,3,Canvas To
 modern-desk-lamp,Modern Desk Lamp,/local-assets/lamp-view.png,1,Desk Lamp Front
 modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,Spec Sheet Image`;
 
+    // Only unhide badge if auth actually succeeds
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
-        passStatusBadge.classList.remove('hidden');
+        passStatusBadge.style.display = 'inline-flex';
       }
     });
 

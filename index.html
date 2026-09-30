@@ -108,7 +108,8 @@
       </nav>
 
       <div class="flex items-center gap-3">
-        <span id="homePassBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <!-- Guaranteed hidden by default via inline style -->
+        <span id="homePassBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
         <a href="#pricing" id="buyPassNavBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
@@ -411,12 +412,12 @@
   </footer>
 
   <script>
-    // Header Pass Status sync
+    // Header Pass Status sync using style.display
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
         const badge = document.getElementById('homePassBadge');
         const buyBtn = document.getElementById('buyPassNavBtn');
-        if (badge) badge.classList.remove('hidden');
+        if (badge) badge.style.display = 'inline-flex';
         if (buyBtn) {
           buyBtn.textContent = 'Pass Active';
           buyBtn.classList.replace('bg-blue-600', 'bg-slate-800');

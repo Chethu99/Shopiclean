@@ -3,78 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Privacy Policy — ShopiClean</title>
-  <meta name="description" content="ShopiClean Privacy Policy. Guaranteed 100% client-side data processing with zero server-side file transmission.">
-  <link rel="canonical" href="https://shopiclean.com/privacy/">
+  <meta name="description" content="ShopiClean's zero-cloud-storage architecture: all CSV parsing and catalog repairs happen entirely inside your local browser memory.">
+  <link rel="canonical" href="https://shopiclean.com/privacy-policy/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Header Navigation -->
-  <header class="bg-white border-b border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="../" class="flex items-center gap-2 group">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
-        <span class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
-      <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        All Tools
-      </a>
+
+      <div class="flex items-center gap-3">
+        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
+        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          All Tools
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Content -->
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 py-12">
-    <div class="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
-      <div class="border-b border-slate-100 pb-4">
-        <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Legal Agreement</span>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Privacy Policy</h1>
-        <p class="text-xs text-slate-500 mt-1">Last Updated: 2026</p>
-      </div>
+  <!-- Main Legal Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-10">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Transparency & Architecture</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Privacy Policy</h1>
+      <p class="text-xs text-slate-500 mt-2">Effective Date: September 2026 • Last Reviewed: September 2026</p>
+    </div>
 
-      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
-        <h2 class="text-base font-bold text-slate-800">1. Client-Side Architecture & Zero Data Collection</h2>
-        <p>At <strong>ShopiClean.com</strong>, privacy is guaranteed by system architecture. All spreadsheet evaluations, column sanitization, image validations, and variant partitions are computed strictly in your device's browser memory (RAM) using standard client-side JavaScript APIs.</p>
-        <p class="text-slate-800 font-semibold bg-blue-50/60 p-3 rounded-lg border border-blue-100">
-          Your CSV files, catalog matrices, and customer data are never uploaded, transmitted, or hosted on our servers.
+    <!-- Highlight Callout Box -->
+    <div class="p-5 rounded-xl bg-blue-50 border border-blue-200 mb-8 space-y-2">
+      <div class="flex items-center gap-2 font-bold text-sm text-blue-900">
+        <svg class="w-4 h-4 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        Our Client-Side Zero-Storage Promise
+      </div>
+      <p class="text-xs text-slate-700 leading-relaxed">
+        ShopiClean does not operate file upload servers. Your spreadsheet data—including confidential wholesale prices, supplier identities, SKUs, inventory counts, and customer fields—is parsed and sanitized entirely in your local web browser’s volatile memory.
+      </p>
+    </div>
+
+    <div class="space-y-8 text-xs sm:text-sm text-slate-700 leading-relaxed">
+      <section>
+        <h2 class="text-base font-bold text-slate-900 mb-2">1. Information We Never Collect or Store</h2>
+        <p>When you use any utility across the ShopiClean platform (including the CSV Validator, Supplier Converter, Variant Splitter, or Image Checker), your spreadsheet files are never transmitted to our web servers, database clusters, or third-party cloud storage bucket providers:</p>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
+          <li>We do not log, read, or copy your catalog product details or supplier names.</li>
+          <li>We do not track or record your cost of goods, selling prices, or profit margins.</li>
+          <li>We do not store or mirror the image URLs listed inside your media columns.</li>
+          <li>All file reading and transformation takes place via standard Web APIs inside your browser tab. Closing or refreshing the page instantly clears this data from memory.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-base font-bold text-slate-900 mb-2">2. Local Storage Usage</h2>
+        <p>
+          ShopiClean uses your browser’s native <code>localStorage</code> API for the single operational purpose of managing your utility pass:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
+          <li><code>shopiclean_license</code>: Stores your encrypted alphanumeric license key and associated expiration timestamp so you can access exports across all four utilities during your 7-day access window without having to re-enter your key on every page load.</li>
+        </ul>
+        <p class="mt-2">
+          You can inspect or delete this key at any time by clearing your browser cache or site data via your browser developer settings.
         </p>
       </section>
 
-      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
-        <h2 class="text-base font-bold text-slate-800">2. Payment Processing</h2>
-        <p>Financial transactions are handled through certified checkout infrastructure. ShopiClean does not collect, record, or store raw debit/credit card numbers or sensitive billing credentials.</p>
+      <section>
+        <h2 class="text-base font-bold text-slate-900 mb-2">3. Payment Information & Order Processing</h2>
+        <p>
+          Payment processing and automated license key delivery are handled by our merchant of record partner, <strong>Dodo Payments</strong>.
+        </p>
+        <p class="mt-2">
+          ShopiClean never collects, processes, transmits, or stores credit card numbers, debit cards, or bank authentication details on our infrastructure. When purchasing a 7-day pass, your billing details and email address are provided directly to Dodo Payments under their own secure PCI-compliant privacy protocols.
+        </p>
       </section>
 
-      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
-        <h2 class="text-base font-bold text-slate-800">3. Analytics & Telemetry</h2>
-        <p>We do not run invasive tracking cookies, behavioral tracking scripts, or sell data to third-party brokers. Standard anonymous server access logs (IP addresses and page response metrics) are collected strictly for network security and DDoS mitigation via CDN infrastructure.</p>
+      <section>
+        <h2 class="text-base font-bold text-slate-900 mb-2">4. Server Logs & Analytics</h2>
+        <p>
+          Like all standard web servers, our hosting infrastructure automatically captures basic non-identifiable technical headers when you request an HTML file, such as browser type, operating system, and approximate geographical region (country level). These logs do not contain personal identifiers and are never linked to any CSV files or content you inspect on the site.
+        </p>
       </section>
 
-      <section class="space-y-2 text-xs sm:text-sm leading-relaxed text-slate-600">
-        <h2 class="text-base font-bold text-slate-800">4. Contact Information</h2>
-        <p>For questions regarding our privacy architecture or policy, contact: <a href="mailto:support@shopiclean.com" class="text-blue-600 font-semibold underline">support@shopiclean.com</a>.</p>
+      <section>
+        <h2 class="text-base font-bold text-slate-900 mb-2">5. Contact Information</h2>
+        <p>
+          For privacy inquiries, technical security architecture questions, or key restoration support, please contact us directly at:
+        </p>
+        <p class="mt-2 font-mono text-blue-600 font-bold">
+          support@shopiclean.com
+        </p>
       </section>
     </div>
   </main>
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
         <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
         <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
         <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
-        <a href="../privacy/" class="hover:text-blue-600 font-semibold text-slate-900">Privacy</a>
+        <a href="../privacy-policy/" class="hover:text-blue-600 text-blue-600 font-bold">Privacy Policy</a>
         <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
         <a href="../about/" class="hover:text-blue-600">About</a>
         <a href="../contact/" class="hover:text-blue-600">Contact</a>
@@ -82,5 +131,13 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        const badge = document.getElementById('passStatusBadge');
+        if (badge) badge.style.display = 'inline-flex';
+      }
+    });
+  </script>
 </body>
 </html>
