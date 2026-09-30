@@ -1,14 +1,16 @@
 /**
  * ShopiClean License & Payment Gate Controller
  * 100% Client-side, zero backend dependencies.
+ * Powered by Dodo Payments (Merchant of Record)
  */
 
 const SHOPICLEAN_CONFIG = {
   storageKey: 'shopiclean_license_key',
-  // Replace with your real Lemon Squeezy overlay URL once registered:
-  checkoutUrl: 'https://yourstore.lemonsqueezy.com/buy/YOUR-VARIANT-ID?embed=1',
-  validationEndpoint: 'https://api.lemonsqueezy.com/v1/licenses/validate',
-  // Dev / Testing bypass key (works without Lemon Squeezy setup)
+  // Dodo Payments Test Mode Checkout URL
+  checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
+  // Dodo Payments Test License Validation Endpoint
+  validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
+  // Dev / Testing bypass key for immediate offline debugging
   testBypassKey: 'TEST-PASS-1234'
 };
 
@@ -30,12 +32,12 @@ function clearSavedLicense() {
   localStorage.removeItem(SHOPICLEAN_CONFIG.storageKey);
 }
 
-// 4. Validate license key via Dev Bypass or Lemon Squeezy Public API
-async function verifyLemonLicense(key) {
+// 4. Validate license key via Dev Bypass or Dodo Payments Public API
+async function verifyDodoLicense(key) {
   const cleanKey = (key || '').trim();
   if (!cleanKey) return false;
 
-  // DEV / TEST BYPASS: Allows full verification testing without an active Lemon Squeezy account
+  // DEV / TEST BYPASS: Allows full local debugging
   if (cleanKey === SHOPICLEAN_CONFIG.testBypassKey) {
     return true;
   }
@@ -44,16 +46,18 @@ async function verifyLemonLicense(key) {
     const response = await fetch(SHOPICLEAN_CONFIG.validationEndpoint, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
-      body: new URLSearchParams({ license_key: cleanKey })
+      body: JSON.stringify({
+        license_key: cleanKey
+      })
     });
 
     const data = await response.json();
-    return data && data.valid === true;
+    // Dodo returns status / valid boolean for active licenses
+    return data && (data.valid === true || data.status === 'active');
   } catch (err) {
-    console.error('License verification request failed:', err);
+    console.error('Dodo license verification request failed:', err);
     return false;
   }
 }
@@ -96,9 +100,9 @@ async function handleManualKeySubmit() {
 
   feedback.classList.remove('hidden', 'text-red-500', 'text-emerald-600');
   feedback.classList.add('text-slate-500');
-  feedback.textContent = 'Verifying key...';
+  feedback.textContent = 'Verifying key with Dodo Payments...';
 
-  const isValid = await verifyLemonLicense(key);
+  const isValid = await verifyDodoLicense(key);
 
   if (isValid) {
     saveLicense(key);
@@ -114,7 +118,7 @@ async function handleManualKeySubmit() {
   } else {
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-red-500');
-    feedback.textContent = 'Invalid or expired key. Please check your order receipt.';
+    feedback.textContent = 'Invalid or expired key. Please check your purchase receipt.';
   }
 }
 
@@ -146,11 +150,13 @@ function injectPaywallModal() {
           <ul class="text-xs text-slate-600 space-y-1.5 mb-4">
             <li class="flex items-center">✓ 100% in-browser client privacy (zero server uploads)</li>
             <li class="flex items-center">✓ Unlimited CSV exports across all 4 tools</li>
-            <li class="flex items-center">✓ 14-day technical money-back guarantee</li>
+            <li class="flex items-center">✓ Instant automated license key delivery</li>
           </ul>
 
           <a href="${SHOPICLEAN_CONFIG.checkoutUrl}" 
-             class="lemonsqueezy-button block text-center w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors shadow-sm cursor-pointer">
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="block text-center w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors shadow-sm cursor-pointer">
             Unlock Full Download — $9
           </a>
         </div>
@@ -179,25 +185,4 @@ function injectPaywallModal() {
   `;
 
   document.body.insertAdjacentHTML('beforeend', modalHtml);
-}
-
-// 10. Hook into Lemon Squeezy event handler for automatic checkout unlock
-if (typeof window !== 'undefined') {
-  window.createLemonSqueezy?.();
-  window.LemonSqueezy?.Setup({
-    eventHandler: (event) => {
-      if (event && event.event === 'OrderCreated') {
-        const key = event.data?.order?.first_order_item?.license_key;
-        if (key) {
-          saveLicense(key);
-        } else {
-          saveLicense('active_session_customer');
-        }
-        closePaywallModal();
-        if (typeof window._shopicleanPaymentSuccessCallback === 'function') {
-          window._shopicleanPaymentSuccessCallback();
-        }
-      }
-    }
-  });
 }
