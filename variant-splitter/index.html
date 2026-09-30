@@ -1,219 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify Variant Restructurer & Splitter | ShopiClean</title>
-  <meta name="description" content="Split grouped product variants into standalone products for collection page visibility, Google Shopping catalog feeds, and 250-media gallery cap bypass.">
+  <title>Shopify Variant Restructurer & Splitter — ShopiClean</title>
+  <meta name="description" content="Split grouped product variants into standalone products for collection page visibility, Google Shopping catalog feeds, and 250-media gallery caps.">
+  <link rel="canonical" href="https://shopiclean.com/variant-splitter/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Tailwind CSS CDN for styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse for high-performance in-browser CSV parsing -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- Lemon Squeezy Official Script -->
+  <!-- Lemon Squeezy Core -->
   <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-  <!-- ShopiClean Auth & License Controller -->
+  <!-- Auth & Paywall Controller -->
   <script src="/js/auth.js" defer></script>
-</head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
 
-  <!-- Navigation -->
-  <header class="w-full bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center">
-    <div class="flex items-center space-x-2">
-      <span class="text-xl font-black text-emerald-600">ShopiClean</span>
-      <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono">Variant Restructurer</span>
-    </div>
-    <div class="text-xs text-slate-500">
-      🔒 100% In-Browser Privacy • Zero Server Uploads
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/variant-splitter/">
+  <meta property="og:title" content="Shopify Variant Restructurer & Splitter — ShopiClean">
+  <meta property="og:description" content="Split grouped product variants into standalone products for collection page visibility and Google Shopping feeds.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shopify Variant Restructurer & Splitter — ShopiClean">
+  <meta name="twitter:description" content="Split grouped product variants into standalone products for collection page visibility and Google Shopping feeds.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Shopify Variant Restructurer",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All (Web-based)",
+    "url": "https://shopiclean.com/variant-splitter/",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    },
+    "description": "Client-side utility to restructure Shopify variant rows into standalone products for enhanced merchandising."
+  }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          All Tools
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Hero & Tool Section -->
-  <main class="max-w-4xl mx-auto px-4 py-10 flex-1 w-full">
-    
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-        Split Grouped Variants into Standalone Products
-      </h1>
-      <p class="mt-3 text-base text-slate-600 max-w-2xl mx-auto">
-        Convert color/size variant rows into individual Shopify products. Boost collection page visibility, dominate Google Shopping listings, and bypass Shopify's 250-media cap per product.
+  <!-- Main Content -->
+  <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Variant Restructurer</h1>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+        Convert grouped variant rows into standalone products for collection page visibility, Google Shopping catalog feeds, and 250-media gallery caps.
       </p>
-      <div class="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-        <span>Free Diagnostic Scan</span>
-        <span>•</span>
-        <span>$9 One-Time 7-Day Pass to Export</span>
-      </div>
     </div>
 
     <!-- Dropzone Area -->
-    <div class="bg-white border-2 border-dashed border-slate-300 hover:border-emerald-500 transition-colors rounded-xl p-8 text-center cursor-pointer mb-6" id="dropzone">
-      <input type="file" id="csvFileInput" accept=".csv" class="hidden" />
-      <div class="flex flex-col items-center">
-        <svg class="w-12 h-12 text-slate-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
+      <input type="file" id="fileInput" accept=".csv" class="hidden">
+      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
         </svg>
-        <p class="text-sm font-semibold text-slate-700">Drop your exported Shopify CSV here, or <span class="text-emerald-600">browse files</span></p>
-        <p class="text-xs text-slate-400 mt-1">Processed entirely in your browser's memory.</p>
       </div>
+      <p class="text-sm font-bold text-slate-800">Select or drop your Shopify product CSV here</p>
+      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
     </div>
 
-    <!-- Processing Feedback & Results -->
-    <div id="resultsCard" class="hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b border-slate-100 gap-4">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">Restructure Analysis</h2>
-          <p id="statsOutput" class="text-xs text-slate-500 mt-0.5"></p>
+    <!-- Results Panel -->
+    <div id="resultsCard" class="hidden mt-8 space-y-6">
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Restructured Output</h2>
+            <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
+          </div>
+          <div class="flex gap-2 w-full sm:w-auto">
+            <button id="resetBtn" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
+              New File
+            </button>
+            <button id="downloadBtn" class="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+              Download Restructured CSV
+            </button>
+          </div>
         </div>
-        <button id="downloadBtn" class="w-full sm:w-auto px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg text-sm shadow-sm transition-colors flex items-center justify-center gap-2">
-          <span>Download Cleaned CSV</span>
-          <span class="text-emerald-200 text-xs font-mono">($9 Pass)</span>
-        </button>
-      </div>
 
-      <!-- Preview Table -->
-      <div class="mt-4 overflow-x-auto">
-        <table class="w-full text-left text-xs text-slate-600 border border-slate-100">
-          <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-100">
-            <tr>
-              <th class="p-2.5">Original Handle</th>
-              <th class="p-2.5">New Standalone Handle</th>
-              <th class="p-2.5">Title</th>
-              <th class="p-2.5">Option1 (Variant)</th>
-              <th class="p-2.5">Price</th>
-            </tr>
-          </thead>
-          <tbody id="previewTableBody" class="divide-y divide-slate-100 font-mono">
-            <!-- Injected dynamically -->
-          </tbody>
-        </table>
+        <!-- Preview Table -->
+        <div class="mt-4 overflow-x-auto border border-slate-200 rounded-lg">
+          <table class="w-full text-left border-collapse font-mono text-[11px]">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-2.5">Original Handle</th>
+                <th class="p-2.5">New Standalone Handle</th>
+                <th class="p-2.5">Title</th>
+                <th class="p-2.5">Variant Value</th>
+                <th class="p-2.5">Price</th>
+              </tr>
+            </thead>
+            <tbody id="previewBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
       </div>
     </div>
-
   </main>
 
-  <!-- Script for Tool Logic & Gating -->
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../about/" class="hover:text-blue-600">About</a>
+        <a href="../contact/" class="hover:text-blue-600">Contact</a>
+      </div>
+    </div>
+  </footer>
+
   <script>
-    let cleanedCsvData = null;
-    let originalFilename = 'shopify_catalog';
-
     const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('csvFileInput');
+    const fileInput = document.getElementById('fileInput');
     const resultsCard = document.getElementById('resultsCard');
-    const statsOutput = document.getElementById('statsOutput');
-    const previewTableBody = document.getElementById('previewTableBody');
+    const statsRow = document.getElementById('statsRow');
+    const previewBody = document.getElementById('previewBody');
     const downloadBtn = document.getElementById('downloadBtn');
+    const resetBtn = document.getElementById('resetBtn');
 
-    // Drag-and-drop wiring
+    let restructuredRows = [];
+    let originalFileName = 'shopify-variants-split.csv';
+
     dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-emerald-500'); });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-emerald-500'));
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-blue-500'));
     dropzone.addEventListener('drop', (e) => {
       e.preventDefault();
-      dropzone.classList.remove('border-emerald-500');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      dropzone.classList.remove('border-blue-500');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
     });
     fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
+      if (e.target.files.length) processFile(e.target.files[0]);
     });
 
-    function handleFile(file) {
-      originalFilename = file.name.replace(/\.[^/.]+$/, "");
+    function processFile(file) {
+      if (!file.name.toLowerCase().endsWith('.csv')) {
+        alert('Please provide a valid .csv file.');
+        return;
+      }
+
+      originalFileName = file.name.replace(/\.csv$/i, '-restructured.csv');
+
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: (results) => processVariants(results.data)
+        complete: function(results) {
+          const rows = results.data;
+          if (!rows || rows.length === 0) return;
+
+          restructuredRows = [];
+          let parentTitle = "";
+          let parentBody = "";
+          let parentVendor = "";
+          let parentType = "";
+          let parentTags = "";
+
+          rows.forEach(row => {
+            if (row['Title'] && row['Title'].trim() !== '') {
+              parentTitle = row['Title'];
+              parentBody = row['Body (HTML)'] || '';
+              parentVendor = row['Vendor'] || '';
+              parentType = row['Type'] || '';
+              parentTags = row['Tags'] || '';
+            }
+
+            const optionValue = row['Option1 Value'] || row['Option2 Value'] || row['Option3 Value'];
+            const isChildVariant = optionValue && optionValue !== 'Default Title';
+
+            const newRow = { ...row };
+
+            if (isChildVariant) {
+              const slug = optionValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+              newRow['Handle'] = `${row['Handle']}-${slug}`;
+              newRow['Title'] = `${parentTitle} - ${optionValue}`;
+              newRow['Option1 Name'] = 'Title';
+              newRow['Option1 Value'] = 'Default Title';
+              newRow['Option2 Name'] = '';
+              newRow['Option2 Value'] = '';
+              newRow['Option3 Name'] = '';
+              newRow['Option3 Value'] = '';
+            } else if (!newRow['Title']) {
+              newRow['Title'] = parentTitle;
+            }
+
+            newRow['Body (HTML)'] = newRow['Body (HTML)'] || parentBody;
+            newRow['Vendor'] = newRow['Vendor'] || parentVendor;
+            newRow['Type'] = newRow['Type'] || parentType;
+            newRow['Tags'] = newRow['Tags'] || parentTags;
+
+            restructuredRows.push(newRow);
+          });
+
+          statsRow.textContent = `Analyzed ${rows.length} rows • Generated ${restructuredRows.length} standalone product records`;
+          dropzone.classList.add('hidden');
+          resultsCard.classList.remove('hidden');
+
+          previewBody.innerHTML = restructuredRows.slice(0, 5).map(r => `
+            <tr class="hover:bg-slate-50">
+              <td class="p-2.5 text-slate-400">${(r['Handle'] || '').split('-')[0]}</td>
+              <td class="p-2.5 text-blue-700 font-bold">${r['Handle'] || ''}</td>
+              <td class="p-2.5 max-w-xs truncate">${r['Title'] || ''}</td>
+              <td class="p-2.5">${r['Option1 Value'] || ''}</td>
+              <td class="p-2.5">${r['Variant Price'] || '-'}</td>
+            </tr>
+          `).join('');
+        }
       });
     }
 
-    // Core Variant Restructuring Algorithm
-    function processVariants(rows) {
-      if (!rows || rows.length === 0) return;
-
-      const newRows = [];
-      let parentTitle = "";
-      let parentBody = "";
-      let parentVendor = "";
-      let parentType = "";
-      let parentTags = "";
-
-      rows.forEach(row => {
-        // Track parent fields for subsequent variant rows
-        if (row['Title'] && row['Title'].trim() !== '') {
-          parentTitle = row['Title'];
-          parentBody = row['Body (HTML)'] || '';
-          parentVendor = row['Vendor'] || '';
-          parentType = row['Type'] || '';
-          parentTags = row['Tags'] || '';
-        }
-
-        const optionValue = row['Option1 Value'] || row['Option2 Value'] || row['Option3 Value'];
-        const isChildVariant = optionValue && optionValue !== 'Default Title';
-
-        // Deep copy row
-        const newRow = { ...row };
-
-        if (isChildVariant) {
-          // Construct unique standalone handle and title
-          const slugDifferentiator = optionValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-          newRow['Handle'] = `${row['Handle']}-${slugDifferentiator}`;
-          newRow['Title'] = `${parentTitle} - ${optionValue}`;
-          newRow['Option1 Name'] = 'Title';
-          newRow['Option1 Value'] = 'Default Title';
-          newRow['Option2 Name'] = '';
-          newRow['Option2 Value'] = '';
-          newRow['Option3 Name'] = '';
-          newRow['Option3 Value'] = '';
-        } else if (!newRow['Title']) {
-          newRow['Title'] = parentTitle;
-        }
-
-        // Fill down core catalog metadata
-        newRow['Body (HTML)'] = newRow['Body (HTML)'] || parentBody;
-        newRow['Vendor'] = newRow['Vendor'] || parentVendor;
-        newRow['Type'] = newRow['Type'] || parentType;
-        newRow['Tags'] = newRow['Tags'] || parentTags;
-
-        newRows.push(newRow);
-      });
-
-      cleanedCsvData = Papa.unparse(newRows);
-
-      // Render Diagnostic Scan Preview (100% Free)
-      statsOutput.textContent = `Analyzed ${rows.length} rows. Restructured into ${newRows.length} standalone product records.`;
-      previewTableBody.innerHTML = newRows.slice(0, 5).map(r => `
-        <tr>
-          <td class="p-2 text-slate-400">${r['Handle'].split('-')[0]}</td>
-          <td class="p-2 text-emerald-700 font-bold">${r['Handle']}</td>
-          <td class="p-2 truncate max-w-xs">${r['Title']}</td>
-          <td class="p-2">${r['Option1 Value']}</td>
-          <td class="p-2">${r['Variant Price'] || '-'}</td>
-        </tr>
-      `).join('');
-
-      resultsCard.classList.remove('hidden');
-    }
-
-    // Intercept Download with Gating
-    downloadBtn.addEventListener('click', () => {
-      if (!cleanedCsvData) return;
-
-      if (hasActiveLicense()) {
-        executeDownload();
-      } else {
-        openPaywallModal(() => executeDownload());
-      }
-    });
-
-    function executeDownload() {
-      const blob = new Blob([cleanedCsvData], { type: 'text/csv;charset=utf-8;' });
+    function generateAndDownloadCSV() {
+      const csv = Papa.unparse(restructuredRows);
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.setAttribute('href', url);
-      link.setAttribute('download', `${originalFilename}_restructured_shopify.csv`);
+      link.setAttribute('download', originalFileName);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
+
+    downloadBtn.addEventListener('click', () => {
+      if (!restructuredRows.length) return;
+
+      if (hasActiveLicense()) {
+        generateAndDownloadCSV();
+      } else {
+        openPaywallModal(() => generateAndDownloadCSV());
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      restructuredRows = [];
+      fileInput.value = '';
+      resultsCard.classList.add('hidden');
+      dropzone.classList.remove('hidden');
+    });
   </script>
 </body>
 </html>

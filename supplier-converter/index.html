@@ -7,10 +7,11 @@
   <meta name="description" content="Map arbitrary vendor and supplier product feeds into standard Shopify import CSV format with live preview directly in your browser.">
   <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
   <!-- Lemon Squeezy Core -->
-<script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-<!-- Auth & Paywall Controller -->
-<script src="/js/auth.js" defer></script>
+  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+  <!-- Auth & Paywall Controller -->
+  <script src="/js/auth.js" defer></script>
 
   <!-- OpenGraph Metadata -->
   <meta property="og:type" content="website">
@@ -243,7 +244,7 @@
 
         let match = '';
 
-        // 1. Direct or Normalized Match (exact header match)
+        // 1. Direct or Normalized Match
         for (const h of parsedHeaders) {
           const cleanH = h.toLowerCase().replace(/[^a-z0-9]/g, '');
           if (cleanH === cleanFieldId) {
@@ -381,9 +382,7 @@
       `).join('');
     }
 
-    downloadBtn.addEventListener('click', () => {
-      if (!validateMapping()) return;
-
+    function generateAndDownloadCSV() {
       const mappings = getMappings();
       const handleTracker = {};
       const convertedRows = parsedRows.map(row => buildRowObject(row, mappings, handleTracker));
@@ -394,7 +393,19 @@
       const link = document.createElement('a');
       link.setAttribute('href', url);
       link.setAttribute('download', originalFileName);
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      if (!validateMapping()) return;
+
+      if (hasActiveLicense()) {
+        generateAndDownloadCSV();
+      } else {
+        openPaywallModal(() => generateAndDownloadCSV());
+      }
     });
 
     resetBtn.addEventListener('click', () => {
