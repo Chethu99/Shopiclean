@@ -8,31 +8,36 @@ const SHOPICLEAN_CONFIG = {
   storageKey: 'shopiclean_license_key',
   // Dodo Payments Test Mode Checkout URL
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
-  // Dodo Payments Test License Validation Endpoint
+  // Endpoints
   validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
   // Dev / Testing bypass key for immediate offline debugging
   testBypassKey: 'TEST-PASS-1234'
 };
 
-// 1. Check if an active license exists locally
-function hasActiveLicense() {
+// 1. Retrieve saved license key
+function getSavedLicense() {
   const key = localStorage.getItem(SHOPICLEAN_CONFIG.storageKey);
-  return typeof key === 'string' && key.trim().length > 0;
+  return typeof key === 'string' && key.trim().length > 0 ? key.trim() : null;
 }
 
-// 2. Persist license key to browser
+// 2. Check if a key exists locally (fast initial check)
+function hasActiveLicense() {
+  return !!getSavedLicense();
+}
+
+// 3. Persist license key to browser
 function saveLicense(key) {
   if (key && key.trim()) {
     localStorage.setItem(SHOPICLEAN_CONFIG.storageKey, key.trim());
   }
 }
 
-// 3. Clear license key (useful for manual testing)
+// 4. Clear license key (resets local access)
 function clearSavedLicense() {
   localStorage.removeItem(SHOPICLEAN_CONFIG.storageKey);
 }
 
-// 4. Validate license key via Dev Bypass or Dodo Payments Public API
+// 5. Query Dodo Payments API to verify if key is valid and not revoked/expired
 async function verifyDodoLicense(key) {
   const cleanKey = (key || '').trim();
   if (!cleanKey) return false;
@@ -53,8 +58,9 @@ async function verifyDodoLicense(key) {
       })
     });
 
+    if (!response.ok) return false;
+
     const data = await response.json();
-    // Dodo returns status / valid boolean for active licenses
     return data && (data.valid === true || data.status === 'active');
   } catch (err) {
     console.error('Dodo license verification request failed:', err);
@@ -62,7 +68,41 @@ async function verifyDodoLicense(key) {
   }
 }
 
-// 5. Open Paywall Modal and capture export callback
+// 6. Master Export Gate: Verifies server status before initiating download
+async function exportWithLicenseCheck(downloadCallback) {
+  const savedKey = getSavedLicense();
+
+  // If no license exists locally, present paywall modal
+  if (!savedKey) {
+    openPaywallModal(downloadCallback);
+    return;
+  }
+
+  // Live verification check against Dodo Payments
+  const isValid = await verifyDodoLicense(savedKey);
+
+  if (isValid) {
+    // Key is active and in good standing
+    if (typeof downloadCallback === 'function') {
+      downloadCallback();
+    }
+  } else {
+    // Key has expired, reached limit, or was refunded/revoked
+    clearSavedLicense();
+    openPaywallModal(downloadCallback);
+    
+    // Auto-open manual restore area with error notification
+    toggleKeyRestore(true);
+    const feedback = document.getElementById('license-feedback');
+    if (feedback) {
+      feedback.classList.remove('hidden', 'text-emerald-600', 'text-slate-500');
+      feedback.classList.add('text-red-500');
+      feedback.textContent = 'Your pass has expired or was revoked. Please purchase a new pass.';
+    }
+  }
+}
+
+// 7. Open Paywall Modal and capture export callback
 function openPaywallModal(onSuccessCallback) {
   let modal = document.getElementById('shopiclean-paywall-modal');
   if (!modal) {
@@ -74,7 +114,7 @@ function openPaywallModal(onSuccessCallback) {
   modal.classList.remove('hidden');
 }
 
-// 6. Close Paywall Modal
+// 8. Close Paywall Modal
 function closePaywallModal() {
   const modal = document.getElementById('shopiclean-paywall-modal');
   if (modal) {
@@ -82,15 +122,19 @@ function closePaywallModal() {
   }
 }
 
-// 7. Toggle manual key entry box
-function toggleKeyRestore() {
+// 9. Toggle manual key entry box
+function toggleKeyRestore(forceOpen = false) {
   const box = document.getElementById('license-restore-box');
   if (box) {
-    box.classList.toggle('hidden');
+    if (forceOpen) {
+      box.classList.remove('hidden');
+    } else {
+      box.classList.toggle('hidden');
+    }
   }
 }
 
-// 8. Handle manual key validation submit
+// 10. Handle manual key validation submit
 async function handleManualKeySubmit() {
   const input = document.getElementById('manual-license-input');
   const feedback = document.getElementById('license-feedback');
@@ -122,7 +166,23 @@ async function handleManualKeySubmit() {
   }
 }
 
-// 9. Inject Modal Markup into DOM
+// 11. Auto-capture license key on payment success redirect (?license_key=...)
+(function autoCaptureRedirectKey() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const key = params.get('license_key');
+    if (key && key.trim()) {
+      saveLicense(key.trim());
+      // Clean query parameters from address bar cleanly
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  } catch (err) {
+    console.warn('Redirect key capture error:', err);
+  }
+})();
+
+// 12. Inject Modal Markup into DOM
 function injectPaywallModal() {
   const modalHtml = `
     <div id="shopiclean-paywall-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -141,14 +201,14 @@ function injectPaywallModal() {
         </div>
 
         <!-- Offer Card -->
-        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-5">
+        <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
           <div class="flex justify-between items-baseline mb-1">
             <span class="font-semibold text-slate-900 text-base">7-Day Launch Pass</span>
             <span class="text-2xl font-black text-slate-900">$9</span>
           </div>
           <p class="text-xs text-slate-500 mb-3">One-time payment • No auto-renewal • Unlimited file downloads</p>
           <ul class="text-xs text-slate-600 space-y-1.5 mb-4">
-            <li class="flex items-center">✓ 100% in-browser client privacy (zero server uploads)</li>
+            <li class="flex items-center">✓ 100% in-browser client privacy (zero CSV server uploads)</li>
             <li class="flex items-center">✓ Unlimited CSV exports across all 4 tools</li>
             <li class="flex items-center">✓ Instant automated license key delivery</li>
           </ul>
@@ -161,8 +221,13 @@ function injectPaywallModal() {
           </a>
         </div>
 
+        <!-- Privacy & Local Processing Notice -->
+        <p class="text-[11px] text-slate-400 text-center leading-normal mb-4">
+          Your catalog data is processed 100% locally in your browser. We never see or store your files. Only your license key is verified via Dodo Payments.
+        </p>
+
         <!-- Restore / Enter License -->
-        <div class="border-t border-slate-100 pt-4 text-center">
+        <div class="border-t border-slate-100 pt-3 text-center">
           <button type="button" id="toggle-key-input" onclick="toggleKeyRestore()" class="text-xs text-slate-500 hover:text-slate-800 underline">
             Already have a license key?
           </button>

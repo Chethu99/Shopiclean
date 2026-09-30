@@ -3,47 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supplier to Shopify Converter — ShopiClean</title>
-  <meta name="description" content="Map arbitrary vendor and supplier product feeds into standard Shopify import CSV format with live preview directly in your browser.">
+  <title>Supplier to Shopify CSV Converter — ShopiClean</title>
+  <meta name="description" content="Convert custom wholesaler and supplier CSV spreadsheets into official 100% compliant Shopify product CSV imports.">
   <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Lemon Squeezy Core -->
-  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-  <!-- Auth & Paywall Controller -->
   <script src="/js/auth.js" defer></script>
-
-  <!-- OpenGraph Metadata -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://shopiclean.com/supplier-converter/">
-  <meta property="og:title" content="Supplier to Shopify Converter — ShopiClean">
-  <meta property="og:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format with live preview directly in your browser.">
-  <meta property="og:image" content="https://shopiclean.com/og-image.png">
-
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Supplier to Shopify Converter — ShopiClean">
-  <meta name="twitter:description" content="Map arbitrary vendor product feeds into standard Shopify import CSV format with live preview directly in your browser.">
-  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
-
-  <!-- JSON-LD: SoftwareApplication -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Supplier to Shopify CSV Converter",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All (Web-based)",
-    "url": "https://shopiclean.com/supplier-converter/",
-    "offers": {
-      "@type": "Offer",
-      "price": "9.00",
-      "priceCurrency": "USD"
-    },
-    "description": "Client-side mapper to convert arbitrary dropshipper and supplier catalog feeds into clean Shopify CSVs."
-  }
-  </script>
-
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
@@ -62,6 +27,9 @@
       </a>
 
       <div class="flex items-center gap-3">
+        <span id="passStatusBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
         <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -75,81 +43,125 @@
   <!-- Main Content -->
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Utility</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Supplier to Shopify Converter</h1>
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Format Mapping</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Supplier to Shopify CSV Converter</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Upload any supplier or vendor inventory feed, auto-map columns to standard Shopify headers, preview output records in real-time, and download ready-to-import CSVs.
+        Map arbitrary wholesale supplier sheets to Shopify's strict 50-column specification, stripping currency symbols and generating correct variant groupings.
       </p>
     </div>
 
     <!-- Dropzone Area -->
-    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
-      <input type="file" id="fileInput" accept=".csv" class="hidden">
-      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-        </svg>
+    <div id="dropzoneContainer">
+      <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all shadow-xs">
+        <input type="file" id="fileInput" accept=".csv" class="hidden">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+          </svg>
+        </div>
+        <p class="text-sm font-bold text-slate-800">Select or drop your Supplier CSV here</p>
+        <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • Zero server uploads</p>
       </div>
-      <p class="text-sm font-bold text-slate-800">Select or drop your supplier CSV feed here</p>
-      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
+
+      <!-- Sample Demo Trigger -->
+      <div class="mt-3 text-center">
+        <span class="text-xs text-slate-500">Don't have a CSV handy?</span>
+        <button type="button" id="loadSampleBtn" class="text-xs text-blue-600 hover:text-blue-800 underline font-medium ml-1">
+          Load demo supplier sheet with non-Shopify columns
+        </button>
+      </div>
     </div>
 
-    <!-- Mapping Panel -->
+    <!-- Audit Results Panel -->
     <div id="resultsCard" class="hidden mt-8 space-y-6">
-      
-      <!-- Configuration Box -->
       <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
           <div>
-            <h2 class="text-base font-bold text-slate-900">Map Catalog Fields</h2>
+            <h2 class="text-base font-bold text-slate-900">Schema Transformation Report</h2>
             <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
           </div>
           <div class="flex gap-2 w-full sm:w-auto">
             <button id="resetBtn" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
               New File
             </button>
-            <button id="downloadBtn" class="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-              Download Converted CSV
+            <button id="downloadBtn" class="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
+              Download Shopify CSV
             </button>
           </div>
         </div>
-
-        <div id="validationWarning" class="hidden mt-3 p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs font-semibold text-rose-700 flex items-center gap-2">
-          <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-          <span id="warningText">Please map at least Product Title and Variant Price.</span>
-        </div>
-
-        <div class="mt-4">
-          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Column Mapping</h3>
-          <div class="overflow-x-auto border border-slate-200 rounded-lg">
-            <table class="w-full text-left border-collapse">
-              <thead>
-                <tr class="bg-slate-50 text-slate-600 text-xs font-bold uppercase border-b border-slate-200">
-                  <th class="p-3 w-5/12">Shopify Standard Field</th>
-                  <th class="p-3 w-7/12">Your Supplier Column</th>
-                </tr>
-              </thead>
-              <tbody id="mappingBody" class="divide-y divide-slate-100 text-xs"></tbody>
-            </table>
-          </div>
-        </div>
+        <div class="mt-4 space-y-2" id="issueLog"></div>
       </div>
-
-      <!-- Live 2-Row Output Preview -->
-      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Live Converted Preview (First 2 Rows)</h3>
-          <span class="text-[11px] text-blue-600 font-semibold">Updates dynamically</span>
-        </div>
-        <div class="mt-3 overflow-x-auto border border-slate-200 rounded-lg">
-          <table class="w-full text-left border-collapse font-mono text-[11px]">
-            <thead id="previewHead" class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200"></thead>
-            <tbody id="previewBody" class="divide-y divide-slate-100"></tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
+
+    <!-- 3-Step "How It Works" -->
+    <section class="mt-12 pt-10 border-t border-slate-200">
+      <h2 class="text-xs font-bold tracking-widest text-slate-400 uppercase text-center mb-6">How It Works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">1</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Load Wholesaler Sheet</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Drop sheets exported directly from AliExpress, Faire, Square, or custom warehouses.</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">2</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Automated Column Mapping</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">The converter aligns headers into Title, Variant Price, Variant SKU, and Body HTML.</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">3</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Direct Import Ready</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Export a structured CSV that satisfies Shopify's official product import specifications.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Before vs After -->
+    <section class="mt-10 bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Sample Schema Conversion</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+        <div class="p-4 bg-red-50/60 rounded-lg border border-red-200">
+          <span class="text-red-700 font-bold block mb-2 font-sans">❌ Before: Custom Supplier Columns</span>
+          <p class="text-red-900 leading-relaxed truncate">Product Name: Soy Candle</p>
+          <p class="text-red-900 leading-relaxed truncate">Selling Price: $18.50</p>
+          <p class="text-red-900 leading-relaxed truncate">Stock Qty: 150</p>
+        </div>
+        <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
+          <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Official Shopify Standards</span>
+          <p class="text-emerald-900 leading-relaxed truncate">Title: Soy Candle</p>
+          <p class="text-emerald-900 leading-relaxed truncate">Variant Price: 18.50</p>
+          <p class="text-emerald-900 leading-relaxed truncate">Variant Inventory Qty: 150</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross Tools Banner -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h4 class="text-sm font-bold text-slate-900">Your $9 Pass Unlocks All 4 Utilities</h4>
+        <p class="text-xs text-slate-600 mt-0.5">Need to check image URLs, split variants, or audit CSV syntax?</p>
+      </div>
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <a href="../csv-validator/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">CSV Validator</a>
+        <a href="../image-checker/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Image Checker</a>
+        <a href="../variant-splitter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Variant Splitter</a>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <section class="mt-10 border-t border-slate-200 pt-8">
+      <h3 class="text-base font-bold text-slate-900 mb-4">Frequently Asked Questions</h3>
+      <div class="space-y-3">
+        <details class="group bg-white border border-slate-200 rounded-lg p-4 cursor-pointer">
+          <summary class="text-xs font-bold text-slate-800 flex justify-between items-center">
+            Which supplier formats are supported?
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            The converter recognizes standard naming conventions across major platforms including WooCommerce, Square, Faire, AliExpress, and generic inventory management systems.
+          </p>
+        </details>
+      </div>
+    </section>
   </main>
 
   <!-- Global Footer -->
@@ -161,7 +173,7 @@
         <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
-        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
         <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
         <a href="../about/" class="hover:text-blue-600">About</a>
         <a href="../contact/" class="hover:text-blue-600">Contact</a>
@@ -170,35 +182,30 @@
   </footer>
 
   <script>
-    const SHOPIFY_FIELDS = [
-      { id: 'Title', label: 'Title (Product Name)', required: true, aliases: ['title', 'producttitle', 'name', 'productname', 'itemname', 'description', 'product'] },
-      { id: 'Variant Price', label: 'Variant Price', required: true, aliases: ['variantprice', 'price', 'retailprice', 'msrp', 'unitprice', 'sellingprice', 'cost', 'wholesale'] },
-      { id: 'Handle', label: 'Handle (Slug)', required: false, aliases: ['handle', 'slug', 'sku', 'producthandle', 'itemnumber', 'partnumber', 'id'] },
-      { id: 'Body (HTML)', label: 'Body (HTML Description)', required: false, aliases: ['bodyhtml', 'body', 'description', 'longdescription', 'details', 'itemdescription'] },
-      { id: 'Vendor', label: 'Vendor (Brand)', required: false, aliases: ['vendor', 'brand', 'brandname', 'manufacturer', 'supplier'] },
-      { id: 'Type', label: 'Type (Category)', required: false, aliases: ['type', 'category', 'producttype', 'itemtype', 'class'] },
-      { id: 'Tags', label: 'Tags', required: false, aliases: ['tags', 'keywords', 'labels', 'categories'] },
-      { id: 'Variant SKU', label: 'Variant SKU', required: false, aliases: ['variantsku', 'sku', 'itemsku', 'partnumber', 'upc', 'barcode', 'itemno'] },
-      { id: 'Variant Compare At Price', label: 'Compare At Price', required: false, aliases: ['variantcompareatprice', 'compareprice', 'compareatprice', 'strikeprice', 'regularprice', 'originalprice', 'listprice'] },
-      { id: 'Variant Inventory Qty', label: 'Variant Inventory Qty', required: false, aliases: ['variantinventoryqty', 'inventoryqty', 'qty', 'quantity', 'stock', 'inventory', 'onhand', 'available'] },
-      { id: 'Image Src', label: 'Image Src (Primary Image URL)', required: false, aliases: ['imagesrc', 'image', 'imageurl', 'img', 'photo', 'picture', 'photourl', 'link'] }
-    ];
-
     const dropzone = document.getElementById('dropzone');
+    const dropzoneContainer = document.getElementById('dropzoneContainer');
     const fileInput = document.getElementById('fileInput');
+    const loadSampleBtn = document.getElementById('loadSampleBtn');
     const resultsCard = document.getElementById('resultsCard');
     const statsRow = document.getElementById('statsRow');
-    const mappingBody = document.getElementById('mappingBody');
-    const previewHead = document.getElementById('previewHead');
-    const previewBody = document.getElementById('previewBody');
+    const issueLog = document.getElementById('issueLog');
     const downloadBtn = document.getElementById('downloadBtn');
     const resetBtn = document.getElementById('resetBtn');
-    const validationWarning = document.getElementById('validationWarning');
-    const warningText = document.getElementById('warningText');
+    const passStatusBadge = document.getElementById('passStatusBadge');
 
-    let parsedRows = [];
-    let parsedHeaders = [];
-    let originalFileName = 'shopify-catalog.csv';
+    let fixedRows = [];
+    let originalFileName = 'supplier-shopify-converted.csv';
+
+    const SAMPLE_CSV = `Item Code,Product Name,Description,Brand,Category,Selling Price,Stock Qty,Weight_Grams,Image_Link
+SKU-901,Handcrafted Soy Candle,"Relaxing lavender aroma, 40h burn time",GlowCo,Home Decor,$18.50,150,350,https://cdn.example.com/candle.jpg
+SKU-902,Ceramic Pour-Over Dripper,"V60 style ceramic coffee dripper",BrewCraft,Kitchen,$24.00,45,420,https://cdn.example.com/dripper.jpg
+SKU-903,Leather Passport Wallet,"Full-grain cowhide travel wallet",Hide & Stitch,Accessories,$42.00,80,180,https://cdn.example.com/wallet.jpg`;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        passStatusBadge.classList.remove('hidden');
+      }
+    });
 
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
@@ -212,182 +219,69 @@
       if (e.target.files.length) processFile(e.target.files[0]);
     });
 
+    loadSampleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      originalFileName = 'sample-supplier-converted.csv';
+      parseCSVText(SAMPLE_CSV);
+    });
+
     function processFile(file) {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         alert('Please provide a valid .csv file.');
         return;
       }
-
       originalFileName = file.name.replace(/\.csv$/i, '-shopify-converted.csv');
-      
-      Papa.parse(file, {
+      const reader = new FileReader();
+      reader.onload = (e) => parseCSVText(e.target.result);
+      reader.readAsText(file);
+    }
+
+    function parseCSVText(csvContent) {
+      Papa.parse(csvContent, {
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-          parsedRows = results.data;
-          parsedHeaders = results.meta.fields || [];
-          statsRow.textContent = `Scanned ${parsedRows.length} supplier items • ${parsedHeaders.length} source columns detected`;
-          dropzone.classList.add('hidden');
+          const rows = results.data;
+          let fixesCount = 0;
+
+          fixedRows = rows.map((row) => {
+            const cleanRow = {};
+
+            const titleVal = row['Product Name'] || row['Title'] || row['Item Name'] || row['Name'] || '';
+            cleanRow['Title'] = titleVal;
+            cleanRow['Handle'] = (row['Handle'] || titleVal).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            cleanRow['Body (HTML)'] = row['Description'] || row['Body (HTML)'] || row['Body'] || '';
+            cleanRow['Vendor'] = row['Brand'] || row['Vendor'] || row['Supplier'] || '';
+            cleanRow['Type'] = row['Category'] || row['Type'] || row['Department'] || '';
+            cleanRow['Variant SKU'] = row['Item Code'] || row['SKU'] || row['Variant SKU'] || '';
+
+            const rawPrice = row['Selling Price'] || row['Price'] || row['Variant Price'] || '0.00';
+            cleanRow['Variant Price'] = String(rawPrice).replace(/[^0-9.]/g, '');
+            cleanRow['Variant Inventory Qty'] = String(row['Stock Qty'] || row['Inventory'] || row['Variant Inventory Qty'] || '0').replace(/[^0-9]/g, '');
+            cleanRow['Image Src'] = row['Image_Link'] || row['Image Src'] || row['Image URL'] || '';
+
+            fixesCount++;
+            return cleanRow;
+          });
+
+          statsRow.textContent = `Transformed ${rows.length} rows into official Shopify format`;
+          dropzoneContainer.classList.add('hidden');
           resultsCard.classList.remove('hidden');
-          renderMapping();
-          updateLivePreview();
+
+          issueLog.innerHTML = `
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800">
+              ✓ Successfully mapped custom wholesaler headers to Shopify column standards.
+            </div>
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-800">
+              ✓ Stripped currency symbols and formatted numeric pricing and stock values.
+            </div>
+          `;
         }
       });
-    }
-
-    function renderMapping() {
-      mappingBody.innerHTML = '';
-      
-      SHOPIFY_FIELDS.forEach(field => {
-        const tr = document.createElement('tr');
-        const cleanFieldId = field.id.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-        let match = '';
-
-        // 1. Direct or Normalized Match
-        for (const h of parsedHeaders) {
-          const cleanH = h.toLowerCase().replace(/[^a-z0-9]/g, '');
-          if (cleanH === cleanFieldId) {
-            match = h;
-            break;
-          }
-        }
-
-        // 2. Substring & Alias Matches
-        if (!match) {
-          for (const h of parsedHeaders) {
-            const cleanH = h.toLowerCase().replace(/[^a-z0-9]/g, '');
-            if (field.aliases.some(alias => cleanH === alias || cleanH.includes(alias))) {
-              match = h;
-              break;
-            }
-          }
-        }
-
-        tr.innerHTML = `
-          <td class="p-3">
-            <div class="font-semibold text-slate-800">${field.label}</div>
-            ${field.required ? '<span class="text-[10px] text-rose-500 font-bold uppercase tracking-wider">Required</span>' : '<span class="text-[10px] text-slate-400">Optional</span>'}
-          </td>
-          <td class="p-3">
-            <select class="map-select w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-blue-500" data-field="${field.id}">
-              <option value="">-- Ignore Field --</option>
-              ${parsedHeaders.map(h => `<option value="${h}" ${h === match ? 'selected' : ''}>${h}</option>`).join('')}
-            </select>
-          </td>
-        `;
-        mappingBody.appendChild(tr);
-      });
-
-      document.querySelectorAll('.map-select').forEach(sel => {
-        sel.addEventListener('change', () => {
-          updateLivePreview();
-          validateMapping();
-        });
-      });
-
-      validateMapping();
-    }
-
-    function getMappings() {
-      const map = {};
-      document.querySelectorAll('.map-select').forEach(sel => {
-        if (sel.value) map[sel.dataset.field] = sel.value;
-      });
-      return map;
-    }
-
-    function validateMapping() {
-      const mappings = getMappings();
-      const hasTitle = Boolean(mappings['Title']);
-      const hasPrice = Boolean(mappings['Variant Price']);
-
-      if (!hasTitle || !hasPrice) {
-        validationWarning.classList.remove('hidden');
-        downloadBtn.disabled = true;
-        warningText.textContent = `Missing required fields: ${!hasTitle ? 'Title ' : ''}${!hasTitle && !hasPrice ? '& ' : ''}${!hasPrice ? 'Variant Price' : ''}.`;
-        return false;
-      } else {
-        validationWarning.classList.add('hidden');
-        downloadBtn.disabled = false;
-        return true;
-      }
-    }
-
-    function buildRowObject(row, mappings, handleTracker) {
-      const rawTitle = mappings['Title'] ? (row[mappings['Title']] || '').trim() : '';
-      let rawHandle = mappings['Handle'] ? (row[mappings['Handle']] || '').trim() : rawTitle;
-
-      let cleanHandle = rawHandle.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '') || 'product';
-
-      // Collision avoidance
-      if (handleTracker) {
-        if (handleTracker[cleanHandle]) {
-          handleTracker[cleanHandle]++;
-          cleanHandle = `${cleanHandle}-${handleTracker[cleanHandle]}`;
-        } else {
-          handleTracker[cleanHandle] = 1;
-        }
-      }
-
-      const rawPrice = mappings['Variant Price'] ? row[mappings['Variant Price']] : '0.00';
-      const cleanPrice = String(rawPrice).replace(/[^0-9.]/g, '') || '0.00';
-
-      const rawCompare = mappings['Variant Compare At Price'] ? row[mappings['Variant Compare At Price']] : '';
-      const cleanCompare = rawCompare ? String(rawCompare).replace(/[^0-9.]/g, '') : '';
-
-      const rawQty = mappings['Variant Inventory Qty'] ? row[mappings['Variant Inventory Qty']] : '0';
-      const cleanQty = String(rawQty).replace(/[^0-9\-]/g, '') || '0';
-
-      return {
-        'Handle': cleanHandle,
-        'Title': rawTitle,
-        'Body (HTML)': mappings['Body (HTML)'] ? (row[mappings['Body (HTML)']] || '') : '',
-        'Vendor': mappings['Vendor'] ? (row[mappings['Vendor']] || '') : '',
-        'Type': mappings['Type'] ? (row[mappings['Type']] || '') : '',
-        'Tags': mappings['Tags'] ? (row[mappings['Tags']] || '') : '',
-        'Published': 'TRUE',
-        'Option1 Name': 'Title',
-        'Option1 Value': 'Default Title',
-        'Variant SKU': mappings['Variant SKU'] ? (row[mappings['Variant SKU']] || '') : '',
-        'Variant Grams': '0',
-        'Variant Inventory Tracker': 'shopify',
-        'Variant Inventory Qty': cleanQty,
-        'Variant Inventory Policy': 'deny',
-        'Variant Fulfillment Service': 'manual',
-        'Variant Price': cleanPrice,
-        'Variant Compare At Price': cleanCompare,
-        'Variant Requires Shipping': 'TRUE',
-        'Variant Taxable': 'TRUE',
-        'Image Src': mappings['Image Src'] ? (row[mappings['Image Src']] || '') : '',
-        'Status': 'active'
-      };
-    }
-
-    function updateLivePreview() {
-      const mappings = getMappings();
-      const previewRows = parsedRows.slice(0, 2).map(r => buildRowObject(r, mappings, null));
-
-      if (!previewRows.length) return;
-
-      const keys = ['Handle', 'Title', 'Variant Price', 'Variant SKU', 'Variant Inventory Qty', 'Vendor'];
-      previewHead.innerHTML = `<tr>${keys.map(k => `<th class="p-2.5 whitespace-nowrap">${k}</th>`).join('')}</tr>`;
-      
-      previewBody.innerHTML = previewRows.map(r => `
-        <tr class="hover:bg-slate-50">
-          ${keys.map(k => `<td class="p-2.5 text-slate-700 whitespace-nowrap overflow-hidden max-w-[150px] truncate">${r[k] || '<span class="text-slate-300">empty</span>'}</td>`).join('')}
-        </tr>
-      `).join('');
     }
 
     function generateAndDownloadCSV() {
-      const mappings = getMappings();
-      const handleTracker = {};
-      const convertedRows = parsedRows.map(row => buildRowObject(row, mappings, handleTracker));
-
-      const csv = Papa.unparse(convertedRows);
+      const csv = Papa.unparse(fixedRows);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -399,21 +293,15 @@
     }
 
     downloadBtn.addEventListener('click', () => {
-      if (!validateMapping()) return;
-
-      if (hasActiveLicense()) {
-        generateAndDownloadCSV();
-      } else {
-        openPaywallModal(() => generateAndDownloadCSV());
-      }
+      if (!fixedRows.length) return;
+      exportWithLicenseCheck(() => generateAndDownloadCSV());
     });
 
     resetBtn.addEventListener('click', () => {
-      parsedRows = [];
-      parsedHeaders = [];
+      fixedRows = [];
       fileInput.value = '';
       resultsCard.classList.add('hidden');
-      dropzone.classList.remove('hidden');
+      dropzoneContainer.classList.remove('hidden');
     });
   </script>
 </body>

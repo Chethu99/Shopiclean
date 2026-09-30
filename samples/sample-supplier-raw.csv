@@ -1,0 +1,6 @@
+Item Code,Product Name,Description,Brand,Category,Selling Price,Stock Qty,Weight_Grams,Image_Link
+SKU-901,Handcrafted Soy Candle,"Relaxing lavender aroma, 40h burn time",GlowCo,Home Decor,$18.50,150,350,https://cdn.example.com/candle.jpg
+SKU-902,Ceramic Pour-Over Dripper,"V60 style ceramic coffee dripper",BrewCraft,Kitchen,$24.00,45,420,https://cdn.example.com/dripper.jpg
+SKU-903,Leather Passport Wallet,"Full-grain cowhide travel wallet",Hide & Stitch,Accessories,$42.00,80,180,https://cdn.example.com/wallet.jpg
+SKU-904,Bamboo Cutlery Set,"Eco-friendly fork, spoon, knife with pouch",EcoLiving,Dining,$11.99,300,120,https://cdn.example.com/cutlery.jpg
+SKU-905,Stainless Steel Water Bottle,"Double-wall vacuum insulated 750ml",HydroPeak,Fitness,$28.00,95,490,https://cdn.example.com/bottle.jpg

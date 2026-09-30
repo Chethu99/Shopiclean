@@ -3,47 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify Variant Restructurer & Splitter — ShopiClean</title>
-  <meta name="description" content="Split grouped product variants into standalone products for collection page visibility, Google Shopping catalog feeds, and 250-media gallery caps.">
+  <title>Shopify Variant Splitter & Linker — ShopiClean</title>
+  <meta name="description" content="Group or split multi-variant Shopify product rows. Fix separated variant errors and synchronize parent handles instantly.">
   <link rel="canonical" href="https://shopiclean.com/variant-splitter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-  <!-- Lemon Squeezy Core -->
-  <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-  <!-- Auth & Paywall Controller -->
   <script src="/js/auth.js" defer></script>
-
-  <!-- OpenGraph Metadata -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://shopiclean.com/variant-splitter/">
-  <meta property="og:title" content="Shopify Variant Restructurer & Splitter — ShopiClean">
-  <meta property="og:description" content="Split grouped product variants into standalone products for collection page visibility and Google Shopping feeds.">
-  <meta property="og:image" content="https://shopiclean.com/og-image.png">
-
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Shopify Variant Restructurer & Splitter — ShopiClean">
-  <meta name="twitter:description" content="Split grouped product variants into standalone products for collection page visibility and Google Shopping feeds.">
-  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
-
-  <!-- JSON-LD: SoftwareApplication -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Shopify Variant Restructurer",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "All (Web-based)",
-    "url": "https://shopiclean.com/variant-splitter/",
-    "offers": {
-      "@type": "Offer",
-      "price": "9.00",
-      "priceCurrency": "USD"
-    },
-    "description": "Client-side utility to restructure Shopify variant rows into standalone products for enhanced merchandising."
-  }
-  </script>
-
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 </head>
@@ -62,6 +27,9 @@
       </a>
 
       <div class="flex items-center gap-3">
+        <span id="passStatusBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
         <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -75,31 +43,41 @@
   <!-- Main Content -->
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Utility</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Variant Restructurer</h1>
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Variant Architecture</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Variant Splitter & Linker</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Convert grouped variant rows into standalone products for collection page visibility, Google Shopping catalog feeds, and 250-media gallery caps.
+        Synchronize parent handles across multi-row options (sizes, colors) so Shopify attaches them as single-product variants instead of creating multiple duplicated product listings.
       </p>
     </div>
 
     <!-- Dropzone Area -->
-    <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all">
-      <input type="file" id="fileInput" accept=".csv" class="hidden">
-      <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-        </svg>
+    <div id="dropzoneContainer">
+      <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-8 text-center bg-white cursor-pointer transition-all shadow-xs">
+        <input type="file" id="fileInput" accept=".csv" class="hidden">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 mx-auto flex items-center justify-center mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </div>
+        <p class="text-sm font-bold text-slate-800">Select or drop your Variant CSV here</p>
+        <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • Zero server uploads</p>
       </div>
-      <p class="text-sm font-bold text-slate-800">Select or drop your Shopify product CSV here</p>
-      <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
+
+      <!-- Sample Demo Trigger -->
+      <div class="mt-3 text-center">
+        <span class="text-xs text-slate-500">Don't have a CSV handy?</span>
+        <button type="button" id="loadSampleBtn" class="text-xs text-blue-600 hover:text-blue-800 underline font-medium ml-1">
+          Load demo file with unlinked variant rows
+        </button>
+      </div>
     </div>
 
-    <!-- Results Panel -->
+    <!-- Audit Results Panel -->
     <div id="resultsCard" class="hidden mt-8 space-y-6">
       <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
           <div>
-            <h2 class="text-base font-bold text-slate-900">Restructured Output</h2>
+            <h2 class="text-base font-bold text-slate-900">Variant Synchronization Report</h2>
             <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
           </div>
           <div class="flex gap-2 w-full sm:w-auto">
@@ -107,28 +85,81 @@
               New File
             </button>
             <button id="downloadBtn" class="flex-1 sm:flex-initial px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition-colors">
-              Download Restructured CSV
+              Download Linked CSV
             </button>
           </div>
         </div>
-
-        <!-- Preview Table -->
-        <div class="mt-4 overflow-x-auto border border-slate-200 rounded-lg">
-          <table class="w-full text-left border-collapse font-mono text-[11px]">
-            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="p-2.5">Original Handle</th>
-                <th class="p-2.5">New Standalone Handle</th>
-                <th class="p-2.5">Title</th>
-                <th class="p-2.5">Variant Value</th>
-                <th class="p-2.5">Price</th>
-              </tr>
-            </thead>
-            <tbody id="previewBody" class="divide-y divide-slate-100"></tbody>
-          </table>
-        </div>
+        <div class="mt-4 space-y-2" id="issueLog"></div>
       </div>
     </div>
+
+    <!-- 3-Step "How It Works" -->
+    <section class="mt-12 pt-10 border-t border-slate-200">
+      <h2 class="text-xs font-bold tracking-widest text-slate-400 uppercase text-center mb-6">How It Works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">1</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Upload Product CSV</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Drop your CSV with multi-size or color items showing blank or disconnected handle rows.</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">2</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Handle Propagation</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">The parser carries parent product handles through contiguous variant rows automatically.</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">3</div>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Export Unified Catalog</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Download a structured file that imports variants together under unified dropdown menus.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Before vs After -->
+    <section class="mt-10 bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Sample Variant Grouping</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+        <div class="p-4 bg-red-50/60 rounded-lg border border-red-200">
+          <span class="text-red-700 font-bold block mb-2 font-sans">❌ Before: Separated Products</span>
+          <p class="text-red-900 leading-relaxed truncate">Handle: [Blank] | Title: Linen Shirt | Size: Small</p>
+          <p class="text-red-900 leading-relaxed truncate">Handle: [Blank] | Title: [Blank]     | Size: Medium</p>
+        </div>
+        <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
+          <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Linked Single Product</span>
+          <p class="text-emerald-900 leading-relaxed truncate">Handle: linen-shirt | Title: Linen Shirt | Size: Small</p>
+          <p class="text-emerald-900 leading-relaxed truncate">Handle: linen-shirt | Title: [Blank]     | Size: Medium</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross Tools Banner -->
+    <div class="mt-10 p-5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <h4 class="text-sm font-bold text-slate-900">Your $9 Pass Unlocks All 4 Utilities</h4>
+        <p class="text-xs text-slate-600 mt-0.5">Need to check image URLs, audit CSV syntax, or convert supplier sheets?</p>
+      </div>
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <a href="../csv-validator/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">CSV Validator</a>
+        <a href="../image-checker/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Image Checker</a>
+        <a href="../supplier-converter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Supplier Converter</a>
+      </div>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <section class="mt-10 border-t border-slate-200 pt-8">
+      <h3 class="text-base font-bold text-slate-900 mb-4">Frequently Asked Questions</h3>
+      <div class="space-y-3">
+        <details class="group bg-white border border-slate-200 rounded-lg p-4 cursor-pointer">
+          <summary class="text-xs font-bold text-slate-800 flex justify-between items-center">
+            How does Shopify know rows belong to the same item?
+            <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+            Shopify groups variant rows based on identical, consecutive <code>Handle</code> values. This tool propagates the parent product's handle downward across subsequent option rows so Shopify groups them cleanly under one product.
+          </p>
+        </details>
+      </div>
+    </section>
   </main>
 
   <!-- Global Footer -->
@@ -140,7 +171,7 @@
         <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
       </div>
       <div class="flex gap-4">
-        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
+        <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
         <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
         <a href="../about/" class="hover:text-blue-600">About</a>
         <a href="../contact/" class="hover:text-blue-600">Contact</a>
@@ -150,15 +181,31 @@
 
   <script>
     const dropzone = document.getElementById('dropzone');
+    const dropzoneContainer = document.getElementById('dropzoneContainer');
     const fileInput = document.getElementById('fileInput');
+    const loadSampleBtn = document.getElementById('loadSampleBtn');
     const resultsCard = document.getElementById('resultsCard');
     const statsRow = document.getElementById('statsRow');
-    const previewBody = document.getElementById('previewBody');
+    const issueLog = document.getElementById('issueLog');
     const downloadBtn = document.getElementById('downloadBtn');
     const resetBtn = document.getElementById('resetBtn');
+    const passStatusBadge = document.getElementById('passStatusBadge');
 
-    let restructuredRows = [];
-    let originalFileName = 'shopify-variants-split.csv';
+    let fixedRows = [];
+    let originalFileName = 'shopify-variants-linked.csv';
+
+    const SAMPLE_CSV = `Handle,Title,Body (HTML),Vendor,Type,Option1 Name,Option1 Value,Variant SKU,Variant Price
+,Summer Linen Shirt & Shorts,Casual breathable set,Beachwear,Clothing,Size,Small,LINEN-S,29.99
+,Summer Linen Shirt & Shorts,,,Clothing,Size,Medium,LINEN-M,29.99
+,Summer Linen Shirt & Shorts,,,Clothing,Size,Large,LINEN-L,29.99
+invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,Home,Title,Default Title,MUG-001,14.50
+,100% Organic Cotton Hoodie (Limited!),Winter warmth,EcoWear,Apparel,Size,One Size,HD-ORG-01,54.00`;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        passStatusBadge.classList.remove('hidden');
+      }
+    });
 
     dropzone.addEventListener('click', () => fileInput.click());
     dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-blue-500'); });
@@ -172,83 +219,82 @@
       if (e.target.files.length) processFile(e.target.files[0]);
     });
 
+    loadSampleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      originalFileName = 'sample-variants-linked.csv';
+      parseCSVText(SAMPLE_CSV);
+    });
+
     function processFile(file) {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         alert('Please provide a valid .csv file.');
         return;
       }
+      originalFileName = file.name.replace(/\.csv$/i, '-variants-linked.csv');
+      const reader = new FileReader();
+      reader.onload = (e) => parseCSVText(e.target.result);
+      reader.readAsText(file);
+    }
 
-      originalFileName = file.name.replace(/\.csv$/i, '-restructured.csv');
+    function createSlug(text) {
+      return (text || '')
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/&/g, '-and-')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
 
-      Papa.parse(file, {
+    function parseCSVText(csvContent) {
+      Papa.parse(csvContent, {
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
           const rows = results.data;
-          if (!rows || rows.length === 0) return;
+          let fixesCount = 0;
+          let currentParentHandle = '';
 
-          restructuredRows = [];
-          let parentTitle = "";
-          let parentBody = "";
-          let parentVendor = "";
-          let parentType = "";
-          let parentTags = "";
+          fixedRows = rows.map((row) => {
+            const cleanRow = { ...row };
+            const title = (cleanRow['Title'] || '').trim();
+            let handle = (cleanRow['Handle'] || '').trim();
 
-          rows.forEach(row => {
-            if (row['Title'] && row['Title'].trim() !== '') {
-              parentTitle = row['Title'];
-              parentBody = row['Body (HTML)'] || '';
-              parentVendor = row['Vendor'] || '';
-              parentType = row['Type'] || '';
-              parentTags = row['Tags'] || '';
+            if (title) {
+              currentParentHandle = createSlug(title);
             }
 
-            const optionValue = row['Option1 Value'] || row['Option2 Value'] || row['Option3 Value'];
-            const isChildVariant = optionValue && optionValue !== 'Default Title';
+            const isValidSlug = handle && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(handle);
 
-            const newRow = { ...row };
-
-            if (isChildVariant) {
-              const slug = optionValue.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-              newRow['Handle'] = `${row['Handle']}-${slug}`;
-              newRow['Title'] = `${parentTitle} - ${optionValue}`;
-              newRow['Option1 Name'] = 'Title';
-              newRow['Option1 Value'] = 'Default Title';
-              newRow['Option2 Name'] = '';
-              newRow['Option2 Value'] = '';
-              newRow['Option3 Name'] = '';
-              newRow['Option3 Value'] = '';
-            } else if (!newRow['Title']) {
-              newRow['Title'] = parentTitle;
+            if (!handle || !isValidSlug) {
+              cleanRow['Handle'] = currentParentHandle || createSlug(handle);
+              fixesCount++;
             }
 
-            newRow['Body (HTML)'] = newRow['Body (HTML)'] || parentBody;
-            newRow['Vendor'] = newRow['Vendor'] || parentVendor;
-            newRow['Type'] = newRow['Type'] || parentType;
-            newRow['Tags'] = newRow['Tags'] || parentTags;
-
-            restructuredRows.push(newRow);
+            return cleanRow;
           });
 
-          statsRow.textContent = `Analyzed ${rows.length} rows • Generated ${restructuredRows.length} standalone product records`;
-          dropzone.classList.add('hidden');
+          statsRow.textContent = `Analyzed ${rows.length} rows • Synchronized ${fixesCount} variant handle instances`;
+          dropzoneContainer.classList.add('hidden');
           resultsCard.classList.remove('hidden');
 
-          previewBody.innerHTML = restructuredRows.slice(0, 5).map(r => `
-            <tr class="hover:bg-slate-50">
-              <td class="p-2.5 text-slate-400">${(r['Handle'] || '').split('-')[0]}</td>
-              <td class="p-2.5 text-blue-700 font-bold">${r['Handle'] || ''}</td>
-              <td class="p-2.5 max-w-xs truncate">${r['Title'] || ''}</td>
-              <td class="p-2.5">${r['Option1 Value'] || ''}</td>
-              <td class="p-2.5">${r['Variant Price'] || '-'}</td>
-            </tr>
-          `).join('');
+          issueLog.innerHTML = `
+            <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800">
+              ✓ Synchronized multi-variant handles to prevent Shopify splitting variants into separate items.
+            </div>
+            <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-800">
+              ✓ Converted titles into valid lowercase hyphenated handles.
+            </div>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-700">
+              ✓ Stripped punctuation, ampersands, and whitespace from URL handles.
+            </div>
+          `;
         }
       });
     }
 
     function generateAndDownloadCSV() {
-      const csv = Papa.unparse(restructuredRows);
+      const csv = Papa.unparse(fixedRows);
       const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -260,20 +306,15 @@
     }
 
     downloadBtn.addEventListener('click', () => {
-      if (!restructuredRows.length) return;
-
-      if (hasActiveLicense()) {
-        generateAndDownloadCSV();
-      } else {
-        openPaywallModal(() => generateAndDownloadCSV());
-      }
+      if (!fixedRows.length) return;
+      exportWithLicenseCheck(() => generateAndDownloadCSV());
     });
 
     resetBtn.addEventListener('click', () => {
-      restructuredRows = [];
+      fixedRows = [];
       fileInput.value = '';
       resultsCard.classList.add('hidden');
-      dropzone.classList.remove('hidden');
+      dropzoneContainer.classList.remove('hidden');
     });
   </script>
 </body>

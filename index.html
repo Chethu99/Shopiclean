@@ -8,6 +8,9 @@
   <link rel="canonical" href="https://shopiclean.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   
+  <!-- Licensing & Payment Gate Controller -->
+  <script src="/js/auth.js" defer></script>
+
   <!-- OpenGraph Metadata -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/">
@@ -100,18 +103,17 @@
       <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
         <a href="/csv-validator/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">CSV Auditor & Fixer</a>
         <a href="/supplier-converter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Supplier Converter</a>
-        <a href="/variant-splitter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">100-Variant Splitter</a>
+        <a href="/variant-splitter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Variant Splitter</a>
         <a href="/image-checker/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Image Scanner</a>
       </nav>
 
-      <div class="flex items-center">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-semibold text-emerald-800 shadow-xs">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span>100% Private & Secure</span>
-        </div>
+      <div class="flex items-center gap-3">
+        <span id="homePassBadge" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
+        <a href="#pricing" id="buyPassNavBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+          Get 7-Day Pass — $9
+        </a>
       </div>
     </div>
   </header>
@@ -154,6 +156,7 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- CSV Validator -->
         <a href="/csv-validator/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="flex items-start justify-between">
             <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
@@ -172,47 +175,50 @@
           </div>
         </a>
 
+        <!-- Supplier Converter -->
         <a href="/supplier-converter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
-          <div class="w-10 h-10 rounded-lg bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-105 transition-transform">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Supplier Catalog Converter</h3>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Supplier Catalog Converter</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
             Convert wholesale exports from Faire, Square POS, and WooCommerce into official Shopify schemas with intuitive header mapping.
           </p>
-          <div class="mt-4 flex items-center text-xs font-bold text-indigo-600">
+          <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
             Remap Catalog <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </a>
 
+        <!-- Variant Splitter -->
         <a href="/variant-splitter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
-          <div class="w-10 h-10 rounded-lg bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600 mb-4 group-hover:scale-105 transition-transform">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 group-hover:text-sky-600 transition-colors">100-Variant Splitter</h3>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Variant Splitter & Linker</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Bypass Shopify's hard 100-variant limit. Automatically partition oversized catalogs into clean part-1 and part-2 products without breaking SKUs.
+            Bypass Shopify's 100-variant limit and synchronize parent handles across size/color options so multi-row products group together cleanly.
           </p>
-          <div class="mt-4 flex items-center text-xs font-bold text-sky-600">
-            Split Products <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+          <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
+            Split & Link Variants <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </a>
 
+        <!-- Image Checker -->
         <a href="/image-checker/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
-          <div class="w-10 h-10 rounded-lg bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-600 mb-4 group-hover:scale-105 transition-transform">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">Shopify Image URL Scanner</h3>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Shopify Image URL Scanner</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
             Check media links before upload. Strips local drive paths (C:\) and non-HTTPS endpoints that cause the Shopify import modal to freeze.
           </p>
-          <div class="mt-4 flex items-center text-xs font-bold text-cyan-600">
+          <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
             Scan Links <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </a>
@@ -255,8 +261,64 @@
       </div>
     </section>
 
+    <!-- Pricing Section (Single 7-Day Pass Focus) -->
+    <section id="pricing" class="border-t border-slate-200/80 bg-slate-50 py-16">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Simple, Transparent Pricing</h2>
+          <p class="text-2xl font-extrabold text-slate-900 mt-1">Unlock All 4 Tools with One Pass</p>
+          <p class="text-xs text-slate-500 mt-2">One-time flat rate. No recurring subscriptions or automatic rebilling.</p>
+        </div>
+
+        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-md p-8 text-center relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg">
+            Full Suite Access
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900">7-Day Launch Pass</h3>
+          <div class="my-4 flex items-baseline justify-center gap-1">
+            <span class="text-4xl font-black text-slate-900">$9</span>
+            <span class="text-xs text-slate-500 font-medium">/ 7 days</span>
+          </div>
+          <p class="text-xs text-slate-500 mb-6">Designed for catalog cleanups, theme migrations, and inventory imports.</p>
+
+          <ul class="text-left text-xs text-slate-600 space-y-3 mb-6 border-y border-slate-100 py-4">
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>Unlimited CSV exports</strong> across all 4 utilities</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span><strong>100% in-browser privacy</strong> (zero files uploaded to servers)</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span>Instant license key delivery via email &amp; direct redirect</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <span>Up to 3 device activations per key</span>
+            </li>
+          </ul>
+
+          <a href="https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="block w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors shadow-sm cursor-pointer">
+            Get 7-Day Access — $9
+          </a>
+
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <button type="button" onclick="openPaywallModal()" class="text-xs text-slate-500 hover:text-slate-800 underline font-medium">
+              Already have a license key? Restore access
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FAQ Section -->
-    <section class="border-t border-slate-200/80 bg-slate-50 py-16">
+    <section class="border-t border-slate-200/80 bg-white py-16">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Got Questions?</h2>
@@ -264,28 +326,28 @@
         </div>
 
         <div class="space-y-4">
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Do I need to install any apps or give access to my Shopify store?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               No. ShopiClean requires zero Shopify store access, API keys, or permissions. It is an independent browser utility: you inspect and repair your catalog file directly on this page, and then upload the verified CSV into your store yourself.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Is my customer or supplier data private?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               Yes, 100%. All processing occurs completely inside your web browser’s memory using client-side JavaScript. Your inventory files, product costs, and supplier data are never sent to or saved on any server.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What common Shopify CSV errors does this fix?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               It resolves illegal currency symbols ($/€/£) in price columns, missing or mismatched Handle slugs, invalid UTF-8 characters that corrupt product titles, missing inventory tracker policies, local file path errors (like C:\), and the 100-variant per product limitation.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What if the repaired file still won't import?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               We stand behind our tools. If your repaired CSV fails to upload properly to Shopify after following our guidelines, send your file and error log to support@shopiclean.com within 14 days for a full refund.
@@ -316,18 +378,18 @@
         <div>
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
           <ul class="space-y-2">
-            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator & Fixer</a></li>
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
             <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
-            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">100-Variant Splitter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
             <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
           </ul>
         </div>
 
         <div>
-          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust & Legal</div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
           <ul class="space-y-2">
-            <li><a href="/privacy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
-            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service & Refunds</a></li>
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
             <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
             <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
           </ul>
@@ -347,6 +409,21 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // Header Pass Status sync
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        const badge = document.getElementById('homePassBadge');
+        const buyBtn = document.getElementById('buyPassNavBtn');
+        if (badge) badge.classList.remove('hidden');
+        if (buyBtn) {
+          buyBtn.textContent = 'Pass Active';
+          buyBtn.classList.replace('bg-blue-600', 'bg-slate-800');
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
