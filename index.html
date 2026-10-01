@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShopiClean — High-Performance Shopify CSV Utilities</title>
-  <meta name="description" content="Client-side Shopify CSV auditor, supplier catalog converter, 100-variant splitter, and broken image URL scanner. 100% private in-browser processing.">
+  <meta name="description" content="Client-side Shopify CSV auditor, supplier catalog converter, multi-variant handle splitter, and broken image URL scanner. 100% private in-browser processing.">
   <link rel="canonical" href="https://shopiclean.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   
@@ -15,13 +15,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/">
   <meta property="og:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
-  <meta property="og:description" content="Fix Shopify CSV errors, split 100+ variant limits, and convert wholesale sheets client-side. Zero server uploads.">
+  <meta property="og:description" content="Fix Shopify CSV errors, split multi-variant catalogs for Google Shopping SEO, and convert wholesale sheets client-side. Zero file uploads.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
-  <meta name="twitter:description" content="Fix Shopify CSV errors, split 100+ variant limits, and convert wholesale sheets client-side. Zero server uploads.">
+  <meta name="twitter:description" content="Fix Shopify CSV errors, split multi-variant catalogs for Google Shopping SEO, and convert wholesale sheets client-side. Zero file uploads.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- JSON-LD Structured Data: SoftwareApplication & FAQPage -->
@@ -58,7 +58,7 @@
             "name": "Is my customer or supplier data private?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes, 100%. All processing occurs completely inside your web browser’s memory using client-side JavaScript. Your inventory files, product costs, and supplier data are never sent to or saved on any server."
+              "text": "Yes, 100%. All CSV file parsing, data transformations, and exports occur completely inside your browser memory via client-side JavaScript. Your spreadsheet data is never sent to or stored on any server. The only external network requests made by this site are to our payment provider (Dodo Payments) to process checkouts and verify license key status."
             }
           },
           {
@@ -66,7 +66,7 @@
             "name": "What common Shopify CSV errors does this fix?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "It resolves illegal currency symbols ($/€/£) in price columns, missing or mismatched Handle slugs, invalid UTF-8 characters that corrupt product titles, missing inventory tracker policies, local file path errors (like C:\\), and the 100-variant per product limitation."
+              "text": "It resolves illegal currency symbols ($/€/£) in price columns, missing or unlinked Handle slugs across multi-row variants, quote mismatches that shift columns, missing inventory tracker policies, local workstation file paths (like C:\\), and invalid image URL formatting."
             }
           },
           {
@@ -101,15 +101,15 @@
       </a>
 
       <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
-        <a href="/csv-validator/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">CSV Auditor & Fixer</a>
+        <a href="/csv-validator/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">CSV Auditor &amp; Fixer</a>
         <a href="/supplier-converter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Supplier Converter</a>
-        <a href="/variant-splitter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Variant Splitter</a>
+        <a href="/variant-splitter/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Variant Splitter &amp; Linker</a>
         <a href="/image-checker/" class="px-3 py-2 rounded-md hover:text-slate-900 hover:bg-slate-100 transition-colors">Image Scanner</a>
       </nav>
 
       <div class="flex items-center gap-3">
         <!-- Guaranteed hidden by default via inline style -->
-        <span id="homePassBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="homePassBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
         <a href="#pricing" id="buyPassNavBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
@@ -135,12 +135,12 @@
           <span class="text-blue-600">Zero Spreadsheet Headaches.</span>
         </h1>
         <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
-          Browser-native utilities engineered to automatically repair import rejections, map third-party supplier catalogs, bypass the 100-variant ceiling, and purge dead image links.
+          Browser-native utilities engineered to automatically repair import rejections, map third-party supplier catalogs, restructure multi-variant options for Google Shopping SEO, and purge dead image links.
         </p>
 
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
           <a href="/csv-validator/" class="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm">
-            Launch CSV Auditor & Fixer →
+            Launch CSV Auditor &amp; Fixer →
           </a>
           <a href="/supplier-converter/" class="px-6 py-3.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all border border-slate-300 shadow-sm">
             Convert Supplier Sheet →
@@ -167,7 +167,7 @@
             </div>
             <span class="text-[11px] font-bold text-blue-800 uppercase tracking-wider bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">Flagship</span>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">CSV Error Auditor & Auto-Fixer</h3>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">CSV Error Auditor &amp; Auto-Fixer</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
             Identifies syntax rejections, strips currency symbols ($/£), forces valid inventory policies, and auto-generates missing variant handles.
           </p>
@@ -192,19 +192,19 @@
           </div>
         </a>
 
-        <!-- Variant Splitter -->
+        <!-- Variant Splitter & Linker -->
         <a href="/variant-splitter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
             </svg>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Variant Splitter & Linker</h3>
+          <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Bypass Shopify's 100-variant limit and synchronize parent handles across size/color options so multi-row products group together cleanly.
+            Split complex multi-attribute catalogs into distinct color-level products for Google Shopping SEO, and link handles so options import cleanly.
           </p>
           <div class="mt-4 flex items-center text-xs font-bold text-blue-600">
-            Split & Link Variants <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
+            Split &amp; Link Variants <span class="ml-1 group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </a>
 
@@ -245,7 +245,7 @@
 
           <div class="text-center p-6 rounded-xl bg-slate-50 border border-slate-200/60">
             <div class="w-10 h-10 rounded-full bg-blue-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4">2</div>
-            <h3 class="text-sm font-bold text-slate-900">Instant Audit & Repair</h3>
+            <h3 class="text-sm font-bold text-slate-900">Instant Audit &amp; Repair</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               ShopiClean detects corrupted symbols, fixes broken headers, standardizes variants, and strips invalid image URLs automatically.
             </p>
@@ -290,7 +290,7 @@
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>100% in-browser privacy</strong> (zero files uploaded to servers)</span>
+              <span><strong>100% in-browser privacy</strong> (zero catalog files uploaded to servers)</span>
             </li>
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -340,8 +340,8 @@
           <a href="/guides/shopify-100-variant-limit-bypass/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Catalog Scale</span>
-              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Bypass the 100-Variant Limit</h3>
-              <p class="text-slate-500 mt-1.5 leading-relaxed">Structure large catalogs using clean handle splitting without paying for apps.</p>
+              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Split Multi-Variant Catalogs</h3>
+              <p class="text-slate-500 mt-1.5 leading-relaxed">Structure large catalogs using clean handle splitting for Google Shopping SEO.</p>
             </div>
             <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
           </a>
@@ -386,14 +386,14 @@
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Is my customer or supplier data private?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              Yes, 100%. All processing occurs completely inside your web browser’s memory using client-side JavaScript. Your inventory files, product costs, and supplier data are never sent to or saved on any server.
+              Yes, 100%. All CSV file parsing, data transformations, and exports occur completely inside your browser memory via client-side JavaScript. Your spreadsheet data is never sent to or stored on any server. The only external network requests made by this site are to our payment provider (Dodo Payments) to process checkouts and verify license key status.
             </p>
           </div>
 
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What common Shopify CSV errors does this fix?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-              It resolves illegal currency symbols ($/€/£) in price columns, missing or mismatched Handle slugs, invalid UTF-8 characters that corrupt product titles, missing inventory tracker policies, local file path errors (like C:\), and the 100-variant per product limitation.
+              It resolves illegal currency symbols ($/€/£) in price columns, missing or unlinked Handle slugs across multi-row variants, quote mismatches that shift columns, missing inventory tracker policies, local workstation file paths (like C:\), and invalid image URL formatting.
             </p>
           </div>
 
@@ -439,7 +439,7 @@
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
           <ul class="space-y-2">
             <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
-            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Bypass 100-Variant Cap</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
             <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
             <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
           </ul>

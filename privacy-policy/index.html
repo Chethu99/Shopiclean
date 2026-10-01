@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy — ShopiClean</title>
-  <meta name="description" content="ShopiClean's zero-cloud-storage architecture: all CSV parsing and catalog repairs happen entirely inside your local browser memory.">
+  <meta name="description" content="ShopiClean Privacy Policy. Learn about our strict client-side data architecture, local browser storage usage, and third-party payment processing.">
   <link rel="canonical" href="https://shopiclean.com/privacy-policy/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -16,7 +16,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -26,107 +26,174 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          All Tools
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          ← Back to Tools
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Legal Content -->
+  <!-- Main Content -->
   <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-10">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Transparency & Architecture</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Privacy Policy</h1>
-      <p class="text-xs text-slate-500 mt-2">Effective Date: September 2026 • Last Reviewed: September 2026</p>
-    </div>
+    
+    <!-- Breadcrumb -->
+    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
+      <a href="/" class="hover:text-blue-600">Home</a>
+      <span>/</span>
+      <span class="text-slate-800">Privacy Policy</span>
+    </nav>
 
-    <!-- Highlight Callout Box -->
-    <div class="p-5 rounded-xl bg-blue-50 border border-blue-200 mb-8 space-y-2">
-      <div class="flex items-center gap-2 font-bold text-sm text-blue-900">
-        <svg class="w-4 h-4 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-        </svg>
-        Our Client-Side Zero-Storage Promise
-      </div>
-      <p class="text-xs text-slate-700 leading-relaxed">
-        ShopiClean does not operate file upload servers. Your spreadsheet data—including confidential wholesale prices, supplier identities, SKUs, inventory counts, and customer fields—is parsed and sanitized entirely in your local web browser’s volatile memory.
-      </p>
-    </div>
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Transparency &amp; Trust</span>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5">Privacy Policy</h1>
+      <p class="text-xs text-slate-500 mt-2">Effective Date: October 1, 2026</p>
+    </header>
 
-    <div class="space-y-8 text-xs sm:text-sm text-slate-700 leading-relaxed">
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">1. Information We Never Collect or Store</h2>
-        <p>When you use any utility across the ShopiClean platform (including the CSV Validator, Supplier Converter, Variant Splitter, or Image Checker), your spreadsheet files are never transmitted to our web servers, database clusters, or third-party cloud storage bucket providers:</p>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
-          <li>We do not log, read, or copy your catalog product details or supplier names.</li>
-          <li>We do not track or record your cost of goods, selling prices, or profit margins.</li>
-          <li>We do not store or mirror the image URLs listed inside your media columns.</li>
-          <li>All file reading and transformation takes place via standard Web APIs inside your browser tab. Closing or refreshing the page instantly clears this data from memory.</li>
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
+      
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">1. Core Architecture: Client-Side Processing</h2>
+        <p>
+          ShopiClean is engineered around a fundamental privacy principle: <strong>zero server data ingestion</strong>. 
+        </p>
+        <p>
+          When you upload, drag, or drop a CSV or spreadsheet file into our tools (CSV Auditor &amp; Fixer, Supplier Catalog Converter, Variant Splitter &amp; Linker, or Image URL Scanner), the file is read and parsed <strong>exclusively inside your device's web browser memory</strong> using client-side JavaScript.
+        </p>
+        <div class="p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg text-xs text-blue-950 font-medium">
+          <strong>Important Guarantee:</strong> Your inventory catalog files, customer records, supplier names, pricing matrices, margins, and proprietary data are never uploaded, transmitted, viewed, or stored on any remote ShopiClean web server or third-party database.
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">2. External Network Communications &amp; Payment Processing</h2>
+        <p>
+          While spreadsheet processing is 100% local, the website interacts with external services in only two specific instances:
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-slate-600">
+          <li>
+            <strong>Payment Processing:</strong> All financial transactions, card billing, and checkout flows are handled directly by our Merchant of Record and payment processor, <strong>Dodo Payments</strong>. We do not collect, view, or store your credit card numbers, billing addresses, or bank details.
+          </li>
+          <li>
+            <strong>License Key Validation:</strong> When you purchase or restore access to a 7-Day Launch Pass, your browser communicates with Dodo Payments’ secure license API endpoints to verify license key validity, expiration dates, and activation quotas.
+          </li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">2. Local Storage Usage</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">3. Local Browser Storage (<code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">localStorage</code>)</h2>
         <p>
-          ShopiClean uses your browser’s native <code>localStorage</code> API for the single operational purpose of managing your utility pass:
+          ShopiClean uses your browser’s standard web storage mechanism (<code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded font-mono text-xs">window.localStorage</code>) exclusively to preserve your active pass credentials across browser reloads. We store only:
         </p>
-        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
-          <li><code>shopiclean_license</code>: Stores your encrypted alphanumeric license key and associated expiration timestamp so you can access exports across all four utilities during your 7-day access window without having to re-enter your key on every page load.</li>
+        <ul class="list-disc pl-5 space-y-1 text-slate-600">
+          <li>Your alphanumeric license key</li>
+          <li>The license activation timestamp and pass expiration date</li>
+          <li>Temporary local preferences (such as column re-mapping states)</li>
         </ul>
-        <p class="mt-2">
-          You can inspect or delete this key at any time by clearing your browser cache or site data via your browser developer settings.
+        <p>
+          This data remains confined to your workstation and is never combined with third-party tracking profiles. You can purge this data at any time by clearing your browser cookies and site storage.
         </p>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">3. Payment Information & Order Processing</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">4. Customer Support Inquiries</h2>
         <p>
-          Payment processing and automated license key delivery are handled by our merchant of record partner, <strong>Dodo Payments</strong>.
+          If you contact our support desk at <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded">support@shopiclean.com</code> for technical assistance or refund processing, we receive your email address, your inquiry text, and any sample CSV files or error logs you voluntarily choose to attach. 
         </p>
-        <p class="mt-2">
-          ShopiClean never collects, processes, transmits, or stores credit card numbers, debit cards, or bank authentication details on our infrastructure. When purchasing a 7-day pass, your billing details and email address are provided directly to Dodo Payments under their own secure PCI-compliant privacy protocols.
+        <p>
+          Any sample spreadsheet files sent directly to our support desk are utilized solely for diagnosing import failures and are deleted within 30 days of resolution.
         </p>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">4. Server Logs & Analytics</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">5. Web Analytics &amp; Cookies</h2>
         <p>
-          Like all standard web servers, our hosting infrastructure automatically captures basic non-identifiable technical headers when you request an HTML file, such as browser type, operating system, and approximate geographical region (country level). These logs do not contain personal identifiers and are never linked to any CSV files or content you inspect on the site.
+          We do not use invasive third-party cross-site behavioral tracking cookies. Any analytical logging employed is strictly privacy-compliant, aggregate-level server telemetry (such as page visit counts and browser user-agent types) used to optimize page performance and server uptime.
         </p>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">5. Contact Information</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">6. Third-Party Links &amp; Disclaimers</h2>
         <p>
-          For privacy inquiries, technical security architecture questions, or key restoration support, please contact us directly at:
-        </p>
-        <p class="mt-2 font-mono text-blue-600 font-bold">
-          support@shopiclean.com
+          ShopiClean provides links to external websites and resources (including Shopify administrative portals and Shopify documentation). We do not control the privacy practices of external domains. ShopiClean is an independent utility and is not affiliated with or endorsed by Shopify Inc.
         </p>
       </section>
-    </div>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">7. Contact Information</h2>
+        <p>
+          For privacy inquiries, license management questions, or support assistance, contact us at:
+        </p>
+        <div class="p-4 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 space-y-1">
+          <p><strong>ShopiClean Support Desk</strong></p>
+          <p>Email: <a href="mailto:support@shopiclean.com" class="text-blue-600 underline font-bold">support@shopiclean.com</a></p>
+          <p>Website: <a href="https://shopiclean.com" class="text-blue-600 hover:underline">https://shopiclean.com</a></p>
+        </div>
+      </section>
+
+    </article>
   </main>
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../privacy-policy/" class="hover:text-blue-600 text-blue-600 font-bold">Privacy Policy</a>
-        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../about/" class="hover:text-blue-600">About</a>
-        <a href="../contact/" class="hover:text-blue-600">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="text-blue-600 font-bold">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
   </footer>
