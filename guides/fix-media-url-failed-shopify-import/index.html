@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Fix "Media URL Failed to Load" in Shopify CSV Import</title>
+  <meta name="description" content="Fix Shopify CSV product import image errors: repair unencoded spaces (%20), missing HTTPS protocols, and broken CDN links before uploading.">
+  <link rel="canonical" href="https://shopiclean.com/guides/fix-media-url-failed-shopify-import/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <script src="/js/auth.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Article & FAQ Schema for Google Search Rich Snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "How to Fix 'Media URL Failed to Load' in Shopify CSV Product Imports",
+        "description": "Comprehensive troubleshooting guide to resolving broken image links, unencoded URI whitespace, and invalid protocols during Shopify catalog imports.",
+        "author": {
+          "@type": "Organization",
+          "name": "ShopiClean"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "ShopiClean",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://shopiclean.com/favicon.svg"
+          }
+        },
+        "datePublished": "2026-10-01",
+        "dateModified": "2026-10-01"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why do image URLs fail to load during Shopify CSV import?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Shopify's background media crawler requires publicly accessible absolute URLs starting with http:// or https://. Imports fail when URLs have raw spaces instead of %20, point to local computer paths (like C:\\ or /images/), or link to private password-protected cloud drives."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I use Dropbox or Google Drive links in my Shopify CSV?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Standard sharing links from Google Drive or Dropbox link to preview web pages rather than direct raw image files. You must convert them to direct-download raw CDN links or host them on a publicly accessible web server."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="../../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
+        <a href="../../image-checker/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+          Open Image Checker →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Article Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Breadcrumb -->
+    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
+      <a href="../../" class="hover:text-blue-600">Home</a>
+      <span>/</span>
+      <span>Guides</span>
+      <span>/</span>
+      <span class="text-slate-800">Media URL Import Fix</span>
+    </nav>
+
+    <header class="mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Media Troubleshooting</span>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5 leading-tight">
+        How to Fix "Media URL Failed to Load" in Shopify CSV Imports
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-2">Tested for Shopify CDN Import Architecture • 4 min read</p>
+    </header>
+
+    <!-- Immediate Fast-Fix Tool Banner -->
+    <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-1.5 text-xs font-bold text-blue-800 uppercase tracking-wide">
+          <span>⚡</span> Have hundreds of failing image links?
+        </div>
+        <p class="text-xs text-slate-700 mt-1 leading-relaxed">
+          Encode raw whitespace to %20, enforce HTTPS, and strip local drive paths right in your browser memory before uploading.
+        </p>
+      </div>
+      <a href="../../image-checker/" class="shrink-0 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
+        Sanitize Image URLs Now →
+      </a>
+    </div>
+
+    <!-- Article Body -->
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
+      <p>
+        One of the most frustrating parts of setting up a Shopify store is watching product records import successfully, only to find the products have no images or receiving an email report stating:
+      </p>
+
+      <div class="p-3.5 bg-red-50 border-l-4 border-red-500 rounded-r-lg font-mono text-xs text-red-900">
+        Line 84: Media URL failed to load. Please verify that the image link is publicly accessible and formatted correctly.
+      </div>
+
+      <p>
+        When you import a CSV into Shopify, the platform does not simply store the web address. Instead, a Shopify background bot accesses every single link in your <code>Image Src</code> column, downloads the graphic, and uploads it to Shopify's global CDN (Fastly/Cloudflare).
+      </p>
+      <p>
+        If anything hinders Shopify's crawler from immediately retrieving that raw image stream, the download aborts and the photo is permanently skipped.
+      </p>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The 4 Major Culprits Behind Image Import Failures</h2>
+
+      <h3 class="text-base font-bold text-slate-900">1. Unencoded Spaces in Filenames</h3>
+      <p>
+        Suppliers regularly name image files with spaces (e.g. <code>https://cdn.site.com/images/mens organic tee front.jpg</code>).
+      </p>
+      <p>
+        Standard web browsers automatically encode spaces when you copy and paste them into an address bar. However, strict backend parsers like Shopify's will reject raw spaces as invalid URI syntax. All whitespace characters inside the link path must be encoded as <code>%20</code>:
+      </p>
+      <div class="p-3 bg-slate-100 rounded-lg text-xs font-mono">
+        <p class="text-red-600">❌ https://cdn.site.com/images/mens organic tee front.jpg</p>
+        <p class="text-emerald-700 font-bold mt-1">✓ https://cdn.site.com/images/mens%20organic%20tee%20front.jpg</p>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-900">2. Missing Web Protocols (No HTTPS)</h3>
+      <p>
+        Wholesale spreadsheets frequently provide naked domain links (e.g., <code>www.supplier.com/item.png</code>) or protocol-relative links (<code>//supplier.com/item.png</code>). Shopify requires an explicit, fully qualified web protocol: <code>https://www.supplier.com/item.png</code>.
+      </p>
+
+      <h3 class="text-base font-bold text-slate-900">3. Local File System Paths</h3>
+      <p>
+        If your photographer or catalog manager provided paths from their personal workstation like:
+      </p>
+      <div class="p-3 bg-red-50 text-red-900 rounded-lg text-xs font-mono">
+        C:\Users\Admin\Desktop\Product Photos\Shoe_Front.jpg  or  /images/catalog/shoe.png
+      </div>
+      <p>
+        Shopify's cloud servers cannot access files stored on your local computer hard drive. Those images must first be hosted on a public server, or stripped from the CSV so the products can import without stalled processes.
+      </p>
+
+      <h3 class="text-base font-bold text-slate-900">4. Private Google Drive or Dropbox Share Links</h3>
+      <p>
+        A link like <code>drive.google.com/file/d/XYZ/view</code> serves an interactive web interface with buttons and comments, not a raw JPEG or WebP binary stream. Shopify cannot scrape images from web preview interfaces.
+      </p>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Method 1: Auto-Clean Image Links via ShopiClean (Zero Setup)</h2>
+      <p>
+        Instead of searching for spaces and missing prefixes across thousands of product rows:
+      </p>
+      <ol class="list-decimal pl-5 space-y-2 text-slate-600">
+        <li>Open the <a href="../../image-checker/" class="text-blue-600 underline font-bold">ShopiClean Image URL Checker</a>.</li>
+        <li>Drag and drop your Shopify product catalog CSV.</li>
+        <li>The client-side scanner identifies all media columns, replaces invalid whitespace with <code>%20</code>, prepends <code>https://</code> to naked web links, and strips broken local paths.</li>
+        <li>Review the Before vs After diff preview to confirm corrections, then export your clean CSV directly.</li>
+      </ol>
+
+      <!-- Mid-Article CTA Card -->
+      <div class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-xs text-center">
+        <h3 class="text-base font-bold text-slate-900">Ensure your product photos import the first time</h3>
+        <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
+          Sanitize and validate image columns directly in your browser memory before initiating massive Shopify catalog imports.
+        </p>
+        <a href="../../image-checker/" class="inline-block mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs">
+          Open Free Image Checker Demo →
+        </a>
+      </div>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">How to Structure Multi-Image Products in Shopify CSV</h2>
+      <p>
+        To display multiple photos for a single product (such as front, back, and detail shots), repeat the product <code>Handle</code> on consecutive rows while leaving the product Title blank, providing a distinct <code>Image Src</code> on each row:
+      </p>
+      <div class="p-4 bg-slate-100 rounded-lg text-xs font-mono space-y-1">
+        <p>Row 1: Handle: <span class="text-blue-600">linen-shirt</span> | Title: Linen Shirt | Image Src: https://cdn.com/front.jpg | Position: 1</p>
+        <p>Row 2: Handle: <span class="text-blue-600">linen-shirt</span> | Title: [Blank]     | Image Src: https://cdn.com/back.jpg  | Position: 2</p>
+        <p>Row 3: Handle: <span class="text-blue-600">linen-shirt</span> | Title: [Blank]     | Image Src: https://cdn.com/side.jpg  | Position: 3</p>
+      </div>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">Frequently Asked Questions</h2>
+      <div class="space-y-4 not-prose mt-4">
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <h4 class="text-xs font-bold text-slate-900">What image formats does Shopify officially support?</h4>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Shopify supports JPEG, Progressive JPEG, PNG, GIF, HEIC, and WebP. Attempting to link non-image formats (like PDF spec sheets or TIFF files) inside the <code>Image Src</code> column will cause the media crawler to reject the file.
+          </p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <h4 class="text-xs font-bold text-slate-900">Will images stay on my Shopify store if the original links expire later?</h4>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Yes! Once Shopify successfully completes the initial CSV import, all images are permanently copied over to Shopify's own CDN infrastructure. You can safely disconnect or alter your original image host afterward without losing any product pictures.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
+        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
+        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="../../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
+        <a href="../../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../../about/" class="hover:text-blue-600">About</a>
+        <a href="../../contact/" class="hover:text-blue-600">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        const badge = document.getElementById('passStatusBadge');
+        if (badge) badge.style.display = 'inline-flex';
+      }
+    });
+  </script>
+</body>
+</html>
