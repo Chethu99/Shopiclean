@@ -318,8 +318,57 @@
       </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- Troubleshooting & Knowledge Base Section -->
     <section class="border-t border-slate-200/80 bg-white py-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Knowledge Base</h2>
+          <p class="text-2xl font-extrabold text-slate-900 mt-1">Shopify CSV Error Guides</p>
+          <p class="text-xs text-slate-500 mt-2">Step-by-step solutions to common product import rejections.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200">Syntax Error</span>
+              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Fix "Illegal Quoting on Line X"</h3>
+              <p class="text-slate-500 mt-1.5 leading-relaxed">Resolve quotation mismatches and unescaped commas that shift CSV columns.</p>
+            </div>
+            <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
+          </a>
+
+          <a href="/guides/shopify-100-variant-limit-bypass/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Catalog Scale</span>
+              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Bypass the 100-Variant Limit</h3>
+              <p class="text-slate-500 mt-1.5 leading-relaxed">Structure large catalogs using clean handle splitting without paying for apps.</p>
+            </div>
+            <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
+          </a>
+
+          <a href="/guides/convert-faire-square-supplier-csv-shopify/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Integration</span>
+              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Convert Faire or Square Sheets</h3>
+              <p class="text-slate-500 mt-1.5 leading-relaxed">Map custom wholesale inventory columns into official Shopify import schemas.</p>
+            </div>
+            <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
+          </a>
+
+          <a href="/guides/fix-media-url-failed-shopify-import/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Media Sync</span>
+              <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Fix Media URLs Failing to Load</h3>
+              <p class="text-slate-500 mt-1.5 leading-relaxed">Encode whitespace into %20 and enforce HTTPS for clean CDN downloads.</p>
+            </div>
+            <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="border-t border-slate-200/80 bg-slate-50 py-16">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Got Questions?</h2>
@@ -327,28 +376,28 @@
         </div>
 
         <div class="space-y-4">
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Do I need to install any apps or give access to my Shopify store?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               No. ShopiClean requires zero Shopify store access, API keys, or permissions. It is an independent browser utility: you inspect and repair your catalog file directly on this page, and then upload the verified CSV into your store yourself.
             </p>
           </div>
 
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Is my customer or supplier data private?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               Yes, 100%. All processing occurs completely inside your web browser’s memory using client-side JavaScript. Your inventory files, product costs, and supplier data are never sent to or saved on any server.
             </p>
           </div>
 
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What common Shopify CSV errors does this fix?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               It resolves illegal currency symbols ($/€/£) in price columns, missing or mismatched Handle slugs, invalid UTF-8 characters that corrupt product titles, missing inventory tracker policies, local file path errors (like C:\), and the 100-variant per product limitation.
             </p>
           </div>
 
-          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">What if the repaired file still won't import?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
               We stand behind our tools. If your repaired CSV fails to upload properly to Shopify after following our guidelines, send your file and error log to support@shopiclean.com within 14 days for a full refund.
@@ -362,7 +411,7 @@
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
         <div class="space-y-3">
           <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
           <p class="text-slate-500 leading-relaxed text-xs">
@@ -383,6 +432,16 @@
             <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
             <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
             <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Bypass 100-Variant Cap</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
           </ul>
         </div>
 
