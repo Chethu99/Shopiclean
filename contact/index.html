@@ -3,92 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <title>Contact Support — ShopiClean</title>
-  <meta name="description" content="Get direct merchant support for ShopiClean CSV tools, file formatting questions, and license inquiries.">
+  <title>Contact Technical Support — ShopiClean</title>
+  <meta name="description" content="Get support with CSV audits, import errors, or license key inquiries. Email us at support@shopiclean.com for fast assistance.">
   <link rel="canonical" href="https://shopiclean.com/contact/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-  <!-- Header Navigation -->
-  <header class="bg-white border-b border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="../" class="flex items-center gap-2 group">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
-        <span class="text-base font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
       </a>
-      <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        All Tools
-      </a>
+
+      <div class="flex items-center gap-3">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          ← Back to Tools
+        </a>
+      </div>
     </div>
   </header>
 
-  <!-- Content -->
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 py-12">
-    <div class="bg-white border border-slate-200 rounded-xl p-6 sm:p-10 shadow-xs space-y-6">
-      <div class="border-b border-slate-100 pb-4">
-        <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Help Desk</span>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1">Contact Support</h1>
-        <p class="text-xs text-slate-500 mt-1">Direct developer and merchant technical support.</p>
-      </div>
+  <!-- Main Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
+      <a href="/" class="hover:text-blue-600">Home</a>
+      <span>/</span>
+      <span class="text-slate-800">Contact</span>
+    </nav>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Direct Assistance</span>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5">Contact Support</h1>
+      <p class="text-xs text-slate-500 mt-2">Have a question or encounter a stubborn CSV rejection? We’re here to help.</p>
+    </header>
+
+    <div class="space-y-8 text-xs sm:text-sm text-slate-700 leading-relaxed">
+      <!-- Direct Contact Card -->
+      <div class="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </div>
-          <h2 class="text-sm font-bold text-slate-900">Email Support</h2>
-          <p class="text-xs text-slate-500">For import rejections, refund requests, or diagnostic reviews.</p>
-          <a href="mailto:support@shopiclean.com" class="inline-block text-xs font-bold text-blue-600 hover:underline pt-1">support@shopiclean.com</a>
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Email Customer Care</h2>
+            <p class="text-xs text-slate-500">Average response time: under 24 business hours</p>
+          </div>
         </div>
 
-        <div class="p-5 rounded-lg border border-slate-200 bg-slate-50 space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <h2 class="text-sm font-bold text-slate-900">Response Window</h2>
-          <p class="text-xs text-slate-500">We respond to technical requests within 24 hours on business days.</p>
-          <div class="text-[11px] font-semibold text-slate-700 pt-1">Monday – Friday: 9 AM - 6 PM UTC</div>
-        </div>
+        <p>
+          For licensing questions, payment inquiries, feature requests, or technical assistance with Shopify imports, reach our engineering desk directly at:
+        </p>
+        <p class="text-base font-bold text-blue-600">
+          <a href="mailto:support@shopiclean.com" class="hover:underline">support@shopiclean.com</a>
+        </p>
       </div>
 
-      <div class="p-5 rounded-xl border border-blue-100 bg-blue-50/50 space-y-2">
-        <h3 class="text-xs font-bold text-blue-900 uppercase tracking-wide">Reporting a Shopify Import Rejection?</h3>
+      <!-- Refund & Import Assistance Advice -->
+      <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3">
+        <h3 class="font-bold text-slate-900 text-sm">Requesting an Import Guarantee Refund?</h3>
         <p class="text-xs text-slate-600 leading-relaxed">
-          To help us resolve the issue swiftly, please attach the rejection line number and exact error message returned by your Shopify admin (e.g., <em>"Validation failed: Handle can't be blank"</em>).
+          If Shopify Admin rejects a file processed by ShopiClean, we honor a full 14-day money-back guarantee. To ensure fast resolution, please attach:
         </p>
+        <ul class="list-disc pl-5 text-xs text-slate-600 space-y-1">
+          <li>Your purchase email receipt or license key.</li>
+          <li>Your input file and the generated export CSV.</li>
+          <li>A screenshot or export of the specific error text reported by Shopify Admin.</li>
+        </ul>
       </div>
     </div>
   </main>
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../privacy/" class="hover:text-blue-600">Privacy</a>
-        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../about/" class="hover:text-blue-600">About</a>
-        <a href="../contact/" class="hover:text-blue-600 font-semibold text-slate-900">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="text-blue-600 font-bold">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        const badge = document.getElementById('passStatusBadge');
+        if (badge) badge.style.display = 'inline-flex';
+      }
+    });
+  </script>
 </body>
 </html>

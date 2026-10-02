@@ -3,60 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Bypass Shopify's 100-Variant Limit via CSV (No Monthly App)</title>
-  <meta name="description" content="Learn how to bypass Shopify's strict 100-variant ceiling using strategic handle splitting in your CSV catalog without recurring app subscriptions.">
+  <title>How to Structure Multi-Variant Shopify Catalogs for Google Shopping SEO — ShopiClean</title>
+  <meta name="description" content="Learn how to split large apparel and complex catalog variants into distinct color-level products for Google Shopping SEO while linking handles cleanly in CSVs.">
   <link rel="canonical" href="https://shopiclean.com/guides/shopify-100-variant-limit-bypass/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Article & FAQ Schema for Google Search Rich Snippets -->
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://shopiclean.com/guides/shopify-100-variant-limit-bypass/">
+  <meta property="og:title" content="Multi-Variant Catalog Architecture & Handle Splitting Guide">
+  <meta property="og:description" content="Optimize product catalogs for Google Shopping and bypass catalog limits using clean CSV handle splitting.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD Structured Data: Article -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "How to Bypass Shopify's 100-Variant Limit via CSV (Without Expensive Apps)",
-        "description": "Step-by-step architectural breakdown of splitting multi-option products across clean handles while maintaining seamless storefront browsing.",
-        "author": {
-          "@type": "Organization",
-          "name": "ShopiClean"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "ShopiClean",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://shopiclean.com/favicon.svg"
-          }
-        },
-        "datePublished": "2026-10-01",
-        "dateModified": "2026-10-01"
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is the Shopify variant limit?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "By default, Shopify limits any single product to a maximum of 3 option dimensions (e.g., Size, Color, Material) and 100 total variant combinations. Any CSV import containing more than 100 variants under the same Handle will be rejected or truncated."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do I have to pay for a monthly app to sell products with over 100 variants?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. By intelligently splitting products by a parent attribute (such as Color or Material) into distinct Handles, you can upload unlimited variations via standard CSV imports without paying $20 to $50 per month for third-party variant apps."
-            }
-          }
-        ]
+    "@type": "Article",
+    "headline": "How to Structure Multi-Variant Shopify Catalogs for Google Shopping SEO",
+    "description": "Strategies for catalog managers to split large multi-attribute product matrices into individual color-level products without expensive recurring apps.",
+    "author": {
+      "@type": "Organization",
+      "name": "ShopiClean"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ShopiClean",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://shopiclean.com/favicon.svg"
       }
-    ]
+    }
   }
   </script>
 </head>
@@ -65,246 +45,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
-          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-          </svg>
-        </div>
-        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
-      </a>
-
-      <div class="flex items-center gap-3">
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-          ✓ 7-Day Pass Active
-        </span>
-        <a href="../../variant-splitter/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
-          Open Variant Splitter →
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Article Content -->
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
-    
-    <!-- Breadcrumb -->
-    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
-      <a href="../../" class="hover:text-blue-600">Home</a>
-      <span>/</span>
-      <span>Guides</span>
-      <span>/</span>
-      <span class="text-slate-800">Shopify 100-Variant Bypass</span>
-    </nav>
-
-    <header class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Architecture</span>
-      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5 leading-tight">
-        How to Bypass Shopify's 100-Variant Limit via CSV (Without Expensive Apps)
-      </h1>
-      <p class="text-xs sm:text-sm text-slate-500 mt-2">Updated for Modern Shopify Architecture • 4 min read</p>
-    </header>
-
-    <!-- Immediate Fast-Fix Tool Banner -->
-    <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-1.5 text-xs font-bold text-blue-800 uppercase tracking-wide">
-          <span>⚡</span> Need to split variants automatically?
-        </div>
-        <p class="text-xs text-slate-700 mt-1 leading-relaxed">
-          Don't rewrite thousands of rows by hand. Group multi-row options and partition oversize items into clean Shopify sub-handles automatically.
-        </p>
-      </div>
-      <a href="../../variant-splitter/" class="shrink-0 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
-        Launch Variant Splitter →
-      </a>
-    </div>
-
-    <!-- Article Body -->
-    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
-      <p>
-        Few Shopify limitations cause more developer frustration than the platform's hard-coded variant cap:
-      </p>
-
-      <div class="p-3.5 bg-red-50 border-l-4 border-red-500 rounded-r-lg font-mono text-xs text-red-900">
-        Error: Product cannot have more than 100 variants.
-      </div>
-
-      <p>
-        If you sell apparel (e.g., 10 sizes &times; 12 colors = 120 variants), print-on-demand items, custom jewelry, or wholesale hardware, your catalog naturally blows past 100 combinations. 
-      </p>
-      <p>
-        Most app developers will tell you to install a $29 to $49/month third-party app. What they don't tell you is that these apps slow down your theme liquid rendering, inject complex JavaScript payloads, and lock your inventory into their proprietary databases.
-      </p>
-      <p>
-        Here is the industry-standard architectural workaround using pure CSV structure.
-      </p>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The Native Architecture Solution: Splitting by Primary Option</h2>
-      <p>
-        Instead of treating a product with 150 combinations as a single overloaded listing, e-commerce giants and high-volume Shopify stores structure their catalog by splitting on a primary visual dimension (most commonly <strong>Color</strong> or <strong>Material</strong>).
-      </p>
-      <p>
-        For instance, instead of one listing named <code>Essential Heavyweight Hoodie</code> containing 120 color-size variants, you split the CSV rows into distinct handles:
-      </p>
-      <ul class="list-disc pl-5 space-y-1 text-slate-600">
-        <li><code>essential-heavyweight-hoodie-black</code> (Sizes XS–3XL)</li>
-        <li><code>essential-heavyweight-hoodie-heather-grey</code> (Sizes XS–3XL)</li>
-        <li><code>essential-heavyweight-hoodie-navy</code> (Sizes XS–3XL)</li>
-      </ul>
-      <p>
-        This architecture delivers 3 massive advantages over paid apps:
-      </p>
-      <ol class="list-decimal pl-5 space-y-1 text-slate-600">
-        <li><strong>Each color gets its own dedicated SEO URL</strong> and rich image gallery on collection pages.</li>
-        <li><strong>Zero theme slowdown</strong> or third-party app script tags loading on the product page.</li>
-        <li><strong>Native Shopify inventory sync</strong> and standard fulfillment integration without API bugs.</li>
-      </ol>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The Problem with Doing This Manually in Excel</h2>
-      <p>
-        If you attempt to do this by hand in a 5,000-row wholesale spreadsheet, you encounter the <strong>Contiguous Handle Trap</strong>:
-      </p>
-      <div class="p-4 bg-slate-100 rounded-lg text-xs font-mono space-y-1">
-        <p class="text-slate-500 font-sans font-bold mb-2">How Shopify CSV Parser interprets handles:</p>
-        <p>Row 1: Handle: <span class="text-blue-600">hoodie-black</span> | Title: Hoodie Black | Size: Small</p>
-        <p>Row 2: Handle: <span class="text-red-600">[Blank]</span>        | Title: [Blank]       | Size: Medium &lt;-- Breaks if handle is missing!</p>
-        <p>Row 3: Handle: <span class="text-blue-600">hoodie-navy</span>  | Title: Hoodie Navy  | Size: Small</p>
-      </div>
-      <p>
-        Shopify requires subsequent variant rows to either leave the Title blank <em>while carrying the exact Handle down</em>, or to have uninterrupted contiguous grouping. A single blank handle or typo causes Shopify to create orphaned, broken duplicate listings.
-      </p>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Method 1: Auto-Split & Link with ShopiClean (Zero Effort)</h2>
-      <p>
-        Rather than spending hours writing complex nested Excel macros or formulas:
-      </p>
-      <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-        <li>Open the <a href="../../variant-splitter/" class="text-blue-600 underline font-bold">ShopiClean Variant Splitter & Linker</a>.</li>
-        <li>Drop your supplier catalog or rejected CSV file.</li>
-        <li>The client-side engine automatically detects variant sequences, checks handle continuity, and splits oversized variant clusters into clean, hyphenated sub-product handles.</li>
-        <li>Inspect the live before-and-after table to confirm that every size and color is linked to the right parent handle.</li>
-        <li>Export and upload directly to Shopify Admin with zero 100-variant limit rejections.</li>
-      </ol>
-
-      <!-- Mid-Article CTA Card -->
-      <div class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-xs text-center">
-        <h3 class="text-base font-bold text-slate-900">Ready to bypass the 100-variant ceiling?</h3>
-        <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
-          Test your catalog using the interactive demo and inspect real-time handle synchronization client-side.
-        </p>
-        <a href="../../variant-splitter/" class="inline-block mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs">
-          Open Variant Splitter Demo →
-        </a>
-      </div>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">How to Connect the Split Products on the Storefront</h2>
-      <p>
-        Once your split CSV is uploaded into Shopify, you can easily connect the distinct color handles on the frontend product page without any expensive monthly plugins:
-      </p>
-      <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
-        <li><strong>Free Shopify Combined Listings:</strong> If you are on Shopify Plus or modern Shopify OS 2.0 themes, use Shopify’s native "Combined Listings" app to unify them under one parent card.</li>
-        <li><strong>Linked Swatches via Theme Metafields:</strong> Use standard Shopify theme swatch metafields. Simply add a "Sibling Color" metafield linking each split product handle. When a customer clicks a black swatch, the page transitions smoothly to the black handle.</li>
-      </ul>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">Frequently Asked Questions</h2>
-      <div class="space-y-4 not-prose mt-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200">
-          <h4 class="text-xs font-bold text-slate-900">Will splitting variants hurt my Google SEO?</h4>
-          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            In fact, it does the opposite. By having distinct URLs (e.g., <code>/products/leather-jacket-vintage-brown</code>), your store can rank in Google Image and Organic Search for hyper-specific long-tail color and style queries.
-          </p>
-        </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200">
-          <h4 class="text-xs font-bold text-slate-900">What happens if a Handle has uppercase letters or spaces?</h4>
-          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Shopify will either reject the row or convert spaces into awkward percent-encoded URL slugs (<code>my%20product</code>). The ShopiClean engine automatically forces all handles into sanitized lowercase hyphenated strings.
-          </p>
-        </div>
-      </div>
-    </article>
-  </main>
-
-  <!-- Global Footer -->
-  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../../about/" class="hover:text-blue-600">About</a>
-        <a href="../../contact/" class="hover:text-blue-600">Contact</a>
-      </div>
-    </div>a<!DOCTYPE html>
-<html lang="en-US">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Split Multi-Variant Products in Shopify CSV for Better SEO & Performance</title>
-  <meta name="description" content="Learn why leading Shopify stores split multi-option products by color into distinct handles for Google Shopping SEO, theme speed, and clean CSV imports.">
-  <link rel="canonical" href="https://shopiclean.com/guides/shopify-100-variant-limit-bypass/">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-  <script src="/js/auth.js" defer></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        "headline": "How to Split Multi-Variant Products in Shopify CSV for Better SEO & Performance",
-        "description": "Architectural breakdown of structuring multi-option catalogs by color and style across clean handles for improved collection browsing and search visibility.",
-        "author": {
-          "@type": "Organization",
-          "name": "ShopiClean"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "ShopiClean",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://shopiclean.com/favicon.svg"
-          }
-        },
-        "datePublished": "2026-10-01",
-        "dateModified": "2026-10-01"
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Why should I split product variants by color in Shopify?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Splitting variants by primary visual option (like color) gives each variant its own dedicated URL, targeted meta tags, and unique image gallery. This allows individual colors to show up directly in Google Shopping and collection filters."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does Shopify support large variant catalogs?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "While modern Shopify APIs have expanded variant capacities up to 2,048 via GraphQL, packing hundreds of combinations into a single product listing often creates massive Liquid page weight, slow variant swatch switching, and messy collection previews."
-            }
-          }
-        ]
-      }
-    ]
-  }
-  </script>
-</head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
-
-  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -317,131 +58,167 @@
         <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="../../variant-splitter/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+        <a href="/variant-splitter/" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
           Open Variant Splitter →
         </a>
       </div>
     </div>
   </header>
 
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+  <!-- Main Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumbs -->
     <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
-      <a href="../../" class="hover:text-blue-600">Home</a>
+      <a href="/" class="hover:text-blue-600">Home</a>
       <span>/</span>
-      <span>Guides</span>
+      <a href="/guides/" class="hover:text-blue-600">Guides</a>
       <span>/</span>
       <span class="text-slate-800">Variant Architecture</span>
     </nav>
 
-    <header class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Catalog Architecture</span>
-      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5 leading-tight">
-        How to Structure Multi-Variant Products in Shopify CSV for Maximum SEO & Performance
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700 border border-indigo-200 mb-3">
+        Catalog Scale &amp; SEO
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+        Structuring Multi-Variant Shopify Catalogs for Google Shopping SEO
       </h1>
-      <p class="text-xs sm:text-sm text-slate-500 mt-2">Best Practices for High-SKU Catalogs • 4 min read</p>
+      <p class="text-xs text-slate-500 mt-3">Updated for 2026 • 6 min read</p>
     </header>
 
-    <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-1.5 text-xs font-bold text-blue-800 uppercase tracking-wide">
-          <span>⚡</span> Automate your catalog restructuring
-        </div>
-        <p class="text-xs text-slate-700 mt-1 leading-relaxed">
-          Reorganize large supplier spreadsheets into clean, color-separated handles with synchronized variant rows automatically.
-        </p>
+    <!-- Quick Solution CTA Box -->
+    <div class="p-5 rounded-xl bg-indigo-50 border border-indigo-200 mb-10 space-y-3">
+      <div class="flex items-center gap-2 font-bold text-sm text-indigo-900">
+        <svg class="w-4 h-4 text-indigo-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        Automate Variant Splitting &amp; Handle Linking
       </div>
-      <a href="../../variant-splitter/" class="shrink-0 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
-        Launch Variant Splitter →
+      <p class="text-xs text-slate-700 leading-relaxed">
+        Splitting complex multi-option products manually requires updating dozens of handle columns and recalculating parent rows. Our client-side Variant Splitter restructures your CSV instantly in your browser.
+      </p>
+      <a href="/variant-splitter/" class="inline-flex items-center gap-1 text-xs font-bold text-indigo-700 hover:text-indigo-800 underline">
+        Open Variant Splitter &amp; Linker →
       </a>
     </div>
 
-    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
-      <p>
-        When building an e-commerce catalog with dozens of sizes, colors, and materials, store owners often default to cramming every variation under a single product listing. 
-      </p>
-      <p>
-        While modern Shopify APIs have raised technical caps to 2,048 variants, overloading one listing creates serious operational and SEO drawbacks:
-      </p>
-
-      <ul class="list-disc pl-5 space-y-1 text-slate-600">
-        <li><strong>No dedicated URLs for Google Shopping:</strong> A searcher looking for "Heather Grey Oversized Hoodie" is sent to a generic product page where black is selected by default.</li>
-        <li><strong>Sluggish Liquid Rendering:</strong> Loading dozens of images and JSON option arrays into a single page slows down mobile performance.</li>
-        <li><strong>Sparse Collection Grids:</strong> Your collection pages show 5 products instead of 30 distinct visual styles.</li>
-      </ul>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The Modern Architecture: Splitting by Primary Option</h2>
-      <p>
-        Top direct-to-consumer apparel and home goods brands structure products by splitting on a primary visual dimension (such as <strong>Color</strong> or <strong>Finish</strong>):
-      </p>
-      <ul class="list-disc pl-5 space-y-1 text-slate-600">
-        <li><code>classic-crewneck-washed-black</code> (Sizes XS–3XL)</li>
-        <li><code>classic-crewneck-vintage-white</code> (Sizes XS–3XL)</li>
-        <li><code>classic-crewneck-forest-green</code> (Sizes XS–3XL)</li>
-      </ul>
-      <p>
-        This strategy allows every colorway to have its own targeted page title, specific photo gallery, and individual entry on Google Shopping, while keeping variant options straightforward on the page.
-      </p>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The "Contiguous Handle" Problem in CSV Imports</h2>
-      <p>
-        Structuring products across multiple CSV rows requires strict formatting discipline. Shopify's CSV importer determines which variants belong together based purely on contiguous rows sharing the exact same <strong>Handle</strong>:
-      </p>
-      <div class="p-4 bg-slate-100 rounded-lg text-xs font-mono space-y-1">
-        <p class="text-slate-500 font-sans font-bold mb-2">How Shopify reads multi-row variants:</p>
-        <p>Row 1: Handle: <span class="text-blue-600">crewneck-black</span> | Title: Crewneck Black | Size: Small</p>
-        <p>Row 2: Handle: <span class="text-blue-600">crewneck-black</span> | Title: [Blank]        | Size: Medium</p>
-        <p>Row 3: Handle: <span class="text-emerald-700">crewneck-white</span> | Title: Crewneck White | Size: Small</p>
-      </div>
-      <p>
-        If an Excel sort scrambles row order, or if the Handle column is accidentally left blank on secondary variant rows, Shopify will either duplicate listings or reject the import with structural mismatch errors.
-      </p>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Automate Handle Structuring with ShopiClean</h2>
-      <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-        <li>Open the <a href="../../variant-splitter/" class="text-blue-600 underline font-bold">ShopiClean Variant Splitter & Linker</a>.</li>
-        <li>Drop your supplier spreadsheet or exported CSV.</li>
-        <li>The tool identifies option combinations, groups rows by parent handle, verifies contiguous sequencing, and standardizes handle slugs.</li>
-        <li>Export a verified CSV ready for clean Shopify import.</li>
-      </ol>
-
-      <div class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-xs text-center">
-        <h3 class="text-base font-bold text-slate-900">Need to clean and structure your variants?</h3>
-        <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
-          Audit handle continuity and group multi-option products directly in your browser with zero data leaving your machine.
+    <!-- Article Content -->
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">The Problem with Packing 100+ Variants on One Page</h2>
+        <p>
+          While modern Shopify plans have expanded variant limits through GraphQL APIs, stacking dozens of sizes, colors, and materials into a single product listing creates major operational headaches for growing stores:
         </p>
-        <a href="../../variant-splitter/" class="inline-block mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs">
-          Open Variant Splitter Demo →
-        </a>
-      </div>
+        <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
+          <li><strong>Diminished Google Shopping Visibility:</strong> Google Shopping performs best when every distinct colorway has its own dedicated title, primary image, and landing page URL. Packing all colors into one product hides individual colors from high-intent search queries.</li>
+          <li><strong>Theme &amp; Page Load Latency:</strong> Product pages with 100+ variant combinations must load hundreds of megabytes of variant images, slowing down Core Web Vitals and mobile conversion rates.</li>
+          <li><strong>CSV Sync Failures:</strong> In multi-row CSV imports, if a single handle is missing or misaligned on row 40, Shopify splits the variant into a completely separate orphaned product.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">The Best-Practice Strategy: Split by Color</h2>
+        <p>
+          Top apparel and enterprise brands structure their catalog by <strong>splitting products at the Color level</strong>, while keeping Size as sub-variants within each product.
+        </p>
+        <p>
+          For example, instead of one single product named <em>"Classic Pullover Hoodie"</em> containing 12 colors and 8 sizes (96 combinations), structure the catalog into distinct listings:
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-600">
+          <li><code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">classic-pullover-hoodie-black</code> (Sizes XS–4XL)</li>
+          <li><code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">classic-pullover-hoodie-heather-grey</code> (Sizes XS–4XL)</li>
+          <li><code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">classic-pullover-hoodie-navy</code> (Sizes XS–4XL)</li>
+        </ul>
+        <p class="mt-2">
+          Then, use a lightweight theme color swatch or collection link to visually connect them on the storefront.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Shopify CSV Rules for Variant Integrity</h2>
+        <p>
+          When managing variants in a CSV spreadsheet, Shopify requires strict continuity across rows:
+        </p>
+        <ol class="list-decimal pl-5 space-y-1.5 text-slate-600">
+          <li><strong>Contiguous Rows:</strong> All variant rows sharing the same <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Handle</code> must be grouped together contiguously. If rows for the same handle are separated by another product, Shopify throws an import error.</li>
+          <li><strong>Inherited Parent Fields:</strong> The product <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Title</code>, <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Body (HTML)</code>, and <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Vendor</code> should generally appear on the first row of each product. Secondary variant rows require the <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Handle</code> and variant columns, leaving top-level title columns empty.</li>
+        </ol>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Automate Your Catalog Splitting Locally</h2>
+        <p>
+          Using the <strong>ShopiClean Variant Splitter &amp; Linker</strong>, you can upload your master product catalog and automatically split multi-option rows into color-specific handles, audit broken handle sequences, and re-link orphan rows without paying for expensive recurring app subscriptions.
+        </p>
+        <div class="pt-4">
+          <a href="/variant-splitter/" class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-colors shadow-xs">
+            Split &amp; Link Variants Now →
+          </a>
+        </div>
+      </section>
     </article>
   </main>
 
+  <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../../about/" class="hover:text-blue-600">About</a>
-        <a href="../../contact/" class="hover:text-blue-600">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="text-blue-600 font-bold">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
-        const badge = document.getElementById('passStatusBadge');
-        if (badge) badge.style.display = 'inline-flex';
-      }
-    });
-  </script>
-</body>
-</html>
   </footer>
 
   <script>

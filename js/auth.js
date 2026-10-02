@@ -6,7 +6,9 @@
 
 const SHOPICLEAN_CONFIG = {
   storageKey: 'shopiclean_license_key',
-  // Dodo Payments Test Mode Checkout URL
+  // Toggle this flag to true on October 14 to enable public checkout
+  isLaunchLive: false,
+  // Dodo Payments Checkout URL (Ready to swap to live on Oct 12/14)
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
   // Endpoints
   validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
@@ -184,6 +186,20 @@ async function handleManualKeySubmit() {
 
 // 12. Inject Modal Markup into DOM
 function injectPaywallModal() {
+  // Pre-launch button logic based on SHOPICLEAN_CONFIG.isLaunchLive
+  const checkoutActionHtml = SHOPICLEAN_CONFIG.isLaunchLive
+    ? `<a href="${SHOPICLEAN_CONFIG.checkoutUrl}" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="block text-center w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors shadow-sm cursor-pointer">
+         Unlock Full Download — $9
+       </a>`
+    : `<button type="button" 
+               disabled 
+               class="block text-center w-full py-3 px-4 rounded-lg bg-slate-200 text-slate-500 font-bold text-xs cursor-not-allowed border border-slate-300 shadow-inner">
+         Launching October 14 — Pass Unlocks Soon
+       </button>`;
+
   const modalHtml = `
     <div id="shopiclean-paywall-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div class="relative w-full max-w-md bg-white rounded-xl shadow-2xl border border-slate-200 p-6 text-slate-800">
@@ -196,7 +212,7 @@ function injectPaywallModal() {
           <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mb-3 text-2xl">
             ✓
           </div>
-          <h3 class="text-xl font-bold text-slate-900">Your File Is Cleaned & Ready</h3>
+          <h3 class="text-xl font-bold text-slate-900">Your File Is Cleaned &amp; Ready</h3>
           <p class="text-sm text-slate-500 mt-1">Unlock instant exports and fixes across all 4 utilities.</p>
         </div>
 
@@ -213,12 +229,7 @@ function injectPaywallModal() {
             <li class="flex items-center">✓ Instant automated license key delivery</li>
           </ul>
 
-          <a href="${SHOPICLEAN_CONFIG.checkoutUrl}" 
-             target="_blank" 
-             rel="noopener noreferrer"
-             class="block text-center w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors shadow-sm cursor-pointer">
-            Unlock Full Download — $9
-          </a>
+          ${checkoutActionHtml}
         </div>
 
         <!-- Privacy & Local Processing Notice -->
@@ -229,7 +240,7 @@ function injectPaywallModal() {
         <!-- Restore / Enter License -->
         <div class="border-t border-slate-100 pt-3 text-center">
           <button type="button" id="toggle-key-input" onclick="toggleKeyRestore()" class="text-xs text-slate-500 hover:text-slate-800 underline">
-            Already have a license key?
+            Already have a license key? Restore access
           </button>
           
           <div id="license-restore-box" class="hidden mt-3">

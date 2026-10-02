@@ -3,58 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Convert Faire or Square CSV to Shopify Product Catalog (Easy Guide)</title>
-  <meta name="description" content="Step-by-step tutorial to map wholesale exports from Faire, Square POS, and custom supplier spreadsheets into Shopify's 50-column CSV format.">
+  <title>How to Convert Faire or Square CSVs for Shopify Import — ShopiClean</title>
+  <meta name="description" content="Step-by-step guide to mapping wholesale export columns from Faire, Square POS, and WooCommerce into Shopify's product CSV schema without data loss.">
   <link rel="canonical" href="https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Article & FAQ Schema for Google Search Rich Snippets -->
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/">
+  <meta property="og:title" content="How to Convert Faire, Square, or WooCommerce CSVs to Shopify">
+  <meta property="og:description" content="Convert third-party wholesale supplier exports into official Shopify product CSV schemas without spreadsheet errors.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD Structured Data: HowTo -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "HowTo",
+    "name": "How to Convert Supplier CSVs for Shopify Import",
+    "description": "Convert and remap wholesale sheets from Faire, Square POS, and third-party vendors into Shopify CSV format.",
+    "step": [
       {
-        "@type": "Article",
-        "headline": "How to Convert Faire or Square Supplier CSVs into Shopify Format",
-        "description": "Comprehensive tutorial on column mapping, price sanitization, and schema translation from supplier spreadsheets into valid Shopify product imports.",
-        "author": {
-          "@type": "Organization",
-          "name": "ShopiClean"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "ShopiClean",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://shopiclean.com/favicon.svg"
-          }
-        },
-        "datePublished": "2026-10-01",
-        "dateModified": "2026-10-01"
+        "@type": "HowToStep",
+        "name": "Extract required Shopify core headers",
+        "text": "Identify standard Shopify fields: Handle, Title, Variant Price, Variant SKU, and Variant Inventory Qty."
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Can I upload a Faire order export directly into Shopify?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Faire uses custom header names like 'Product Token', 'Wholesale Price', and 'Retail Price', whereas Shopify strictly requires 'Title', 'Variant Price', and 'Handle'. Uploading directly causes an instant import failure."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does Square POS inventory differ from Shopify CSV format?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Square exports product options under headers like 'Item Name', 'Variation Name', and 'Current Quantity', while Shopify requires 'Title', 'Option1 Name', 'Option1 Value', and 'Variant Inventory Qty'."
-            }
-          }
-        ]
+        "@type": "HowToStep",
+        "name": "Map supplier column names to Shopify standards",
+        "text": "Remap non-standard names such as Item Name to Title, Wholesale Cost to Variant Price, and Stock to Variant Inventory Qty."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Sanitize currency symbols and generate URL handles",
+        "text": "Strip currency signs ($/€/£) and generate kebab-case URL handles for each unique product title."
       }
     ]
   }
@@ -65,7 +50,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -75,186 +60,178 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="../../supplier-converter/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
-          Open Supplier Converter →
+        <a href="/supplier-converter/" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+          Open Converter →
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Main Article Content -->
-  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
-    
-    <!-- Breadcrumb -->
+  <!-- Main Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumbs -->
     <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
-      <a href="../../" class="hover:text-blue-600">Home</a>
+      <a href="/" class="hover:text-blue-600">Home</a>
       <span>/</span>
-      <span>Guides</span>
+      <a href="/guides/" class="hover:text-blue-600">Guides</a>
       <span>/</span>
-      <span class="text-slate-800">Supplier to Shopify Mapping</span>
+      <span class="text-slate-800">Convert Supplier Sheets</span>
     </nav>
 
-    <header class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Inventory Workflow</span>
-      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5 leading-tight">
-        How to Convert Faire or Square CSVs into Shopify Product Catalogs
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 mb-3">
+        Integration &amp; Mapping
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+        How to Convert Faire or Square CSVs for Shopify Import
       </h1>
-      <p class="text-xs sm:text-sm text-slate-500 mt-2">Essential Guide for Modern E-Commerce Operators • 4 min read</p>
+      <p class="text-xs text-slate-500 mt-3">Updated for 2026 • 5 min read</p>
     </header>
 
-    <!-- Immediate Fast-Fix Tool Banner -->
-    <div class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-1.5 text-xs font-bold text-blue-800 uppercase tracking-wide">
-          <span>⚡</span> Converting a supplier export right now?
-        </div>
-        <p class="text-xs text-slate-700 mt-1 leading-relaxed">
-          Skip manually copying columns one by one. Transform Faire, Square, or custom wholesaler spreadsheets into official Shopify schemas automatically.
-        </p>
+    <!-- Quick Solution CTA Box -->
+    <div class="p-5 rounded-xl bg-blue-50 border border-blue-200 mb-10 space-y-3">
+      <div class="flex items-center gap-2 font-bold text-sm text-blue-900">
+        <svg class="w-4 h-4 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+        </svg>
+        Convert Any Supplier Sheet in 30 Seconds
       </div>
-      <a href="../../supplier-converter/" class="shrink-0 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
-        Convert Supplier CSV →
+      <p class="text-xs text-slate-700 leading-relaxed">
+        Map third-party columns (Faire, Square, Lightspeed, or custom wholesale spreadsheets) straight into official Shopify CSV schemas in your browser. No formulas or macros required.
+      </p>
+      <a href="/supplier-converter/" class="inline-flex items-center gap-1 text-xs font-bold text-blue-700 hover:text-blue-800 underline">
+        Launch Supplier Catalog Converter →
       </a>
     </div>
 
-    <!-- Article Body -->
-    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
-      <p>
-        If you run a retail boutique, curate wholesale goods, or migrate from brick-and-mortar POS systems, your inventory lives in external spreadsheets:
-      </p>
-
-      <ul class="list-disc pl-5 space-y-1 text-slate-600">
-        <li>Wholesale order sheets exported from <strong>Faire</strong> or <strong>Abound</strong>.</li>
-        <li>Inventory reports downloaded from <strong>Square POS</strong> or <strong>Clover</strong>.</li>
-        <li>Custom warehouse spreadsheets provided by overseas dropshipping distributors.</li>
-      </ul>
-
-      <p>
-        When you attempt to drop these files directly into <strong>Shopify Admin &gt; Products &gt; Import</strong>, Shopify rejects the file with errors such as:
-      </p>
-
-      <div class="p-3.5 bg-red-50 border-l-4 border-red-500 rounded-r-lg font-mono text-xs text-red-900">
-        Missing required header: Title. Found unrecognized columns: Item Name, Price Point, Token.
-      </div>
-
-      <p>
-        Shopify requires a strict 50-column structure with exact capitalization and specific data types. Here is the manual mapping reference and how to automate the transformation.
-      </p>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">The Essential Column Translation Table</h2>
-      <p>
-        To make any external wholesale spreadsheet work with Shopify, you must map their custom headers to Shopify's primary specification:
-      </p>
-
-      <!-- Markdown Comparison Table -->
-      <div class="overflow-x-auto rounded-xl border border-slate-200 my-4">
-        <table class="w-full text-left text-xs font-mono">
-          <thead class="bg-slate-100 text-slate-800 font-sans border-b border-slate-200">
-            <tr>
-              <th class="p-3 font-bold">Standard Supplier Header</th>
-              <th class="p-3 font-bold text-blue-700">Required Shopify Header</th>
-              <th class="p-3 font-bold">Transformation Rule</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100 bg-white">
-            <tr>
-              <td class="p-3">Product Name / Item Name</td>
-              <td class="p-3 font-bold text-blue-700">Title</td>
-              <td class="p-3 font-sans text-slate-500">Must be non-empty on primary rows.</td>
-            </tr>
-            <tr>
-              <td class="p-3">(Derived from Name)</td>
-              <td class="p-3 font-bold text-blue-700">Handle</td>
-              <td class="p-3 font-sans text-slate-500">Lowercase, hyphenated slug (no spaces).</td>
-            </tr>
-            <tr>
-              <td class="p-3">Retail Price / Selling Price</td>
-              <td class="p-3 font-bold text-blue-700">Variant Price</td>
-              <td class="p-3 font-sans text-slate-500">Strip currency signs ($/€); numeric only.</td>
-            </tr>
-            <tr>
-              <td class="p-3">Wholesale / MSRP</td>
-              <td class="p-3 font-bold text-blue-700">Variant Compare At Price</td>
-              <td class="p-3 font-sans text-slate-500">Optional; shows discounted strike-through.</td>
-            </tr>
-            <tr>
-              <td class="p-3">Stock Qty / On Hand</td>
-              <td class="p-3 font-bold text-blue-700">Variant Inventory Qty</td>
-              <td class="p-3 font-sans text-slate-500">Integer format only.</td>
-            </tr>
-            <tr>
-              <td class="p-3">Barcode / Item Code</td>
-              <td class="p-3 font-bold text-blue-700">Variant SKU</td>
-              <td class="p-3 font-sans text-slate-500">Unique alphanumeric code.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">3 Sneaky Errors When Converting in Excel</h2>
-      <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-        <li><strong>Currency Formatting Traps:</strong> Wholesalers format price cells as currency (e.g. <code>$24.50</code>). Excel keeps the dollar sign when exporting to raw CSV, causing Shopify to fail on numeric validation.</li>
-        <li><strong>Missing Inventory Tracker Policy:</strong> If you supply quantities in <code>Variant Inventory Qty</code> without specifying <code>Variant Inventory Tracker = shopify</code>, Shopify will ignore your stock counts completely.</li>
-        <li><strong>Truncated Barcodes:</strong> Excel often treats 12-digit UPC or EAN barcodes as scientific numbers (e.g. <code>7.89E+11</code>), permanently corrupting your product identifiers.</li>
-      </ol>
-
-      <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Method 1: Automatic Re-Mapping with ShopiClean (Fastest)</h2>
-      <p>
-        Instead of re-ordering 50 columns manually in Excel:
-      </p>
-      <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-        <li>Open the <a href="../../supplier-converter/" class="text-blue-600 underline font-bold">ShopiClean Supplier Converter</a>.</li>
-        <li>Drop your raw Faire, Square, or distributor spreadsheet.</li>
-        <li>The client-side engine matches your headers into Title, SKU, Inventory, Description, and Price columns.</li>
-        <li>Currency signs are automatically cleaned, valid URL handles are generated from titles, and default inventory tracking policies are set.</li>
-        <li>Download the compliant Shopify CSV ready for immediate import.</li>
-      </ol>
-
-      <!-- Mid-Article CTA Card -->
-      <div class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-xs text-center">
-        <h3 class="text-base font-bold text-slate-900">Have a messy wholesale catalog ready to import?</h3>
-        <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
-          Convert arbitrary supplier exports to 100% compliant Shopify CSV format without uploading sensitive pricing data to external servers.
+    <!-- Article Content -->
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Why Supplier CSVs Fail to Import Directly</h2>
+        <p>
+          Wholesale marketplaces and POS systems export inventory using their own internal database naming conventions. When you try to upload a raw export directly into Shopify Admin, the upload fails with messages like <em>"Missing required header: Handle"</em> or <em>"Illegal column count"</em>.
         </p>
-        <a href="../../supplier-converter/" class="inline-block mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs">
-          Open Free Converter Demo →
-        </a>
-      </div>
+        <p>
+          Shopify's CSV importer expects <strong>exact, case-sensitive column headers</strong>. If a supplier labels their price column as <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">MSRP</code> or <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Cost</code> instead of <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Variant Price</code>, Shopify ignores the column entirely, resulting in products with $0.00 pricing.
+        </p>
+      </section>
 
-      <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">Frequently Asked Questions</h2>
-      <div class="space-y-4 not-prose mt-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200">
-          <h4 class="text-xs font-bold text-slate-900">Does this overwrite existing products in my store?</h4>
-          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Only if you check the box inside Shopify Admin that says <em>"Overwrite existing products that have the same handle"</em>. Otherwise, Shopify will create new products alongside your existing listings.
-          </p>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Key Column Mapping Reference</h2>
+        <div class="border border-slate-200 rounded-xl overflow-hidden text-xs">
+          <table class="w-full text-left">
+            <thead class="bg-slate-100 font-bold text-slate-900 border-b border-slate-200">
+              <tr>
+                <th class="p-3">Third-Party Supplier Header</th>
+                <th class="p-3">Official Shopify CSV Header</th>
+                <th class="p-3">Required Formatting</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3 font-mono text-slate-600">Product Name / Item</td>
+                <td class="p-3 font-mono text-blue-600 font-bold">Title</td>
+                <td class="p-3">Plain text, double-quotes escaped</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-slate-600">Item Name / Slug (None)</td>
+                <td class="p-3 font-mono text-blue-600 font-bold">Handle</td>
+                <td class="p-3">kebab-case URL slug (auto-generated)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-slate-600">Retail Price / MSRP</td>
+                <td class="p-3 font-mono text-blue-600 font-bold">Variant Price</td>
+                <td class="p-3">Numeric decimal only (no $, €, or £)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-slate-600">Current Stock / Quantity</td>
+                <td class="p-3 font-mono text-blue-600 font-bold">Variant Inventory Qty</td>
+                <td class="p-3">Integer numbers only</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-mono text-slate-600">Barcode / UPC</td>
+                <td class="p-3 font-mono text-blue-600 font-bold">Variant Barcode</td>
+                <td class="p-3">12 or 13-digit text (preserve leading zeros)</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200">
-          <h4 class="text-xs font-bold text-slate-900">Can I import product tags and collections through this method?</h4>
-          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Yes. The converter maps supplier category fields directly into Shopify's <code>Type</code> and comma-separated <code>Tags</code> columns so your automated collections categorize items immediately on upload.
-          </p>
-        </div>
-      </div>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">How to Convert Supplier Sheets with ShopiClean</h2>
+        <ol class="list-decimal pl-5 space-y-1.5 text-slate-600">
+          <li>Open the <a href="/supplier-converter/" class="text-blue-600 font-bold hover:underline">Supplier Catalog Converter</a>.</li>
+          <li>Drop your raw CSV or wholesale spreadsheet file into the upload zone.</li>
+          <li>Our tool auto-detects common supplier column headers and matches them to official Shopify fields.</li>
+          <li>Confirm any optional fields (such as SKU, Vendor, or Weight).</li>
+          <li>Click <strong>Export Clean CSV</strong> to download an import-ready Shopify file.</li>
+        </ol>
+      </section>
     </article>
   </main>
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../../about/" class="hover:text-blue-600">About</a>
-        <a href="../../contact/" class="hover:text-blue-600">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="text-blue-600 font-bold">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
   </footer>

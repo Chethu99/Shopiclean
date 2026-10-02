@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemap Index Directive
 Sitemap: https://shopiclean.com/sitemap.xml

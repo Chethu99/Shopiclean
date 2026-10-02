@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms of Service & Refund Policy — ShopiClean</title>
-  <meta name="description" content="ShopiClean Terms of Service, user backup responsibilities, 14-day import failure refund guarantee, and license guidelines.">
+  <meta name="description" content="ShopiClean Terms of Service, user backup responsibilities, 14-day import failure refund guarantee, and software licensing guidelines.">
   <link rel="canonical" href="https://shopiclean.com/terms/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -16,7 +16,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -26,14 +26,11 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          All Tools
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+          ← Back to Tools
         </a>
       </div>
     </div>
@@ -41,11 +38,18 @@
 
   <!-- Main Legal Content -->
   <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-10">
+    <!-- Breadcrumb -->
+    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
+      <a href="/" class="hover:text-blue-600">Home</a>
+      <span>/</span>
+      <span class="text-slate-800">Terms &amp; Refunds</span>
+    </nav>
+
+    <header class="mb-10 pb-6 border-b border-slate-200">
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">User Agreement</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Terms of Service & Refunds</h1>
-      <p class="text-xs text-slate-500 mt-2">Effective Date: September 2026 • Last Reviewed: September 2026</p>
-    </div>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5">Terms of Service &amp; Refund Policy</h1>
+      <p class="text-xs text-slate-500 mt-2">Effective Date: October 1, 2026</p>
+    </header>
 
     <!-- Guarantee Summary Card -->
     <div class="p-5 rounded-xl bg-emerald-50 border border-emerald-200 mb-8 space-y-2">
@@ -60,67 +64,127 @@
       </p>
     </div>
 
-    <div class="space-y-8 text-xs sm:text-sm text-slate-700 leading-relaxed">
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">1. Nature of the Service</h2>
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">1. Acceptance of Terms &amp; Scope</h2>
         <p>
-          ShopiClean provides client-side, web-based utilities designed to inspect, repair, restructure, and validate product CSV files for compliance with standard Shopify catalog schemas. ShopiClean does not connect via Shopify APIs, install store themes, or require access permissions to your online store.
+          By accessing or using ShopiClean.com and its browser utilities (CSV Error Auditor &amp; Fixer, Supplier Catalog Converter, Variant Splitter &amp; Linker, and Image URL Scanner), you agree to be bound by these Terms of Service and our <a href="/privacy-policy/" class="text-blue-600 underline">Privacy Policy</a>. If you do not agree to these terms, do not access or use this software.
         </p>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">2. Local Storage & Backups Policy</h2>
-        <p class="font-bold text-slate-900">
-          Because ShopiClean operates entirely client-side, our servers do not store or keep copies of your original or repaired files.
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">2. Architecture &amp; User Backup Responsibilities</h2>
+        <p>
+          ShopiClean operates exclusively as a client-side web utility. Spreadsheet transformations, delimiter parsing, string cleans, and column re-mappings are performed inside your browser's local memory using JavaScript. ShopiClean does not store, host, or backup copies of your catalog data on remote servers.
         </p>
-        <p class="mt-2">
-          You are solely responsible for maintaining unedited backup copies of all original catalog files, price lists, and inventory sheets prior to performing data transformations or executing imports into Shopify Admin. Under no circumstances is ShopiClean liable for catalog overwrites or data loss resulting from an unbacked-up upload.
-        </p>
+        <div class="p-4 bg-amber-50 border-l-4 border-amber-500 rounded-r-lg text-xs text-amber-950 font-medium">
+          <strong>Mandatory Backup Requirement:</strong> You must maintain an unmodified backup of your original inventory spreadsheets prior to utilizing our tools or executing imports into Shopify Admin. Under no circumstances will ShopiClean be liable for catalog data loss, unexpected overwrite behavior, or store downtime resulting from an unbacked-up import.
+        </div>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">3. License Terms (7-Day Pass)</h2>
-        <ul class="list-disc pl-5 space-y-1 text-slate-600">
-          <li><strong>Duration:</strong> A single $9 pass provides unlimited exports across all 4 utility tools for 7 consecutive days (168 hours) starting from successful checkout verification.</li>
-          <li><strong>No Auto-Renewal:</strong> The pass does not automatically renew, and you will never be charged recurring subscriptions without your explicit interaction.</li>
-          <li><strong>Device Activations:</strong> A single pass key may be activated on up to three (3) personal or business workstations concurrently. Sharing keys publicly is prohibited and subject to automatic key revocation.</li>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">3. Passes, Billing &amp; Merchant of Record</h2>
+        <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
+          <li><strong>One-Time Fee:</strong> The 7-Day Launch Pass is a flat, non-recurring fee of $9.00 USD. There are no automatic subscriptions or hidden recurring rebills.</li>
+          <li><strong>Duration:</strong> Access remains valid for 168 hours (7 days) starting from successful payment verification.</li>
+          <li><strong>Device Activations:</strong> A single pass license key may be activated on up to three (3) personal or business workstations concurrently. Reselling or distributing license keys publicly is strictly prohibited.</li>
+          <li><strong>Merchant of Record:</strong> All orders and payments are processed securely by our Merchant of Record, <strong>Dodo Payments</strong>. Applicable sales taxes or VAT are calculated and remitted by Dodo Payments at checkout.</li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">4. 14-Day Refund Claim Procedure</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">4. 14-Day Refund Claim Procedure</h2>
         <p>
-          Because our zero-cloud architecture means we cannot inspect your files remotely, refund requests require simple verification:
+          We stand firmly behind the technical accuracy of our tools. If a CSV exported by ShopiClean continues to be rejected by Shopify Admin for formatting or structural errors our software is designed to fix, you are entitled to a full refund within 14 calendar days of purchase.
         </p>
-        <ol class="list-decimal pl-5 mt-2 space-y-1 text-slate-600">
-          <li>Forward your Dodo Payments receipt to <code>support@shopiclean.com</code> within 14 calendar days of your purchase.</li>
-          <li>Include the exact error message or CSV import failure log generated by Shopify Admin during the attempted upload.</li>
-          <li>If the issue cannot be resolved by our technical engineers within 24 business hours, a 100% full refund will be processed immediately back to your original payment method.</li>
+        <p>To request a refund, email <code class="text-blue-600 bg-blue-50 px-1 py-0.5 rounded font-mono">support@shopiclean.com</code> with:</p>
+        <ol class="list-decimal pl-5 space-y-1 text-slate-600">
+          <li>Your order ID or license key.</li>
+          <li>The original raw file and the repaired output CSV file.</li>
+          <li>The exact rejection log, error message, or screenshot generated by Shopify Admin during the attempted import.</li>
         </ol>
+        <p>
+          Our technical support desk reviews refund claims within <strong>2 business days</strong>. Once verified, refunds are returned to your original payment method via Dodo Payments, and the associated license key is deactivated.
+        </p>
       </section>
 
-      <section>
-        <h2 class="text-base font-bold text-slate-900 mb-2">5. Third-Party Disclaimer</h2>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">5. Limitation of Liability &amp; Disclaimer</h2>
         <p>
-          ShopiClean is an independent developer utility and is not affiliated with, sponsored by, or endorsed by Shopify Inc. "Shopify" is a registered trademark of Shopify Inc. All other product names, logos, and brands mentioned are the property of their respective owners.
+          ShopiClean is provided on an "as-is" and "as-available" basis without warranties of any kind. While our utilities follow official Shopify specifications, we do not warrant that files will import without administrative restrictions caused by store plan caps, custom app overrides, or account-level policies.
+        </p>
+        <p>
+          To the maximum extent permitted by applicable law, in no event shall ShopiClean or its developers be liable for indirect, punitive, incidental, special, or consequential damages, including loss of business revenue or product sales. In all circumstances, our maximum aggregate liability shall be strictly limited to the amount paid for your 7-Day Pass ($9.00 USD).
         </p>
       </section>
-    </div>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">6. Third-Party Trademarks</h2>
+        <p>
+          ShopiClean is an independent software tool and is not affiliated with, sponsored by, or endorsed by Shopify Inc. "Shopify" is a registered trademark of Shopify Inc. Faire, Square, and WooCommerce are trademarks of their respective owners.
+        </p>
+      </section>
+    </article>
   </main>
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../terms/" class="hover:text-blue-600 text-blue-600 font-bold">Terms & Refunds</a>
-        <a href="../about/" class="hover:text-blue-600">About</a>
-        <a href="../contact/" class="hover:text-blue-600">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="text-blue-600 font-bold">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
   </footer>

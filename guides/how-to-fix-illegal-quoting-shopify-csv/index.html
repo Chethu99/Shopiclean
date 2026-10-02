@@ -1,275 +1,249 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Fix 'Illegal Quoting on Line X' in Shopify CSV Import (Fast Guide)</title>
-    <meta name="description"
-        content="Fix the Shopify CSV error 'Illegal quoting on line X' in under 2 minutes. Learn why Excel quote mismatches break imports and how to auto-repair your file.">
-    <link rel="canonical" href="https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Fix "Illegal Quoting on Line X" in Shopify CSV Imports — ShopiClean</title>
+  <meta name="description" content="Step-by-step guide to resolving Shopify's 'Illegal quoting on line X' CSV import error. Learn RFC-4180 quotation rules, escape unmatched quotes, or auto-fix client-side.">
+  <link rel="canonical" href="https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
-    <script src="/js/auth.js" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/js/auth.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Article & FAQ Schema for Google Search Rich Snippets -->
-    <script type="application/ld+json">
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/">
+  <meta property="og:title" content="Fix 'Illegal Quoting on Line X' in Shopify CSV Imports">
+  <meta property="og:description" content="Why Shopify rejects unescaped quotes in product CSVs and how to auto-repair quotation errors in-browser.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- JSON-LD Structured Data: HowTo -->
+  <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "HowTo",
+    "name": "How to Fix 'Illegal Quoting on Line X' in Shopify CSV Imports",
+    "description": "Troubleshoot and fix unmatched quotation marks, shifted columns, and RFC-4180 parsing errors in Shopify product CSV files.",
+    "step": [
       {
-        "@type": "Article",
-        "headline": "How to Fix 'Illegal Quoting on Line X' in Shopify CSV Imports",
-        "description": "Step-by-step technical guide to resolving quote mismatch and comma shift errors in Shopify product CSV imports.",
-        "author": {
-          "@type": "Organization",
-          "name": "ShopiClean"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "ShopiClean",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://shopiclean.com/favicon.svg"
-          }
-        },
-        "datePublished": "2026-10-01",
-        "dateModified": "2026-10-01"
+        "@type": "HowToStep",
+        "name": "Identify the failing line number",
+        "text": "Locate the line number flagged in Shopify Admin's import error modal (e.g., 'Illegal quoting on line 42')."
       },
       {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What causes the 'Illegal quoting on line' error in Shopify?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "This error occurs when a text field containing commas or quotation marks (such as product descriptions or titles) has unescaped quotes or an unclosed quotation mark. This causes Shopify's CSV parser to misread row breaks and column divisions."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can Excel fix Shopify illegal quoting errors automatically?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Often Excel worsens the issue by stripping escape slashes or converting smart curly quotes into incompatible character encodings when saving back to CSV."
-            }
-          }
-        ]
+        "@type": "HowToStep",
+        "name": "Inspect dimension symbols and HTML tags",
+        "text": "Check product titles and descriptions on that line for raw double quotes used as inch markers (like 12\") or unescaped HTML attributes."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Escape the quotes according to RFC-4180 standards",
+        "text": "Replace single unescaped double quotes inside fields with escaped double-quotes (\"\") or use an automated client-side CSV validator."
       }
     ]
   }
   </script>
 </head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-<body
-    class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
-
-    <!-- Header -->
-    <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <a href="../../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
-                <div
-                    class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
-                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                    </svg>
-                </div>
-                <span
-                    class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span
-                        class="text-blue-600">Clean</span></span>
-            </a>
-
-            <div class="flex items-center gap-3">
-                <span id="passStatusBadge" style="display: none;"
-                    class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    ✓ 7-Day Pass Active
-                </span>
-                <a href="../../csv-validator/"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
-                    Open CSV Fixer →
-                </a>
-            </div>
+  <!-- Header -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+          </svg>
         </div>
+        <span class="text-base font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">Shopi<span class="text-blue-600">Clean</span></span>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          ✓ 7-Day Pass Active
+        </span>
+        <a href="/csv-validator/" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+          Open CSV Auditor →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Breadcrumbs -->
+    <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
+      <a href="/" class="hover:text-blue-600">Home</a>
+      <span>/</span>
+      <a href="/guides/" class="hover:text-blue-600">Guides</a>
+      <span>/</span>
+      <span class="text-slate-800">Fix Illegal Quoting</span>
+    </nav>
+
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-50 text-red-700 border border-red-200 mb-3">
+        Syntax Error
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
+        How to Fix "Illegal Quoting on Line X" in Shopify CSV Imports
+      </h1>
+      <p class="text-xs text-slate-500 mt-3">Updated for 2026 • 5 min read</p>
     </header>
 
-    <!-- Main Article Content -->
-    <main class="flex-grow max-w-3xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+    <!-- Quick Solution CTA Box -->
+    <div class="p-5 rounded-xl bg-blue-50 border border-blue-200 mb-10 space-y-3">
+      <div class="flex items-center gap-2 font-bold text-sm text-blue-900">
+        <svg class="w-4 h-4 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+        Need an Instant Automatic Fix?
+      </div>
+      <p class="text-xs text-slate-700 leading-relaxed">
+        Don't waste time hunting down line numbers in text editors. Drop your CSV into our client-side validator to auto-escape quotation marks, balance delimiters, and format columns in seconds.
+      </p>
+      <a href="/csv-validator/" class="inline-flex items-center gap-1 text-xs font-bold text-blue-700 hover:text-blue-800 underline">
+        Launch Free CSV Auditor &amp; Fixer →
+      </a>
+    </div>
 
-        <!-- Breadcrumb -->
-        <nav class="flex text-xs font-semibold text-slate-500 mb-6 gap-2 items-center">
-            <a href="../../" class="hover:text-blue-600">Home</a>
-            <span>/</span>
-            <span>Guides</span>
-            <span>/</span>
-            <span class="text-slate-800">Illegal Quoting Fix</span>
-        </nav>
+    <!-- Article Content -->
+    <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">Why Does Shopify Report "Illegal Quoting"?</h2>
+        <p>
+          Shopify’s product import engine parses spreadsheets strictly using the standard <strong>RFC-4180 CSV specification</strong>. Under this standard, quotation marks (<code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">"</code>) are special control characters used to wrap fields that contain commas or line breaks (such as HTML product descriptions).
+        </p>
+        <p>
+          The error <strong>"Illegal quoting on line X"</strong> occurs when the parser encounters a double quote inside a cell that was not properly escaped. When this happens:
+        </p>
+        <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
+          <li>The parser assumes the field ended abruptly.</li>
+          <li>Commas inside your text description are suddenly treated as column dividers.</li>
+          <li>Every subsequent column shifts horizontally into the wrong field, breaking price, variant SKU, and inventory values.</li>
+        </ul>
+      </section>
 
-        <header class="mb-8">
-            <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Troubleshooting Guide</span>
-            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5 leading-tight">
-                How to Fix "Illegal Quoting on Line X" in Shopify CSV Imports
-            </h1>
-            <p class="text-xs sm:text-sm text-slate-500 mt-2">Updated for Shopify Admin CSV Specifications • 3 min read
-            </p>
-        </header>
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">The 3 Most Common Culprits</h2>
+        
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 mt-4">1. Dimension Symbols in Product Titles</h3>
+        <p>
+          Using raw double quotes for inches or feet in titles (e.g., <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">Modern 12" Wall Clock</code>) will immediately break standard CSV parsers unless wrapped properly.
+        </p>
 
-        <!-- Immediate Fast-Fix Tool Banner -->
-        <div
-            class="p-5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-                <div class="flex items-center gap-1.5 text-xs font-bold text-blue-800 uppercase tracking-wide">
-                    <span>⚡</span> Need to fix this right now?
-                </div>
-                <p class="text-xs text-slate-700 mt-1 leading-relaxed">
-                    Skip manual regex edits. Drop your file into our browser tool to sanitize illegal quotes and
-                    re-align shifted columns instantly.
-                </p>
-            </div>
-            <a href="../../csv-validator/"
-                class="shrink-0 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-sm transition-colors">
-                Auto-Repair CSV Now →
-            </a>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 mt-4">2. Unescaped Quotes in HTML Descriptions</h3>
+        <p>
+          When exporting product descriptions containing HTML elements (like <code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">&lt;a href="https://example.com"&gt;</code>), software like Excel or Numbers often fails to escape the internal quotes when exporting to CSV format.
+        </p>
+
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 mt-4">3. Quotation Marks Copied from Word or Google Docs</h3>
+        <p>
+          Pasting "smart quotes" or "curly quotes" (<code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">“ ”</code>) can cause unexpected encoding conflicts when converted between UTF-8 and ISO spreadsheets.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">How to Fix the Error Manually</h2>
+        <p>
+          According to RFC-4180, if a field contains a double-quote character, that quote must be escaped by prefixing it with another double quote (<code class="bg-slate-100 text-slate-900 px-1 py-0.5 rounded font-mono text-xs">""</code>), and the entire field must be enclosed in quotes.
+        </p>
+        <div class="p-4 bg-slate-900 text-slate-100 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
+          <p class="text-red-400">// Incorrect (Fails with Illegal Quoting):</p>
+          <p>modern-wall-clock,Modern 12" Wall Clock,Decor,45.00</p>
+          <p class="text-emerald-400 mt-3">// Correct (RFC-4180 Compliant):</p>
+          <p>modern-wall-clock,"Modern 12"" Wall Clock",Decor,45.00</p>
+        </div>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">The Automated Solution: ShopiClean CSV Auditor</h2>
+        <p>
+          Manually scanning spreadsheets with thousands of rows is slow and error-prone. Our browser-native <strong>CSV Error Auditor &amp; Fixer</strong> automatically scans your spreadsheet line by line:
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-600">
+          <li>Detects unescaped quotes in titles and HTML body content.</li>
+          <li>Normalizes stray currency marks ($/€/£) in variant prices.</li>
+          <li>Auto-formats output directly in your browser without uploading files to any remote server.</li>
+        </ul>
+        <div class="pt-4">
+          <a href="/csv-validator/" class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors shadow-xs">
+            Open CSV Auditor &amp; Fixer →
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">
+            © 2026 ShopiClean. All rights reserved.
+          </div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc. Shopify is a registered trademark of Shopify Inc.
+          </p>
         </div>
 
-        <!-- Article Body -->
-        <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-6">
-            <p>
-                If you are importing products into Shopify and received an error message like:
-            </p>
-
-            <div class="p-3.5 bg-red-50 border-l-4 border-red-500 rounded-r-lg font-mono text-xs text-red-900">
-                Line 42: Illegal quoting on line 42. CSV header does not match data row.
-            </div>
-
-            <p>
-                You are not alone. This is one of the most common CSV rejections encountered by e-commerce managers,
-                dropshippers, and inventory coordinators. Here is why it happens and how to resolve it.
-            </p>
-
-            <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Why Does "Illegal Quoting"
-                Happen?</h2>
-            <p>
-                In a standard CSV (Comma-Separated Values) file, columns are separated by commas. However, product
-                descriptions (HTML) and titles frequently contain commas or quotation marks (such as dimension
-                indicators like <code>12" Screen</code> or <code>100% Cotton, Made in USA</code>).
-            </p>
-            <p>
-                According to RFC 4180 CSV specifications, whenever a cell contains a comma or quote mark, the entire
-                cell value must be wrapped in double quotes. Furthermore, any quotation marks <em>inside</em> the text
-                must be escaped by doubling them (e.g., <code>""12 inch""</code>).
-            </p>
-            <p>
-                The error triggers when:
-            </p>
-            <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
-                <li>A quote was opened at the beginning of a description, but was never properly closed at the end.</li>
-                <li>An unescaped quotation mark (<code>"</code>) appears in the middle of a sentence, making the parser
-                    believe a new column has started prematurely.</li>
-                <li>Excel exported "curly/smart quotes" (<code>“</code> and <code>”</code>) that corrupted the UTF-8
-                    encoding.</li>
-            </ul>
-
-            <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Method 1: The Automated
-                In-Browser Fix (Recommended)</h2>
-            <p>
-                If your spreadsheet has hundreds or thousands of rows, manual line hunting is tedious. You can sanitize
-                the entire spreadsheet in your browser:
-            </p>
-            <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-                <li>Open the <a href="../../csv-validator/" class="text-blue-600 underline font-bold">ShopiClean CSV
-                        Validator</a>.</li>
-                <li>Drop your rejected CSV file into the dropzone.</li>
-                <li>The client-side engine scans every cell, normalizes unclosed quote brackets, escapes internal
-                    quotes, and strips invalid currency characters.</li>
-                <li>Review the Before vs After diff preview to confirm corrections, then export your clean CSV directly.
-                </li>
-            </ol>
-
-            <h2 class="text-lg font-bold text-slate-900 pt-2 border-t border-slate-200">Method 2: Manual Repair via Text
-                Editor (VS Code / Sublime Text)</h2>
-            <p>
-                If you only have one row failing and want to fix it by hand:
-            </p>
-            <ol class="list-decimal pl-5 space-y-2 text-slate-600">
-                <li><strong>Do NOT open the file in Excel:</strong> Excel will often re-save and re-break quotes
-                    automatically.</li>
-                <li>Open the CSV file in a code editor like VS Code or Notepad++.</li>
-                <li>Press <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-xs">Ctrl
-                        + G</kbd> (or <kbd
-                        class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-xs">Cmd +
-                        G</kbd>) and jump directly to the line number reported in your error message.</li>
-                <li>Inspect the description and title fields on that row. Look for inches marks (<code>"</code>) or
-                    mismatched quotes.</li>
-                <li>Replace stray individual quotes with <code>""</code> or replace them with word equivalents like
-                    <code>inches</code>.</li>
-                <li>Save the file ensuring the encoding format is explicitly set to <strong>UTF-8 without BOM</strong>.
-                </li>
-            </ol>
-
-            <!-- Mid-Article CTA Card -->
-            <div class="mt-8 p-6 bg-white border border-slate-200 rounded-xl shadow-xs text-center">
-                <h3 class="text-base font-bold text-slate-900">Tired of troubleshooting spreadsheet syntax?</h3>
-                <p class="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
-                    ShopiClean automates quote escaping, handle normalization, and image URL formatting without sending
-                    your catalog data to any servers.
-                </p>
-                <a href="../../csv-validator/"
-                    class="inline-block mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-colors shadow-xs">
-                    Open Free CSV Validator Demo →
-                </a>
-            </div>
-
-            <h2 class="text-lg font-bold text-slate-900 pt-6 border-t border-slate-200">Frequently Asked Questions</h2>
-            <div class="space-y-4 not-prose mt-4">
-                <div class="bg-white p-4 rounded-xl border border-slate-200">
-                    <h4 class="text-xs font-bold text-slate-900">Why does Shopify say "CSV header does not match data
-                        row"?</h4>
-                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                        When a quote mark fails to close, the CSV parser interprets subsequent commas as literal text
-                        instead of column breaks. As a result, the parser counts fewer columns in that row than exist in
-                        the header row, resulting in a column mismatch error.
-                    </p>
-                </div>
-                <div class="bg-white p-4 rounded-xl border border-slate-200">
-                    <h4 class="text-xs font-bold text-slate-900">Does Google Sheets fix this better than Excel?</h4>
-                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-                        Yes, Google Sheets handles RFC 4180 escaping better than Excel when exporting as CSV, but it can
-                        still struggle with complex embedded HTML description tags that contain unescaped quotes.
-                    </p>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    <!-- Global Footer -->
-    <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-        <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div>
-                <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-                <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-                <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.
-                </p>
-            </div>
-            <div class="flex gap-4">
-                <a href="../../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-                <a href="../../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-                <a href="../../about/" class="hover:text-blue-600">About</a>
-                <a href="../../contact/" class="hover:text-blue-600">Contact</a>
-            </div>
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="hover:text-blue-600 transition-colors">Image URL Scanner</a></li>
+          </ul>
         </div>
-    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
-                const badge = document.getElementById('passStatusBadge');
-                if (badge) badge.style.display = 'inline-flex';
-            }
-        });
-    </script>
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="text-blue-600 font-bold">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
+        const badge = document.getElementById('passStatusBadge');
+        if (badge) badge.style.display = 'inline-flex';
+      }
+    });
+  </script>
 </body>
-
 </html>
