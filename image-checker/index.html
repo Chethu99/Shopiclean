@@ -28,7 +28,7 @@
 
       <div class="flex items-center gap-3">
         <!-- Guaranteed hidden by default via inline style -->
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
         <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
@@ -119,9 +119,9 @@
             <table class="w-full text-left text-xs font-mono">
               <thead class="bg-slate-100 text-slate-700 border-b border-slate-200 font-sans">
                 <tr>
-                  <th class="p-2.5 font-bold">Image Field</th>
-                  <th class="p-2.5 font-bold text-red-700">Original Link (Before)</th>
-                  <th class="p-2.5 font-bold text-emerald-700">Repaired Link (After)</th>
+                  <th class="p-2.5 font-bold w-1/4">Image Field</th>
+                  <th class="p-2.5 font-bold text-red-700 w-3/8">Original Link (Before)</th>
+                  <th class="p-2.5 font-bold text-emerald-700 w-3/8">Repaired Link (After)</th>
                 </tr>
               </thead>
               <tbody id="diffPreviewBody" class="divide-y divide-slate-100 bg-white"></tbody>
@@ -163,13 +163,13 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
         <div class="p-4 bg-red-50/60 rounded-lg border border-red-200">
           <span class="text-red-700 font-bold block mb-2 font-sans">❌ Before: Rejected by Shopify CDN</span>
-          <p class="text-red-900 leading-relaxed truncate">www.mysite.com/uploads/canvas tote bag.jpg</p>
-          <p class="text-red-900 leading-relaxed truncate">htp://cdn.shopify.com/broken-url.png</p>
+          <p class="text-red-900 leading-relaxed break-all">www.mysite.com/uploads/canvas tote bag.jpg</p>
+          <p class="text-red-900 leading-relaxed break-all">htp://cdn.shopify.com/broken-url.png</p>
         </div>
         <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
           <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Compliant URL Standards</span>
-          <p class="text-emerald-900 leading-relaxed truncate">https://www.mysite.com/uploads/canvas%20tote%20bag.jpg</p>
-          <p class="text-emerald-900 leading-relaxed truncate">http://cdn.shopify.com/broken-url.png</p>
+          <p class="text-emerald-900 leading-relaxed break-all">https://www.mysite.com/uploads/canvas%20tote%20bag.jpg</p>
+          <p class="text-emerald-900 leading-relaxed break-all">http://cdn.shopify.com/broken-url.png</p>
         </div>
       </div>
     </section>
@@ -234,17 +234,56 @@
 
   <!-- Global Footer -->
   <footer class="border-t border-slate-200 bg-white mt-12 text-slate-600 text-xs">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</span>
-        <span class="text-slate-400 ml-2">© 2026. All rights reserved.</span>
-        <p class="text-[10px] text-slate-400 mt-1">ShopiClean is not affiliated with or endorsed by Shopify Inc.</p>
-      </div>
-      <div class="flex gap-4">
-        <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
-        <a href="../about/" class="hover:text-blue-600">About</a>
-        <a href="../contact/" class="hover:text-blue-600">Contact</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="text-sm font-extrabold text-slate-900">Shopi<span class="text-blue-600">Clean</span>.com</div>
+          <p class="text-slate-500 leading-relaxed text-xs">
+            Privacy-first client-side utilities engineered for e-commerce operations, store owners, and catalog managers.
+          </p>
+          <div class="text-[11px] text-slate-400">© 2026 ShopiClean. All rights reserved.</div>
+          <p class="text-[10px] text-slate-400 leading-normal">
+            ShopiClean is an independent utility and is not affiliated with, endorsed by, or sponsored by Shopify Inc.
+          </p>
+        </div>
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Tools</div>
+          <ul class="space-y-2">
+            <li><a href="/csv-validator/" class="hover:text-blue-600 transition-colors">CSV Validator &amp; Fixer</a></li>
+            <li><a href="/supplier-converter/" class="hover:text-blue-600 transition-colors">Supplier Catalog Converter</a></li>
+            <li><a href="/variant-splitter/" class="hover:text-blue-600 transition-colors">Variant Splitter &amp; Linker</a></li>
+            <li><a href="/image-checker/" class="text-blue-600 font-bold">Image URL Scanner</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Troubleshooting</div>
+          <ul class="space-y-2">
+            <li><a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="hover:text-blue-600 transition-colors">Fix Illegal Quoting</a></li>
+            <li><a href="/guides/shopify-100-variant-limit-bypass/" class="hover:text-blue-600 transition-colors">Split Multi-Variant Catalogs</a></li>
+            <li><a href="/guides/convert-faire-square-supplier-csv-shopify/" class="hover:text-blue-600 transition-colors">Convert Supplier Sheets</a></li>
+            <li><a href="/guides/fix-media-url-failed-shopify-import/" class="hover:text-blue-600 transition-colors">Fix Broken Image Links</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
+          <ul class="space-y-2">
+            <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
+            <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
+            <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
+          </ul>
+        </div>
+        <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100 space-y-2">
+          <div class="flex items-center gap-1.5 font-bold text-blue-900 text-xs">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            No Cloud Data Ingestion
+          </div>
+          <p class="text-[11px] text-slate-600 leading-normal">
+            Your catalog spreadsheets never touch our servers. File parsing, data repairs, and exports execute locally in your browser memory.
+          </p>
+        </div>
       </div>
     </div>
   </footer>
@@ -363,26 +402,40 @@ modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,S
               if (fixed !== orig) {
                 cleanRow[imageKey] = fixed;
                 fixesCount++;
-                if (diffItems.length < 5) {
-                  diffItems.push({ field: 'Image URL', before: orig, after: fixed || '[Removed invalid protocol]' });
-                }
+                diffItems.push({ field: 'Image URL', before: orig, after: fixed || '[Removed invalid protocol]' });
               }
             }
             return cleanRow;
           });
 
           metricFileName.textContent = fileName || 'images.csv';
-          metricRowsCount.textContent = `${rows.length} rows parsed`;
-          metricFixCount.textContent = `${fixesCount} fixes applied`;
-          statsRow.textContent = `Scanned ${rows.length} rows • Validated & corrected ${fixesCount} image links`;
+          metricRowsCount.textContent = `${rows.length.toLocaleString()} rows parsed`;
+          metricFixCount.textContent = `${fixesCount.toLocaleString()} fixes applied`;
+          statsRow.textContent = `Scanned ${rows.length.toLocaleString()} rows • Validated & corrected ${fixesCount.toLocaleString()} image links`;
 
-          diffPreviewBody.innerHTML = diffItems.map(item => `
+          const maxPreview = 5;
+          const visibleDiffs = diffItems.slice(0, maxPreview);
+
+          let html = visibleDiffs.map(item => `
             <tr>
-              <td class="p-2.5 font-bold text-slate-800">${item.field}</td>
-              <td class="p-2.5 text-red-600 bg-red-50/50 truncate max-w-xs">${item.before}</td>
-              <td class="p-2.5 text-emerald-700 bg-emerald-50/50 font-semibold truncate max-w-xs">${item.after}</td>
+              <td class="p-2.5 font-bold text-slate-800 whitespace-nowrap">${item.field}</td>
+              <td class="p-2.5 text-red-600 bg-red-50/50 break-all text-[11px] font-mono" title="${item.before.replace(/"/g, '&quot;')}">${item.before}</td>
+              <td class="p-2.5 text-emerald-700 bg-emerald-50/50 font-semibold break-all text-[11px] font-mono" title="${item.after.replace(/"/g, '&quot;')}">${item.after}</td>
             </tr>
           `).join('');
+
+          if (diffItems.length > maxPreview) {
+            const remaining = diffItems.length - maxPreview;
+            html += `
+              <tr class="bg-slate-50/70">
+                <td colspan="3" class="p-3 text-center text-xs text-slate-600 font-medium italic border-t border-slate-200">
+                  + ${remaining.toLocaleString()} more image links repaired. Click <strong>"Download Fixed CSV"</strong> to get the complete file.
+                </td>
+              </tr>
+            `;
+          }
+
+          diffPreviewBody.innerHTML = html;
 
           issueLog.innerHTML = `
             <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
