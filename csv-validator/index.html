@@ -61,7 +61,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • No upload to external servers</p>
+        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -271,6 +271,10 @@
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
+    // 25MB file size safety cap (Shopify limits imports to 15MB)
+    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
     let fixedRows = [];
     let originalFileName = 'shopify-fixed.csv';
 
@@ -279,7 +283,6 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
 ,Summer Linen Shirt & Shorts,Casual breathable set,Beachwear,Clothing,$29.99,$35.00
 organic-cotton-hoodie,100% Organic Cotton Hoodie,Winter warmth,EcoWear,Apparel,$54.00,`;
 
-    // Only unhide badge if auth actually succeeds
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
         passStatusBadge.style.display = 'inline-flex';
@@ -311,8 +314,18 @@ organic-cotton-hoodie,100% Organic Cotton Hoodie,Winter warmth,EcoWear,Apparel,$
     function processFile(file) {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         alert('Please provide a valid .csv file.');
+        fileInput.value = '';
         return;
       }
+
+      // Memory & browser crash guardrail
+      if (file.size > MAX_FILE_BYTES) {
+        const actualSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        alert(`File too large (${actualSizeMB}MB). Shopify's native import limit is 15MB. Please upload a file under ${MAX_FILE_SIZE_MB}MB.`);
+        fileInput.value = '';
+        return;
+      }
+
       originalFileName = file.name.replace(/\.csv$/i, '-repaired.csv');
       const reader = new FileReader();
       reader.onload = (e) => startScanSimulation(e.target.result, file.name);

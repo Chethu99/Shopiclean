@@ -61,7 +61,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Local in-browser checking • Zero server uploads</p>
+        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -307,6 +307,10 @@
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
+    // 25MB file size safety cap (Shopify limits imports to 15MB)
+    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
     let fixedRows = [];
     let originalFileName = 'shopify-images-fixed.csv';
 
@@ -317,7 +321,6 @@ canvas-tote-bag,Canvas Tote Bag,htp://cdn.shopify.com/broken-url.png,3,Canvas To
 modern-desk-lamp,Modern Desk Lamp,/local-assets/lamp-view.png,1,Desk Lamp Front
 modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,Spec Sheet Image`;
 
-    // Only unhide badge if auth actually succeeds
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
         passStatusBadge.style.display = 'inline-flex';
@@ -349,8 +352,18 @@ modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,S
     function processFile(file) {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         alert('Please provide a valid .csv file.');
+        fileInput.value = '';
         return;
       }
+
+      // Memory & browser crash guardrail
+      if (file.size > MAX_FILE_BYTES) {
+        const actualSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        alert(`File too large (${actualSizeMB}MB). Shopify's native import limit is 15MB. Please upload a file under ${MAX_FILE_SIZE_MB}MB.`);
+        fileInput.value = '';
+        return;
+      }
+
       originalFileName = file.name.replace(/\.csv$/i, '-images-fixed.csv');
       const reader = new FileReader();
       reader.onload = (e) => startScanSimulation(e.target.result, file.name);

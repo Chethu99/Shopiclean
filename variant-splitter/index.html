@@ -28,7 +28,7 @@
 
       <div class="flex items-center gap-3">
         <!-- Guaranteed hidden by default via inline style -->
-        <span id="passStatusBadge" style="display: none;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
         <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
@@ -61,7 +61,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Variant CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Processed locally in browser memory • Zero server uploads</p>
+        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -214,7 +214,7 @@
       </div>
       <div class="flex gap-4">
         <a href="../privacy-policy/" class="hover:text-blue-600">Privacy Policy</a>
-        <a href="../terms/" class="hover:text-blue-600">Terms & Refunds</a>
+        <a href="../terms/" class="hover:text-blue-600">Terms &amp; Refunds</a>
         <a href="../about/" class="hover:text-blue-600">About</a>
         <a href="../contact/" class="hover:text-blue-600">Contact</a>
       </div>
@@ -239,6 +239,10 @@
     const togglePreviewBtn = document.getElementById('togglePreviewBtn');
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
+
+    // 25MB safety ceiling (Shopify caps imports at 15MB)
+    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
     let fixedRows = [];
     let originalFileName = 'shopify-variants-linked.csv';
@@ -282,8 +286,18 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
     function processFile(file) {
       if (!file.name.toLowerCase().endsWith('.csv')) {
         alert('Please provide a valid .csv file.');
+        fileInput.value = '';
         return;
       }
+
+      // Memory & browser crash protection
+      if (file.size > MAX_FILE_BYTES) {
+        const actualSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+        alert(`File too large (${actualSizeMB}MB). Shopify's native import limit is 15MB. Please upload a file under ${MAX_FILE_SIZE_MB}MB.`);
+        fileInput.value = '';
+        return;
+      }
+
       originalFileName = file.name.replace(/\.csv$/i, '-variants-linked.csv');
       const reader = new FileReader();
       reader.onload = (e) => startScanSimulation(e.target.result, file.name);
@@ -348,9 +362,9 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
           });
 
           metricFileName.textContent = fileName || 'variants.csv';
-          metricRowsCount.textContent = `${rows.length} rows parsed`;
-          metricFixCount.textContent = `${fixesCount} handles linked`;
-          statsRow.textContent = `Analyzed ${rows.length} rows • Synchronized ${fixesCount} variant handle instances`;
+          metricRowsCount.textContent = `${rows.length.toLocaleString()} rows parsed`;
+          metricFixCount.textContent = `${fixesCount.toLocaleString()} handles linked`;
+          statsRow.textContent = `Analyzed ${rows.length.toLocaleString()} rows • Synchronized ${fixesCount.toLocaleString()} variant handle instances`;
 
           diffPreviewBody.innerHTML = diffItems.map(item => `
             <tr>
