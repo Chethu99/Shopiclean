@@ -6,6 +6,12 @@
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "exclude": [
+      ".git/**",
+      ".github/**",
+      "node_modules/**",
+      "*.csv"
+    ]
   }
 }
