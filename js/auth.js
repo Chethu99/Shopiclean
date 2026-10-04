@@ -16,6 +16,27 @@ const SHOPICLEAN_CONFIG = {
   testBypassKey: 'TEST-PASS-1234'
 };
 
+// GA4 Tracking Helpers
+function trackGA4Event(eventName, params = {}) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, params);
+  }
+}
+
+function trackPurchaseEvent(licenseKey) {
+  trackGA4Event('purchase', {
+    transaction_id: licenseKey || ('pass_' + Date.now()),
+    value: 9.00,
+    currency: 'USD',
+    items: [{
+      item_id: 'pass_7day',
+      item_name: 'ShopiClean 7-Day Pass',
+      price: 9.00,
+      quantity: 1
+    }]
+  });
+}
+
 // 1. Retrieve saved license key
 function getSavedLicense() {
   const key = localStorage.getItem(SHOPICLEAN_CONFIG.storageKey);
@@ -112,6 +133,18 @@ function openPaywallModal(onSuccessCallback) {
     modal = document.getElementById('shopiclean-paywall-modal');
   }
 
+  // Track paywall impression as checkout initiation
+  trackGA4Event('begin_checkout', {
+    value: 9.00,
+    currency: 'USD',
+    items: [{
+      item_id: 'pass_7day',
+      item_name: 'ShopiClean 7-Day Pass',
+      price: 9.00,
+      quantity: 1
+    }]
+  });
+
   window._shopicleanPaymentSuccessCallback = onSuccessCallback;
   modal.classList.remove('hidden');
 }
@@ -152,6 +185,10 @@ async function handleManualKeySubmit() {
 
   if (isValid) {
     saveLicense(key);
+
+    // Track successful activation in GA4
+    trackPurchaseEvent(key);
+
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-emerald-600');
     feedback.textContent = 'License activated! Starting export...';
@@ -174,7 +211,12 @@ async function handleManualKeySubmit() {
     const params = new URLSearchParams(window.location.search);
     const key = params.get('license_key');
     if (key && key.trim()) {
-      saveLicense(key.trim());
+      const cleanKey = key.trim();
+      saveLicense(cleanKey);
+
+      // Track successful purchase via redirect
+      trackPurchaseEvent(cleanKey);
+
       // Clean query parameters from address bar cleanly
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
@@ -191,6 +233,7 @@ function injectPaywallModal() {
     ? `<a href="${SHOPICLEAN_CONFIG.checkoutUrl}" 
           target="_blank" 
           rel="noopener noreferrer"
+          onclick="trackGA4Event('checkout_button_click', { value: 9.00, currency: 'USD' })"
           class="block text-center w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm transition-colors shadow-sm cursor-pointer">
          Unlock Full Download — $9
        </a>`
