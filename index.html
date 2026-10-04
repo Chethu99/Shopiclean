@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShopiClean — High-Performance Shopify CSV Utilities</title>
-  <meta name="description" content="Client-side Shopify CSV auditor, supplier catalog converter, multi-variant handle splitter, and broken image URL scanner. 100% private in-browser processing.">
+  <meta name="description" content="Free Shopify CSV validator and error auditor with a 5-row preview repair. Fix illegal quoting, multi-variant caps, and broken image URLs 100% client-side in your browser. $9 7-day unlimited pass.">
   <link rel="canonical" href="https://shopiclean.com/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   
@@ -15,13 +15,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/">
   <meta property="og:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
-  <meta property="og:description" content="Fix Shopify CSV errors, split multi-variant catalogs for Google Shopping SEO, and convert wholesale sheets client-side. Zero file uploads.">
+  <meta property="og:description" content="Free Shopify CSV error auditor & 5-row preview. Fix illegal quoting, split multi-variant catalogs, and convert wholesale sheets client-side. Zero file uploads.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ShopiClean — High-Performance Shopify CSV Utilities">
-  <meta name="twitter:description" content="Fix Shopify CSV errors, split multi-variant catalogs for Google Shopping SEO, and convert wholesale sheets client-side. Zero file uploads.">
+  <meta name="twitter:description" content="Free Shopify CSV error auditor & 5-row preview. Fix illegal quoting, split multi-variant catalogs, and convert wholesale sheets client-side. Zero file uploads.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- JSON-LD Structured Data: SoftwareApplication & FAQPage -->
@@ -35,16 +35,35 @@
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All (Web-based)",
         "url": "https://shopiclean.com/",
-        "offers": {
-          "@type": "Offer",
-          "price": "9.00",
-          "priceCurrency": "USD"
-        },
-        "description": "Client-side utility suite to audit, repair, split, and convert Shopify CSV product catalogs."
+        "description": "Client-side utility suite to audit, repair, split, and convert Shopify CSV product catalogs with free error scanning and 5-row preview repairs.",
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Free Tier",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free catalog error audit and 5-row preview repair."
+          },
+          {
+            "@type": "Offer",
+            "name": "7-Day Launch Pass",
+            "price": "9.00",
+            "priceCurrency": "USD",
+            "description": "Unlimited full CSV export repairs across all 4 tools for 7 days."
+          }
+        ]
       },
       {
         "@type": "FAQPage",
         "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can I test my CSV file for free before buying a pass?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. ShopiClean offers a completely free error scan and audit for your entire CSV file. You can preview the detected issues and export up to 5 repaired rows for free to verify that Shopify accepts the format before upgrading to the 7-day pass."
+            }
+          },
           {
             "@type": "Question",
             "name": "Do I need to install any apps or give access to my Shopify store?",
@@ -86,14 +105,14 @@
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
@@ -121,7 +140,7 @@
         <span id="homePassBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="#pricing" id="buyPassNavBtn" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
+        <a href="#pricing" id="buyPassNavBtn" onclick="gtag('event', 'click_buy_pass_nav');" class="px-3 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-xs">
           Get 7-Day Pass — $9
         </a>
       </div>
@@ -148,13 +167,14 @@
         </p>
 
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
-          <a href="/csv-validator/" class="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm">
-            Launch CSV Auditor &amp; Fixer →
+          <a href="/csv-validator/" onclick="gtag('event', 'click_free_auditor_hero');" class="px-6 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all shadow-sm">
+            Launch Free CSV Auditor →
           </a>
-          <a href="/supplier-converter/" class="px-6 py-3.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all border border-slate-300 shadow-sm">
+          <a href="/supplier-converter/" onclick="gtag('event', 'click_supplier_converter_hero');" class="px-6 py-3.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 font-bold transition-all border border-slate-300 shadow-sm">
             Convert Supplier Sheet →
           </a>
         </div>
+        <p class="mt-3 text-xs text-slate-500 font-medium">Free catalog error scanning &amp; 5-row repair preview. No account required.</p>
       </div>
     </section>
 
@@ -167,14 +187,14 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- CSV Validator -->
-        <a href="/csv-validator/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+        <a href="/csv-validator/" onclick="gtag('event', 'click_tool_card', { tool: 'csv_validator' });" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="flex items-start justify-between">
             <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <span class="text-[11px] font-bold text-blue-800 uppercase tracking-wider bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">Flagship</span>
+            <span class="text-[11px] font-bold text-blue-800 uppercase tracking-wider bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">Flagship • Free Scan</span>
           </div>
           <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">CSV Error Auditor &amp; Auto-Fixer</h3>
           <p class="text-xs text-slate-600 mt-2 leading-relaxed">
@@ -186,7 +206,7 @@
         </a>
 
         <!-- Supplier Converter -->
-        <a href="/supplier-converter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+        <a href="/supplier-converter/" onclick="gtag('event', 'click_tool_card', { tool: 'supplier_converter' });" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
@@ -202,7 +222,7 @@
         </a>
 
         <!-- Variant Splitter & Linker -->
-        <a href="/variant-splitter/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+        <a href="/variant-splitter/" onclick="gtag('event', 'click_tool_card', { tool: 'variant_splitter' });" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
@@ -218,7 +238,7 @@
         </a>
 
         <!-- Image Checker -->
-        <a href="/image-checker/" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
+        <a href="/image-checker/" onclick="gtag('event', 'click_tool_card', { tool: 'image_checker' });" class="group block p-6 bg-white rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-md transition-all">
           <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 mb-4 group-hover:scale-105 transition-transform">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -271,58 +291,109 @@
       </div>
     </section>
 
-    <!-- Pricing Section (Single 7-Day Pass Focus) -->
+    <!-- Pricing Section (Free Tier + 7-Day Pass Grid) -->
     <section id="pricing" class="border-t border-slate-200/80 bg-slate-50 py-16">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-10">
           <h2 class="text-xs font-bold uppercase tracking-widest text-blue-600">Simple, Transparent Pricing</h2>
-          <p class="text-2xl font-extrabold text-slate-900 mt-1">Unlock All 4 Tools with One Pass</p>
-          <p class="text-xs text-slate-500 mt-2">One-time flat rate. No recurring subscriptions or automatic rebilling.</p>
+          <p class="text-2xl font-extrabold text-slate-900 mt-1">Audit Free, Upgrade When Ready</p>
+          <p class="text-xs text-slate-500 mt-2">No monthly subscriptions or recurring fees. Inspect your data before unlocking full exports.</p>
         </div>
 
-        <div class="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 shadow-md p-8 text-center relative overflow-hidden">
-          <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg">
-            Full Suite Access
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          
+          <!-- Free Scan Card -->
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 text-center flex flex-col justify-between">
+            <div>
+              <div class="inline-block bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                Free Trial
+              </div>
+              <h3 class="text-lg font-bold text-slate-900">Catalog Audit &amp; Preview</h3>
+              <div class="my-4 flex items-baseline justify-center gap-1">
+                <span class="text-4xl font-black text-slate-900">$0</span>
+                <span class="text-xs text-slate-500 font-medium">/ free forever</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-6">Inspect entire catalog files and test verified exports before committing.</p>
+
+              <ul class="text-left text-xs text-slate-600 space-y-3 mb-6 border-y border-slate-100 py-4">
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span><strong>Full catalog error scan</strong> (unlimited rows inspected)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span><strong>Export up to 5 repaired rows</strong> to test live import</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span><strong>100% in-browser privacy</strong> (zero file uploads)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span>No credit card or sign-up required</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="/csv-validator/" onclick="gtag('event', 'click_free_auditor_pricing');" class="block w-full py-3.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-colors shadow-sm">
+              Scan Your CSV Free →
+            </a>
           </div>
 
-          <h3 class="text-lg font-bold text-slate-900">7-Day Launch Pass</h3>
-          <div class="my-4 flex items-baseline justify-center gap-1">
-            <span class="text-4xl font-black text-slate-900">$9</span>
-            <span class="text-xs text-slate-500 font-medium">/ 7 days</span>
+          <!-- Paid 7-Day Pass Card -->
+          <div class="bg-white rounded-2xl border-2 border-blue-600 shadow-md p-8 text-center flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg">
+              Unlimited Access
+            </div>
+
+            <div>
+              <div class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                Full Suite
+              </div>
+              <h3 class="text-lg font-bold text-slate-900">7-Day Launch Pass</h3>
+              <div class="my-4 flex items-baseline justify-center gap-1">
+                <span class="text-4xl font-black text-slate-900">$9</span>
+                <span class="text-xs text-slate-500 font-medium">/ 7 days</span>
+              </div>
+              <p class="text-xs text-slate-500 mb-6">Designed for catalog cleanups, theme migrations, and inventory imports.</p>
+
+              <ul class="text-left text-xs text-slate-600 space-y-3 mb-6 border-y border-slate-100 py-4">
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span><strong>Unlimited CSV exports</strong> across all 4 utilities</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span><strong>100% in-browser privacy</strong> (zero catalog files uploaded)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span>Instant license key delivery via email &amp; redirect</span>
+                </li>
+                <li class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                  <span>Up to 3 device activations per key</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <!-- Gated Pre-Launch Button: Replaces live link until Oct 14 -->
+              <button type="button" 
+                      disabled 
+                      onclick="gtag('event', 'click_buy_pass_prelaunch');"
+                      class="block w-full py-3.5 px-4 rounded-xl bg-slate-200 text-slate-500 font-bold text-sm cursor-not-allowed border border-slate-300 shadow-inner">
+                Launching October 14 — Pass Unlocks Soon
+              </button>
+
+              <div class="mt-4 pt-3 border-t border-slate-100">
+                <button type="button" onclick="openPaywallModal(); gtag('event', 'click_restore_access');" class="text-xs text-slate-500 hover:text-slate-800 underline font-medium">
+                  Already have a license key? Restore access
+                </button>
+              </div>
+            </div>
           </div>
-          <p class="text-xs text-slate-500 mb-6">Designed for catalog cleanups, theme migrations, and inventory imports.</p>
 
-          <ul class="text-left text-xs text-slate-600 space-y-3 mb-6 border-y border-slate-100 py-4">
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>Unlimited CSV exports</strong> across all 4 utilities</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span><strong>100% in-browser privacy</strong> (zero catalog files uploaded to servers)</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span>Instant license key delivery via email &amp; direct redirect</span>
-            </li>
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              <span>Up to 3 device activations per key</span>
-            </li>
-          </ul>
-
-          <!-- Gated Pre-Launch Button: Replaces live link until Oct 14 -->
-          <button type="button" 
-                  disabled 
-                  class="block w-full py-3.5 px-4 rounded-xl bg-slate-200 text-slate-500 font-bold text-sm cursor-not-allowed border border-slate-300 shadow-inner">
-            Launching October 14 — Pass Unlocks Soon
-          </button>
-
-          <div class="mt-4 pt-3 border-t border-slate-100">
-            <button type="button" onclick="openPaywallModal()" class="text-xs text-slate-500 hover:text-slate-800 underline font-medium">
-              Already have a license key? Restore access
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -337,7 +408,7 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-          <a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+          <a href="/guides/how-to-fix-illegal-quoting-shopify-csv/" onclick="gtag('event', 'click_guide', { guide_name: 'illegal_quoting' });" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200">Syntax Error</span>
               <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Fix "Illegal Quoting on Line X"</h3>
@@ -346,7 +417,7 @@
             <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
           </a>
 
-          <a href="/guides/shopify-100-variant-limit-bypass/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+          <a href="/guides/shopify-100-variant-limit-bypass/" onclick="gtag('event', 'click_guide', { guide_name: 'variant_limit' });" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Catalog Scale</span>
               <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Split Multi-Variant Catalogs</h3>
@@ -355,7 +426,7 @@
             <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
           </a>
 
-          <a href="/guides/convert-faire-square-supplier-csv-shopify/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+          <a href="/guides/convert-faire-square-supplier-csv-shopify/" onclick="gtag('event', 'click_guide', { guide_name: 'supplier_convert' });" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">Integration</span>
               <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Convert Faire or Square Sheets</h3>
@@ -364,7 +435,7 @@
             <span class="text-blue-600 font-bold mt-3 inline-block">Read guide →</span>
           </a>
 
-          <a href="/guides/fix-media-url-failed-shopify-import/" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
+          <a href="/guides/fix-media-url-failed-shopify-import/" onclick="gtag('event', 'click_guide', { guide_name: 'media_url_failed' });" class="p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-500 hover:shadow-sm transition-all flex flex-col justify-between">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Media Sync</span>
               <h3 class="font-bold text-slate-900 mt-2 text-sm leading-snug">Fix Media URLs Failing to Load</h3>
@@ -385,6 +456,13 @@
         </div>
 
         <div class="space-y-4">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+            <h3 class="text-sm font-bold text-slate-900">Can I test my CSV file for free before buying a pass?</h3>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+              Yes. ShopiClean offers a completely free error scan and audit for your entire CSV file. You can preview the detected issues and export up to 5 repaired rows for free to verify that Shopify accepts the format before upgrading to the 7-day pass.
+            </p>
+          </div>
+
           <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
             <h3 class="text-sm font-bold text-slate-900">Do I need to install any apps or give access to my Shopify store?</h3>
             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
