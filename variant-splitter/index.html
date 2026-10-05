@@ -8,18 +8,77 @@
   <link rel="canonical" href="https://shopiclean.com/variant-splitter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/variant-splitter/">
+  <meta property="og:title" content="Shopify Variant Splitter & Linker — ShopiClean">
+  <meta property="og:description" content="Group, link, or split complex multi-variant Shopify catalog rows. Reconcile handles and preserve SKU hierarchy client-side.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shopiclean.com/variant-splitter/">
+  <meta name="twitter:title" content="Shopify Variant Splitter & Linker — ShopiClean">
+  <meta name="twitter:description" content="Group, link, or split complex multi-variant Shopify catalog rows. Reconcile handles and preserve SKU hierarchy client-side.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- WebApplication Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shopify Variant Splitter & Linker",
+    "url": "https://shopiclean.com/variant-splitter/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "description": "Client-side utility to reorganize, group, and split Shopify multi-variant product rows while syncing handles, options, and SKU integrity.",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- FAQPage Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does Shopify link variant rows together?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Shopify uses the Handle column to group variants under a single product. Consecutive rows sharing the same Handle are treated as variants of that parent product."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this tool help bypass Shopify's 100-variant limit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. It can cleanly split products with more than 100 variants into separate parent handles (e.g., partitioned by color or style) while keeping your SKUs and pricing intact."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 

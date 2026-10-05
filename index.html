@@ -24,13 +24,21 @@
   <meta name="twitter:description" content="Free Shopify CSV error auditor & 5-row preview. Fix illegal quoting, split multi-variant catalogs, and convert wholesale sheets client-side. Zero file uploads.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
-  <!-- JSON-LD Structured Data: SoftwareApplication & FAQPage -->
+  <!-- JSON-LD Structured Data: WebSite, SoftwareApplication & FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "WebSite",
+        "@id": "https://shopiclean.com/#website",
+        "url": "https://shopiclean.com/",
+        "name": "ShopiClean",
+        "description": "High-performance client-side utilities for Shopify CSV catalogs."
+      },
+      {
         "@type": "SoftwareApplication",
+        "@id": "https://shopiclean.com/#software",
         "name": "ShopiClean",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "All (Web-based)",
@@ -55,6 +63,7 @@
       },
       {
         "@type": "FAQPage",
+        "@id": "https://shopiclean.com/#faq",
         "mainEntity": [
           {
             "@type": "Question",
@@ -85,7 +94,7 @@
             "name": "What common Shopify CSV errors does this fix?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "It resolves illegal currency symbols ($/€/£) in price columns, missing or unlinked Handle slugs across multi-row variants, quote mismatches that shift columns, missing inventory tracker policies, local workstation file paths (like C:\\), and invalid image URL formatting."
+              "text": "It resolves illegal currency symbols in price columns, missing or unlinked Handle slugs across multi-row variants, quote mismatches that shift columns, missing inventory tracker policies, local workstation file paths (like C:\\\\), and invalid image URL formatting."
             }
           },
           {
@@ -93,7 +102,7 @@
             "name": "What if the repaired file still won't import?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "We stand behind our tools. If your repaired CSV fails to upload properly to Shopify after following our guidelines, send your file and error log to support@shopiclean.com within 14 days for a full refund."
+              "text": "We stand behind our tools. If your repaired CSV fails to upload properly to Shopify after following our guidelines, send your file and error log to support@shopiclean.com within 7 days for a full refund."
             }
           }
         ]

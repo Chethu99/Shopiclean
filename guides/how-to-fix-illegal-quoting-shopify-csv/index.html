@@ -18,6 +18,13 @@
   <meta property="og:description" content="Why Shopify rejects unescaped quotes in product CSVs and how to auto-repair quotation errors in-browser.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/">
+  <meta name="twitter:title" content="Fix 'Illegal Quoting on Line X' in Shopify CSV Imports">
+  <meta name="twitter:description" content="Why Shopify rejects unescaped quotes in product CSVs and how to auto-repair quotation errors in-browser.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
   <!-- JSON-LD Structured Data: HowTo -->
   <script type="application/ld+json">
   {
@@ -28,22 +35,26 @@
     "step": [
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/#step-1",
         "name": "Identify the failing line number",
         "text": "Locate the line number flagged in Shopify Admin's import error modal (e.g., 'Illegal quoting on line 42')."
       },
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/#step-2",
         "name": "Inspect dimension symbols and HTML tags",
-        "text": "Check product titles and descriptions on that line for raw double quotes used as inch markers (like 12\") or unescaped HTML attributes."
+        "text": "Check product titles and descriptions on that line for raw double quotes used as inch markers (like 12 in.) or unescaped HTML attributes."
       },
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/how-to-fix-illegal-quoting-shopify-csv/#step-3",
         "name": "Escape the quotes according to RFC-4180 standards",
-        "text": "Replace single unescaped double quotes inside fields with escaped double-quotes (\"\") or use an automated client-side CSV validator."
+        "text": "Replace single unescaped double quotes inside fields with escaped pair quotes or run the file through an automated client-side CSV validator."
       }
     ]
   }
   </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
   <script>

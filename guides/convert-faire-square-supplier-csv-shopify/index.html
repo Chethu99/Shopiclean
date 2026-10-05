@@ -15,8 +15,15 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/">
   <meta property="og:title" content="How to Convert Faire, Square, or WooCommerce CSVs to Shopify">
-  <meta property="og:description" content="Convert third-party wholesale supplier exports into official Shopify product CSV schemas without spreadsheet errors.">
+  <meta property="og:description" content="Convert third-party wholesale supplier exports into standard, Shopify-compatible product CSV schemas without spreadsheet errors.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/">
+  <meta name="twitter:title" content="How to Convert Faire, Square, or WooCommerce CSVs to Shopify">
+  <meta name="twitter:description" content="Convert third-party wholesale supplier exports into standard, Shopify-compatible product CSV schemas without spreadsheet errors.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- JSON-LD Structured Data: HowTo -->
   <script type="application/ld+json">
@@ -24,35 +31,39 @@
     "@context": "https://schema.org",
     "@type": "HowTo",
     "name": "How to Convert Supplier CSVs for Shopify Import",
-    "description": "Convert and remap wholesale sheets from Faire, Square POS, and third-party vendors into Shopify CSV format.",
+    "description": "Convert and remap wholesale sheets from Faire, Square POS, and third-party vendors into standard Shopify-compatible CSV format.",
     "step": [
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/#step-1",
         "name": "Extract required Shopify core headers",
         "text": "Identify standard Shopify fields: Handle, Title, Variant Price, Variant SKU, and Variant Inventory Qty."
       },
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/#step-2",
         "name": "Map supplier column names to Shopify standards",
         "text": "Remap non-standard names such as Item Name to Title, Wholesale Cost to Variant Price, and Stock to Variant Inventory Qty."
       },
       {
         "@type": "HowToStep",
+        "url": "https://shopiclean.com/guides/convert-faire-square-supplier-csv-shopify/#step-3",
         "name": "Sanitize currency symbols and generate URL handles",
         "text": "Strip currency signs ($/€/£) and generate kebab-case URL handles for each unique product title."
       }
     ]
   }
   </script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 

@@ -8,18 +8,77 @@
   <link rel="canonical" href="https://shopiclean.com/image-checker/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/image-checker/">
+  <meta property="og:title" content="Shopify Image Checker & URL Validator — ShopiClean">
+  <meta property="og:description" content="Validate product image URLs in Shopify CSVs. Fix missing HTTPS protocols, encode whitespace, and eliminate broken media imports in-browser.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shopiclean.com/image-checker/">
+  <meta name="twitter:title" content="Shopify Image Checker & URL Validator — ShopiClean">
+  <meta name="twitter:description" content="Validate product image URLs in Shopify CSVs. Fix missing HTTPS protocols, encode whitespace, and eliminate broken media imports in-browser.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- WebApplication Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shopify Image Checker & URL Validator",
+    "url": "https://shopiclean.com/image-checker/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "description": "Client-side utility to audit, sanitize, and encode product media URLs in Shopify CSV catalogs, enforcing HTTPS and eliminating CDN import rejections.",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- FAQPage Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does Shopify accept relative paths like /images/product.jpg?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Shopify requires absolute publicly accessible URLs starting with http:// or https:// so its crawler can fetch and host the file. Relative or local filesystem paths are discarded."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does this tool re-host my photos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The tool cleans, encodes, and formats your existing image URLs inside the CSV. When you import the CSV into Shopify, Shopify's servers fetch and host the images."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 

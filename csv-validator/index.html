@@ -8,18 +8,77 @@
   <link rel="canonical" href="https://shopiclean.com/csv-validator/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shopiclean.com/csv-validator/">
+  <meta property="og:title" content="Shopify CSV Validator & Auto-Fixer — ShopiClean">
+  <meta property="og:description" content="Detect and auto-repair Shopify CSV import errors, illegal quoting, and header discrepancies in-browser with zero server uploads.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://shopiclean.com/csv-validator/">
+  <meta name="twitter:title" content="Shopify CSV Validator & Auto-Fixer — ShopiClean">
+  <meta name="twitter:description" content="Detect and auto-repair Shopify CSV import errors, illegal quoting, and header discrepancies in-browser with zero server uploads.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
+  <!-- WebApplication Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shopify CSV Validator & Auto-Fixer",
+    "url": "https://shopiclean.com/csv-validator/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "description": "Browser-based client-side utility to validate and repair syntax, illegal quoting, and header formatting in Shopify product CSV files.",
+    "offers": {
+      "@type": "Offer",
+      "price": "9.00",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- FAQPage Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does this tool upload my CSV catalog to external servers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. All file parsing, error validation, and repairs are processed 100% locally in your browser memory. Your catalog data never leaves your device."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What errors does the Shopify CSV Validator resolve?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It detects and resolves illegal quoting mismatches, corrupted delimiters, missing required Shopify headers, trailing whitespace, and encoding conflicts."
+        }
+      }
+    ]
+  }
+  </script>
+
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
