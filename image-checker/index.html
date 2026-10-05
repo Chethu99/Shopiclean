@@ -56,7 +56,7 @@
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Media Validator</span>
       <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Image URL Checker</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Verify that image URLs match Shopify's CDN guidelines, add missing https protocols, encode whitespace, and strip invalid non-image attachments.
+        Verify that image URLs match Shopify's CDN guidelines, enforce HTTPS protocols, encode whitespace, and strip invalid non-image attachments.
       </p>
     </div>
 
@@ -70,7 +70,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Shopify CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
+        <p class="text-xs text-slate-400 mt-1">Max 15MB (Shopify's native import limit) • Processed 100% locally in your browser</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -138,9 +138,15 @@
           </div>
         </div>
 
-        <p class="text-[11px] text-slate-400 text-center mt-4">
-          🔒 100% money-back guarantee if this file does not import cleanly into Shopify.
-        </p>
+        <!-- Guarantee & Exclusions Breakdown -->
+        <div class="mt-5 pt-3 border-t border-slate-100 text-center">
+          <p class="text-xs font-medium text-slate-700">
+            🔒 <strong>100% Money-Back Guarantee:</strong> Full refund if your repaired file throws CSV structural or syntax errors during Shopify import.
+          </p>
+          <p class="text-[11px] text-slate-400 mt-1 max-w-xl mx-auto leading-normal">
+            Covers formatting, URL encoding, protocol syntax, and header alignment. Excludes store-level Shopify permission limits, daily API upload quotas, and third-party image host server outages.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -156,7 +162,7 @@
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">2</div>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Sanitize & Validate</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">The tool encodes whitespace to `%20`, prepends `https://`, and removes invalid attachment protocols.</p>
+          <p class="text-xs text-slate-500 leading-relaxed">The tool encodes whitespace to `%20`, enforces `https://`, and removes invalid attachment protocols.</p>
         </div>
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">3</div>
@@ -178,7 +184,7 @@
         <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
           <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Compliant URL Standards</span>
           <p class="text-emerald-900 leading-relaxed break-all">https://www.mysite.com/uploads/canvas%20tote%20bag.jpg</p>
-          <p class="text-emerald-900 leading-relaxed break-all">http://cdn.shopify.com/broken-url.png</p>
+          <p class="text-emerald-900 leading-relaxed break-all">https://cdn.shopify.com/broken-url.png</p>
         </div>
       </div>
     </section>
@@ -317,7 +323,7 @@
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
     // 25MB file size safety cap (Shopify limits imports to 15MB)
-    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_SIZE_MB = 15;
     const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
     let fixedRows = [];
@@ -393,7 +399,9 @@ modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,S
       if (!url) return '';
       let clean = url.trim();
       clean = clean.replace(/ /g, '%20');
-      clean = clean.replace(/^htp:\/\//i, 'http://');
+      // Enforce secure HTTPS across mistyped or insecure protocols
+      clean = clean.replace(/^htp:\/\//i, 'https://');
+      clean = clean.replace(/^http:\/\//i, 'https://');
       if (/^www\./i.test(clean)) {
         clean = 'https://' + clean;
       }
@@ -464,7 +472,7 @@ modern-desk-lamp,Modern Desk Lamp,ftp://fileserver.company.com/lamp-spec.pdf,2,S
               ✓ Encoded whitespace into valid URL-safe %20 entities.
             </div>
             <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
-              ✓ Added missing https:// protocols to naked domains.
+              ✓ Enforced HTTPS protocols across all image targets.
             </div>
             <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 font-medium">
               ✓ Removed non-web protocols (ftp://) and invalid relative paths.

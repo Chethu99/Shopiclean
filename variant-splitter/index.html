@@ -70,7 +70,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Variant CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
+        <p class="text-xs text-slate-400 mt-1">Max 15MB (Shopify's native import limit) • Processed 100% locally in your browser</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -259,7 +259,7 @@
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
     // 25MB safety ceiling (Shopify caps imports at 15MB)
-    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_SIZE_MB = 15;
     const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
     let fixedRows = [];

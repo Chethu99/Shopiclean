@@ -273,6 +273,16 @@ function injectPaywallModal() {
           </ul>
 
           ${checkoutActionHtml}
+
+          <!-- Micro Guarantee Breakdown -->
+          <div class="mt-3 pt-2.5 border-t border-slate-200 text-center">
+            <p class="text-[11px] font-semibold text-slate-700">
+              🛡️ 100% Money-Back Clean Import Guarantee
+            </p>
+            <p class="text-[10px] text-slate-500 mt-0.5 leading-tight">
+              Covers CSV formatting, quoting, syntax, and header errors. Excludes store-level Shopify permission locks and remote image hosting downtime.
+            </p>
+          </div>
         </div>
 
         <!-- Privacy & Local Processing Notice -->

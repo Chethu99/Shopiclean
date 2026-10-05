@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supplier to Shopify CSV Converter — ShopiClean</title>
-  <meta name="description" content="Convert custom wholesaler and supplier CSV spreadsheets into official 100% compliant Shopify product CSV imports.">
+  <meta name="description" content="Convert custom wholesaler and supplier CSV spreadsheets into standard, Shopify-compatible product CSV imports.">
   <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -56,7 +56,7 @@
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Format Mapping</span>
       <h1 class="text-3xl font-black text-slate-900 mt-1">Supplier to Shopify CSV Converter</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Map arbitrary wholesale supplier sheets to Shopify's strict 50-column specification, stripping currency symbols and generating correct variant groupings.
+        Map arbitrary wholesale supplier sheets to a clean, Shopify-compatible product CSV structure, stripping currency symbols and generating correct variant groupings.
       </p>
     </div>
 
@@ -70,7 +70,7 @@
           </svg>
         </div>
         <p class="text-sm font-bold text-slate-800">Select or drop your Supplier CSV here</p>
-        <p class="text-xs text-slate-400 mt-1">Max 25MB (Shopify import limit is 15MB) • Processed 100% locally in browser memory</p>
+        <p class="text-xs text-slate-400 mt-1">Max 15MB (Shopify's native import limit) • Processed 100% locally in your browser</p>
       </div>
 
       <!-- Action-Oriented Interactive Demo Link -->
@@ -86,7 +86,7 @@
     <div id="scanningState" class="hidden bg-white border border-slate-200 rounded-2xl p-10 text-center shadow-xs">
       <div class="inline-block w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin mb-3"></div>
       <p class="text-sm font-bold text-slate-800">Transforming Wholesaler Schema...</p>
-      <p class="text-xs text-slate-400 mt-1">Re-mapping arbitrary columns into official Shopify Title, SKU, and Price parameters.</p>
+      <p class="text-xs text-slate-400 mt-1">Re-mapping arbitrary columns into Shopify-compatible Title, SKU, and Price parameters.</p>
     </div>
 
     <!-- Audit Results Panel -->
@@ -138,9 +138,15 @@
           </div>
         </div>
 
-        <p class="text-[11px] text-slate-400 text-center mt-4">
-          🔒 100% money-back guarantee if this file does not import cleanly into Shopify.
-        </p>
+        <!-- Guarantee & Exclusions Breakdown -->
+        <div class="mt-5 pt-3 border-t border-slate-100 text-center">
+          <p class="text-xs font-medium text-slate-700">
+            🔒 <strong>100% Money-Back Guarantee:</strong> Full refund if your repaired file throws CSV structural or syntax errors during Shopify import.
+          </p>
+          <p class="text-[11px] text-slate-400 mt-1 max-w-xl mx-auto leading-normal">
+            Covers column mapping, quoting, delimiter syntax, and handle grouping. Excludes Shopify store-level account permissions, daily variant limits, and remote image host outages.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -161,7 +167,7 @@
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">3</div>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Direct Import Ready</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">Export a structured CSV that satisfies Shopify's official product import specifications.</p>
+          <p class="text-xs text-slate-500 leading-relaxed">Export a structured CSV that satisfies Shopify's standard product CSV specifications.</p>
         </div>
       </div>
     </section>
@@ -177,7 +183,7 @@
           <p class="text-red-900 leading-relaxed truncate">Stock Qty: 150</p>
         </div>
         <div class="p-4 bg-emerald-50/60 rounded-lg border border-emerald-200">
-          <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Official Shopify Standards</span>
+          <span class="text-emerald-700 font-bold block mb-2 font-sans">✓ After: Shopify-Compatible Structure</span>
           <p class="text-emerald-900 leading-relaxed truncate">Title: Soy Candle</p>
           <p class="text-emerald-900 leading-relaxed truncate">Variant Price: 18.50</p>
           <p class="text-emerald-900 leading-relaxed truncate">Variant Inventory Qty: 150</p>
@@ -252,7 +258,7 @@
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
     // 25MB safety ceiling (Shopify caps imports at 15MB)
-    const MAX_FILE_SIZE_MB = 25;
+    const MAX_FILE_SIZE_MB = 15;
     const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
     let fixedRows = [];
@@ -362,7 +368,7 @@ SKU-903,Leather Passport Wallet,"Full-grain cowhide travel wallet",Hide & Stitch
           metricFileName.textContent = fileName || 'supplier.csv';
           metricRowsCount.textContent = `${rows.length.toLocaleString()} rows parsed`;
           metricFixCount.textContent = `${fixesCount.toLocaleString()} schema mappings applied`;
-          statsRow.textContent = `Transformed ${rows.length.toLocaleString()} rows into official Shopify format`;
+          statsRow.textContent = `Transformed ${rows.length.toLocaleString()} rows into Shopify-compatible format`;
 
           diffPreviewBody.innerHTML = diffItems.slice(0, 5).map(item => `
             <tr>
