@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify CSV Validator & Auto-Fixer — ShopiClean</title>
-  <meta name="description" content="Detect and auto-repair Shopify CSV import errors, illegal characters, quote mismatches, and column header discrepancies directly in your browser.">
+  <title>Free Shopify CSV Validator – Fix Import Errors In-Browser</title>
+  <meta name="description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
   <link rel="canonical" href="https://shopiclean.com/csv-validator/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/csv-validator/">
-  <meta property="og:title" content="Shopify CSV Validator & Auto-Fixer — ShopiClean">
-  <meta property="og:description" content="Detect and auto-repair Shopify CSV import errors, illegal quoting, and header discrepancies in-browser with zero server uploads.">
+  <meta property="og:title" content="Free Shopify CSV Validator – Fix Import Errors In-Browser">
+  <meta property="og:description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://shopiclean.com/csv-validator/">
-  <meta name="twitter:title" content="Shopify CSV Validator & Auto-Fixer — ShopiClean">
-  <meta name="twitter:description" content="Detect and auto-repair Shopify CSV import errors, illegal quoting, and header discrepancies in-browser with zero server uploads.">
+  <meta name="twitter:title" content="Free Shopify CSV Validator – Fix Import Errors In-Browser">
+  <meta name="twitter:description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- WebApplication Structured Data -->
@@ -27,15 +27,15 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Shopify CSV Validator & Auto-Fixer",
+    "name": "ShopiClean Shopify CSV Validator",
     "url": "https://shopiclean.com/csv-validator/",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "description": "Browser-based client-side utility to validate and repair syntax, illegal quoting, and header formatting in Shopify product CSV files.",
+    "description": "Browser-based client-side utility to validate and repair syntax, illegal quoting, variant handles, and header formatting in Shopify product CSV files.",
     "offers": {
       "@type": "Offer",
-      "price": "9.00",
+      "price": "0.00",
       "priceCurrency": "USD"
     }
   }
@@ -60,7 +60,15 @@
         "name": "What errors does the Shopify CSV Validator resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It detects and resolves illegal quoting mismatches, corrupted delimiters, missing required Shopify headers, trailing whitespace, and encoding conflicts."
+          "text": "It detects and resolves illegal quoting mismatches, missing variant handles, corrupted delimiters, missing required Shopify headers, trailing whitespace, and encoding conflicts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I fix 'Illegal quoting on line' errors in Shopify?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Illegal quoting occurs when text descriptions contain unescaped quotes or stray delimiter commas. ShopiClean parses the file client-side and automatically escapes quotation marks according to RFC 4180 standards."
         }
       }
     ]

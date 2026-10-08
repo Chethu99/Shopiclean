@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supplier to Shopify CSV Converter — ShopiClean</title>
-  <meta name="description" content="Convert custom wholesaler and supplier CSV spreadsheets into standard, Shopify-compatible product CSV imports.">
+  <title>Supplier to Shopify CSV Converter & Column Mapper</title>
+  <meta name="description" content="Convert supplier spreadsheets into Shopify-compatible CSV files. Map wholesale columns from Faire, WooCommerce, and generic feeds client-side with zero data uploads.">
   <link rel="canonical" href="https://shopiclean.com/supplier-converter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/supplier-converter/">
-  <meta property="og:title" content="Supplier to Shopify CSV Converter — ShopiClean">
-  <meta property="og:description" content="Map arbitrary wholesale supplier sheets to a standard, Shopify-compatible product CSV structure directly in your browser.">
+  <meta property="og:title" content="Supplier to Shopify CSV Converter & Column Mapper">
+  <meta property="og:description" content="Convert supplier spreadsheets into Shopify-compatible CSV files. Map wholesale columns from Faire, WooCommerce, and generic feeds client-side with zero data uploads.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://shopiclean.com/supplier-converter/">
-  <meta name="twitter:title" content="Supplier to Shopify CSV Converter — ShopiClean">
-  <meta name="twitter:description" content="Map arbitrary wholesale supplier sheets to a standard, Shopify-compatible product CSV structure directly in your browser.">
+  <meta name="twitter:title" content="Supplier to Shopify CSV Converter & Column Mapper">
+  <meta name="twitter:description" content="Convert supplier spreadsheets into Shopify-compatible CSV files. Map wholesale columns from Faire, WooCommerce, and generic feeds client-side with zero data uploads.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- WebApplication Structured Data -->
@@ -27,7 +27,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Supplier to Shopify CSV Converter",
+    "name": "ShopiClean Supplier to Shopify CSV Converter",
     "url": "https://shopiclean.com/supplier-converter/",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
@@ -35,7 +35,7 @@
     "description": "Convert custom wholesaler and supplier CSV spreadsheets into standard Shopify-compatible product CSV imports entirely in-browser.",
     "offers": {
       "@type": "Offer",
-      "price": "9.00",
+      "price": "0.00",
       "priceCurrency": "USD"
     }
   }
@@ -53,6 +53,14 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "The converter recognizes standard naming conventions across major platforms including WooCommerce, Square, Faire, AliExpress, and generic inventory management systems."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I map non-standard supplier headers to Shopify?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ShopiClean automatically scans your supplier file headers and suggests matching Shopify columns (such as Title, SKU, Price, and Variant Options). You can review or adjust mappings interactively before generating the clean Shopify CSV."
         }
       }
     ]
