@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Shopify CSV Validator – Fix Import Errors In-Browser</title>
-  <meta name="description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
+  <title>Free Shopify CSV Pricing &amp; Handle Sanitizer – Fix Import Errors In-Browser</title>
+  <meta name="description" content="Validate and fix Shopify product CSV errors client-side. Auto-format currency pricing, sanitize handle slugs, and clean delimiters without uploading data.">
   <link rel="canonical" href="https://shopiclean.com/csv-validator/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://shopiclean.com/csv-validator/">
-  <meta property="og:title" content="Free Shopify CSV Validator – Fix Import Errors In-Browser">
-  <meta property="og:description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
+  <meta property="og:title" content="Free Shopify CSV Pricing &amp; Handle Sanitizer – Fix Import Errors In-Browser">
+  <meta property="og:description" content="Validate and fix Shopify product CSV errors client-side. Auto-format currency pricing, sanitize handle slugs, and clean delimiters without uploading data.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://shopiclean.com/csv-validator/">
-  <meta name="twitter:title" content="Free Shopify CSV Validator – Fix Import Errors In-Browser">
-  <meta name="twitter:description" content="Validate and fix Shopify product CSV errors client-side. Auto-repair illegal quoting, missing variant handles, and header mismatches without uploading data.">
+  <meta name="twitter:title" content="Free Shopify CSV Pricing &amp; Handle Sanitizer – Fix Import Errors In-Browser">
+  <meta name="twitter:description" content="Validate and fix Shopify product CSV errors client-side. Auto-format currency pricing, sanitize handle slugs, and clean delimiters without uploading data.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- WebApplication Structured Data -->
@@ -27,12 +27,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "ShopiClean Shopify CSV Validator",
+    "name": "ShopiClean Shopify CSV Pricing & Handle Sanitizer",
     "url": "https://shopiclean.com/csv-validator/",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
     "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "description": "Browser-based client-side utility to validate and repair syntax, illegal quoting, variant handles, and header formatting in Shopify product CSV files.",
+    "description": "Browser-based client-side utility to sanitize currency pricing, generate valid handles, and fix syntax in Shopify product CSV files.",
     "offers": {
       "@type": "Offer",
       "price": "0.00",
@@ -57,18 +57,18 @@
       },
       {
         "@type": "Question",
-        "name": "What errors does the Shopify CSV Validator resolve?",
+        "name": "What errors does the Shopify CSV Sanitizer resolve?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "It detects and resolves illegal quoting mismatches, missing variant handles, corrupted delimiters, missing required Shopify headers, trailing whitespace, and encoding conflicts."
+          "text": "It strips currency symbols ($/€/£) to standard Shopify numeric decimals, generates valid handle slugs from product titles, and repairs missing handle formatting."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I fix 'Illegal quoting on line' errors in Shopify?",
+        "name": "Does this tool verify remote image links?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Illegal quoting occurs when text descriptions contain unescaped quotes or stray delimiter commas. ShopiClean parses the file client-side and automatically escapes quotation marks according to RFC 4180 standards."
+          "text": "No. This utility focuses purely on in-file syntax, pricing decimals, and handle structures. To test remote image links and verify 200 OK server responses, use the ShopiClean Image Checker."
         }
       }
     ]
@@ -120,10 +120,10 @@
   <!-- Main Content -->
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
-      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Diagnostic Utility</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify CSV Validator &amp; Fixer</h1>
+      <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Syntax &amp; Pricing Utility</span>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify CSV Pricing &amp; Handle Sanitizer</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
-        Scan your Shopify CSV for illegal characters, missing required headers, corrupt currency values, unclosed quotes, and download the auto-corrected file.
+        Instantly format currency symbols into clean decimals, sanitize handle slugs, and repair syntax errors 100% locally in your browser.
       </p>
     </div>
 
@@ -170,7 +170,7 @@
 
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div>
-            <h2 class="text-base font-bold text-slate-900">Scan &amp; Repair Report</h2>
+            <h2 class="text-base font-bold text-slate-900">Pricing &amp; Handle Repair Report</h2>
             <p id="statsRow" class="text-xs text-slate-500 mt-0.5"></p>
           </div>
           <div class="flex gap-2 w-full sm:w-auto">
@@ -187,7 +187,7 @@
         <div class="mt-4 space-y-2" id="issueLog"></div>
 
         <!-- Live Before/After Table Preview -->
-        <div class="mt-6 pt-4 border-t border-slate-100">
+        <div class="mt-6 pt-4 border-t border-slate-100" id="previewSection">
           <button type="button" id="togglePreviewBtn" class="text-xs text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1">
             <span>▾ View Before vs After Data Preview</span>
           </button>
@@ -206,9 +206,16 @@
           </div>
         </div>
 
-        <p class="text-[11px] text-slate-400 text-center mt-4">
-          🔒 100% money-back guarantee if this file does not import cleanly into Shopify.
-        </p>
+        <!-- Guarantee & Scope Clarification Note -->
+        <div class="mt-4 pt-3 border-t border-slate-100 text-center" id="guaranteeSection">
+          <p class="text-[11px] font-semibold text-slate-700">
+            🔒 100% money-back guarantee on CSV syntax, pricing decimals, and handle structures.
+          </p>
+          <p class="text-[10px] text-slate-400 mt-0.5">
+            To verify external image server uptime and test live 200 OK responses, run your file through the <a href="../image-checker/" class="text-blue-600 hover:underline">Image Checker</a>.
+          </p>
+        </div>
+
       </div>
     </div>
 
@@ -218,18 +225,18 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">1</div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1">Drop Broken CSV</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">Select or drop your Shopify export with formatting or syntax errors.</p>
+          <h3 class="text-sm font-bold text-slate-900 mb-1">Drop Product CSV</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Select or drop your Shopify export with corrupt currency formatting or missing handles.</p>
         </div>
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">2</div>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Browser Engine Audits</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">Our client-side parser checks headers, cleans currency values, and repairs broken quotes.</p>
+          <p class="text-xs text-slate-500 leading-relaxed">Our client-side parser checks headers, cleans currency values, and normalizes handles.</p>
         </div>
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
           <div class="w-7 h-7 rounded-md bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center mb-3">3</div>
           <h3 class="text-sm font-bold text-slate-900 mb-1">Import Confidently</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">Export the sanitized file and upload it to Shopify without import rejections.</p>
+          <p class="text-xs text-slate-500 leading-relaxed">Export the sanitized file and upload it to Shopify without syntax or price rejections.</p>
         </div>
       </div>
     </section>
@@ -255,19 +262,19 @@
 
     <!-- Exact Errors Fixed -->
     <section class="mt-10">
-      <h3 class="text-sm font-bold text-slate-900 mb-3">Shopify Errors Resolved by This Utility</h3>
+      <h3 class="text-sm font-bold text-slate-900 mb-3">Errors Resolved by This Utility</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600">
         <div class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200">
-          <span class="text-blue-600 font-bold">!</span> Illegal currency symbol ($/€/£) in Variant Price
+          <span class="text-blue-600 font-bold">!</span> Illegal currency symbols ($/€/£) in Variant Price
         </div>
         <div class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200">
-          <span class="text-blue-600 font-bold">!</span> Missing required column header: Title / Variant Price
+          <span class="text-blue-600 font-bold">!</span> Missing or malformed Variant Compare At Price
         </div>
         <div class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200">
-          <span class="text-blue-600 font-bold">!</span> Invalid or unformatted handle containing spaces
+          <span class="text-blue-600 font-bold">!</span> Invalid handles containing spaces or uppercase characters
         </div>
         <div class="flex items-center gap-2 p-2.5 bg-white rounded-lg border border-slate-200">
-          <span class="text-blue-600 font-bold">!</span> Unescaped quotes and comma shifts inside descriptions
+          <span class="text-blue-600 font-bold">!</span> Empty handles on primary product title rows
         </div>
       </div>
     </section>
@@ -346,6 +353,7 @@
     const togglePreviewBtn = document.getElementById('togglePreviewBtn');
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
+    const previewSection = document.getElementById('previewSection');
 
     // 25MB file size safety cap (Shopify limits imports to 15MB)
     const MAX_FILE_SIZE_MB = 15;
@@ -424,6 +432,38 @@ organic-cotton-hoodie,100% Organic Cotton Hoodie,Winter warmth,EcoWear,Apparel,$
         skipEmptyLines: true,
         complete: function(results) {
           const rows = results.data;
+          const rawFields = (results.meta && results.meta.fields) ? results.meta.fields : [];
+          
+          // Clean possible BOM marker from first header
+          const cleanHeaders = rawFields.map(h => h.replace(/^\ufeff/, '').trim());
+          const hasShopifyHeaders = cleanHeaders.includes('Handle') || cleanHeaders.includes('Title');
+
+          // Guardrail 1: Non-Shopify / Supplier Spreadsheet Detected
+          if (!hasShopifyHeaders) {
+            fixedRows = [];
+            metricFileName.textContent = fileName || 'catalog.csv';
+            metricRowsCount.textContent = `${rows.length.toLocaleString()} rows parsed`;
+            metricFixCount.textContent = '0 fixes applied';
+            statsRow.textContent = `Scanned ${rows.length.toLocaleString()} rows • Non-Shopify format`;
+
+            downloadBtn.classList.add('hidden');
+            previewSection.classList.add('hidden');
+
+            issueLog.innerHTML = `
+              <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 leading-relaxed">
+                <div class="font-bold text-amber-950 mb-1">⚠️ Missing Standard Shopify Column Headers</div>
+                <p>This file does not contain Shopify's required <code>Handle</code> or <code>Title</code> columns. It appears to be an unformatted supplier, dropshipper, or custom ERP export.</p>
+                <div class="mt-2.5">
+                  <a href="../supplier-converter/" class="inline-flex items-center gap-1 font-bold text-blue-700 hover:text-blue-900 underline">
+                    Use Supplier Converter to map your custom headers into Shopify format →
+                  </a>
+                </div>
+              </div>
+            `;
+            resultsCard.classList.remove('hidden');
+            return;
+          }
+
           let fixesCount = 0;
           const diffItems = [];
 
@@ -473,6 +513,24 @@ organic-cotton-hoodie,100% Organic Cotton Hoodie,Winter warmth,EcoWear,Apparel,$
           metricRowsCount.textContent = `${rows.length.toLocaleString()} rows parsed`;
           metricFixCount.textContent = `${fixesCount.toLocaleString()} fixes applied`;
           statsRow.textContent = `Scanned ${rows.length.toLocaleString()} rows • Applied ${fixesCount.toLocaleString()} automatic format repairs`;
+
+          // Guardrail 2: Clean File (0 Fixes Needed)
+          if (fixesCount === 0) {
+            downloadBtn.classList.add('hidden');
+            previewSection.classList.add('hidden');
+            issueLog.innerHTML = `
+              <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-900 leading-relaxed">
+                <div class="font-bold text-emerald-950 mb-1">✓ Your Catalog Is Clean!</div>
+                <p>No corrupt currency symbols, missing handles, or pricing format errors were found. This file is structurally ready for Shopify import.</p>
+              </div>
+            `;
+            resultsCard.classList.remove('hidden');
+            return;
+          }
+
+          // Errors Detected: Render Actions & Preview Table
+          downloadBtn.classList.remove('hidden');
+          previewSection.classList.remove('hidden');
 
           const maxPreview = 5;
           const visibleDiffs = diffItems.slice(0, maxPreview);
@@ -537,6 +595,8 @@ organic-cotton-hoodie,100% Organic Cotton Hoodie,Winter warmth,EcoWear,Apparel,$
       fileInput.value = '';
       resultsCard.classList.add('hidden');
       dropzoneContainer.classList.remove('hidden');
+      downloadBtn.classList.remove('hidden');
+      previewSection.classList.remove('hidden');
     });
   </script>
 </body>
