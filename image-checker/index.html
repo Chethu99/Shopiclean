@@ -10,10 +10,13 @@
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ShopiClean">
   <meta property="og:url" content="https://shopiclean.com/image-checker/">
   <meta property="og:title" content="Shopify CSV Image URL Checker & Validator — ShopiClean">
   <meta property="og:description" content="Validate Shopify product image URLs in bulk. Fix missing HTTPS protocols, unencoded spaces, and broken image links client-side before CSV import.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image">
@@ -205,15 +208,24 @@
           </div>
         </div>
 
-        <!-- Guarantee & Exclusions Breakdown -->
-        <div class="mt-5 pt-3 border-t border-slate-100 text-center">
-          <p class="text-xs font-medium text-slate-700">
-            🔒 <strong>100% Money-Back Guarantee:</strong> Full refund if your repaired file throws CSV structural or syntax errors during Shopify import.
-          </p>
-          <p class="text-[11px] text-slate-400 mt-1 max-w-xl mx-auto leading-normal">
-            Covers formatting, URL encoding, protocol syntax, and header alignment. Excludes store-level Shopify permission limits, daily API upload quotas, and third-party image host server outages.
-          </p>
+        <!-- Standardized 14-Day Import Success Guarantee Callout -->
+        <div class="mt-6 pt-4 border-t border-slate-100">
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
+            <div class="flex items-center gap-2 font-bold text-slate-900">
+              <svg class="w-4 h-4 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>14-Day Import Success Guarantee</span>
+            </div>
+            <p class="leading-relaxed">
+              If an exported CSV fails to import due to structural or formatting errors this utility is designed to repair, contact <a href="mailto:support@shopiclean.com" class="text-blue-600 underline font-medium">support@shopiclean.com</a> within 14 days for a 100% refund.
+            </p>
+            <div class="pt-2 border-t border-slate-200/60 text-[11px] text-slate-500 leading-normal">
+              <strong class="text-slate-700">Claim Requirements:</strong> Provide your original file, repaired export, and the Shopify Admin error log/screenshot[cite: 3]. Excludes account-level store limits, app conflicts, or files exceeding 15MB[cite: 3]. See <a href="../terms/" class="text-blue-600 underline">Terms</a>[cite: 3].
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -389,7 +401,7 @@
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
-    // 25MB file size safety cap (Shopify limits imports to 15MB)
+    // 15MB file size safety cap (Shopify limits native imports to 15MB)
     const MAX_FILE_SIZE_MB = 15;
     const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
