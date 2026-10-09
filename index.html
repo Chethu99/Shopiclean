@@ -189,6 +189,32 @@
           <span class="flex h-2 w-2 rounded-full bg-emerald-500"></span>
           <span>Upload your CSV. We'll find the errors for free. See 5 actual repairs before paying anything.</span>
         </div>
+
+        <!-- 20-Second Silent Product Demo Video Showcase -->
+        <div class="mt-10 max-w-3xl mx-auto">
+          <div class="relative rounded-2xl overflow-hidden border border-slate-200/90 bg-slate-900 shadow-lg ring-1 ring-slate-900/5">
+            <video 
+              id="demoVideo"
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              preload="metadata"
+              class="w-full h-auto block"
+            >
+              <source src="/assets/validator-demo.mp4" type="video/mp4">
+              Your browser does not support HTML5 video.
+            </video>
+            
+            <!-- Minimal Bottom Indicator Badge -->
+            <div class="absolute bottom-3 left-3 flex items-center gap-2 pointer-events-none">
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-900/80 backdrop-blur text-white border border-white/10 shadow-sm">
+                ⚡ 20s Live Workflow Demo
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -572,8 +598,9 @@
   </footer>
 
   <script>
-    // Header Pass Status sync using style.display
+    // Header Pass Status sync & video mute hardware hard-lock
     document.addEventListener('DOMContentLoaded', () => {
+      // 1. Sync License Header Badge
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
         const badge = document.getElementById('homePassBadge');
         const buyBtn = document.getElementById('buyPassNavBtn');
@@ -582,6 +609,13 @@
           buyBtn.textContent = 'Pass Active';
           buyBtn.classList.replace('bg-blue-600', 'bg-slate-800');
         }
+      }
+
+      // 2. Hardware-level Mute Lock for Silent Autoplay
+      const demoVideo = document.getElementById('demoVideo');
+      if (demoVideo) {
+        demoVideo.muted = true;
+        demoVideo.volume = 0;
       }
     });
   </script>
