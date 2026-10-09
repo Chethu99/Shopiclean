@@ -1,0 +1,29 @@
+# Local scripts & test utilities
+
+generate-test-csv.js
+_.test.js
+_.spec.js
+
+# Build sources & config files
+
+input.css
+tailwind.config.js
+package.json
+package-lock.json
+
+# Environment, dependencies & VCS
+
+node_modules/
+.git/
+.gitignore
+.env
+.env.\*
+
+# Documentation & IDE
+
+README.md
+TODO.md
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

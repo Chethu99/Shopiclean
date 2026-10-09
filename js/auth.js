@@ -11,9 +11,7 @@ const SHOPICLEAN_CONFIG = {
   // Dodo Payments Checkout URL (Ready to swap to live on Oct 12/14)
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
   // Endpoints
-  validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
-  // Dev / Testing bypass key for immediate offline debugging
-  testBypassKey: 'TEST-PASS-1234'
+  validationEndpoint: 'https://test.dodopayments.com/licenses/validate'
 };
 
 // GA4 Tracking Helpers
@@ -24,8 +22,16 @@ function trackGA4Event(eventName, params = {}) {
 }
 
 function trackPurchaseEvent(licenseKey) {
+  if (!licenseKey) return;
+  const trackingFlagKey = `shopiclean_tracked_purchase_${licenseKey}`;
+
+  // Guard against duplicate purchase telemetry
+  if (localStorage.getItem(trackingFlagKey)) {
+    return;
+  }
+
   trackGA4Event('purchase', {
-    transaction_id: licenseKey || ('pass_' + Date.now()),
+    transaction_id: licenseKey,
     value: 9.00,
     currency: 'USD',
     items: [{
@@ -35,6 +41,8 @@ function trackPurchaseEvent(licenseKey) {
       quantity: 1
     }]
   });
+
+  localStorage.setItem(trackingFlagKey, 'true');
 }
 
 // 1. Retrieve saved license key
@@ -60,15 +68,10 @@ function clearSavedLicense() {
   localStorage.removeItem(SHOPICLEAN_CONFIG.storageKey);
 }
 
-// 5. Query Dodo Payments API to verify if key is valid and not revoked/expired
+// 5. Query Dodo Payments API with graceful network fault tolerance
 async function verifyDodoLicense(key) {
   const cleanKey = (key || '').trim();
-  if (!cleanKey) return false;
-
-  // DEV / TEST BYPASS: Allows full local debugging
-  if (cleanKey === SHOPICLEAN_CONFIG.testBypassKey) {
-    return true;
-  }
+  if (!cleanKey) return { status: 'invalid' };
 
   try {
     const response = await fetch(SHOPICLEAN_CONFIG.validationEndpoint, {
@@ -81,40 +84,50 @@ async function verifyDodoLicense(key) {
       })
     });
 
-    if (!response.ok) return false;
+    if (response.status === 401 || response.status === 403 || response.status === 404) {
+      return { status: 'invalid' };
+    }
+
+    if (!response.ok) {
+      // 5xx server issues or unexpected gateway responses
+      console.warn('Dodo API temporary gateway issue:', response.status);
+      return { status: 'network_error' };
+    }
 
     const data = await response.json();
-    return data && (data.valid === true || data.status === 'active');
+    if (data && (data.valid === true || data.status === 'active')) {
+      return { status: 'valid' };
+    }
+
+    return { status: 'invalid' };
   } catch (err) {
-    console.error('Dodo license verification request failed:', err);
-    return false;
+    // Network disconnection, offline mode, ad-blocker drop
+    console.warn('Dodo network request failed. Retaining local state:', err);
+    return { status: 'network_error' };
   }
 }
 
-// 6. Master Export Gate: Verifies server status before initiating download
+// 6. Master Export Gate
 async function exportWithLicenseCheck(downloadCallback) {
   const savedKey = getSavedLicense();
 
-  // If no license exists locally, present paywall modal
   if (!savedKey) {
     openPaywallModal(downloadCallback);
     return;
   }
 
-  // Live verification check against Dodo Payments
-  const isValid = await verifyDodoLicense(savedKey);
+  const result = await verifyDodoLicense(savedKey);
 
-  if (isValid) {
-    // Key is active and in good standing
+  if (result.status === 'valid' || result.status === 'network_error') {
+    // Pass verification or fail-soft on temporary network blips
     if (typeof downloadCallback === 'function') {
       downloadCallback();
     }
   } else {
-    // Key has expired, reached limit, or was refunded/revoked
+    // Only wipe when explicitly confirmed invalid/revoked/expired
     clearSavedLicense();
     openPaywallModal(downloadCallback);
-    
-    // Auto-open manual restore area with error notification
+
     toggleKeyRestore(true);
     const feedback = document.getElementById('license-feedback');
     if (feedback) {
@@ -133,7 +146,6 @@ function openPaywallModal(onSuccessCallback) {
     modal = document.getElementById('shopiclean-paywall-modal');
   }
 
-  // Track paywall impression as checkout initiation
   trackGA4Event('begin_checkout', {
     value: 9.00,
     currency: 'USD',
@@ -181,23 +193,26 @@ async function handleManualKeySubmit() {
   feedback.classList.add('text-slate-500');
   feedback.textContent = 'Verifying key with Dodo Payments...';
 
-  const isValid = await verifyDodoLicense(key);
+  const result = await verifyDodoLicense(key);
 
-  if (isValid) {
+  if (result.status === 'valid') {
     saveLicense(key);
-
-    // Track successful activation in GA4
     trackPurchaseEvent(key);
 
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-emerald-600');
     feedback.textContent = 'License activated! Starting export...';
+
     setTimeout(() => {
       closePaywallModal();
       if (typeof window._shopicleanPaymentSuccessCallback === 'function') {
         window._shopicleanPaymentSuccessCallback();
       }
     }, 700);
+  } else if (result.status === 'network_error') {
+    feedback.classList.remove('text-slate-500');
+    feedback.classList.add('text-amber-600');
+    feedback.textContent = 'Connection error. Please check your network and retry.';
   } else {
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-red-500');
@@ -205,21 +220,24 @@ async function handleManualKeySubmit() {
   }
 }
 
-// 11. Auto-capture license key on payment success redirect (?license_key=...)
-(function autoCaptureRedirectKey() {
+// 11. Auto-capture license key on payment redirect with verification handshake
+(async function autoCaptureRedirectKey() {
   try {
     const params = new URLSearchParams(window.location.search);
     const key = params.get('license_key');
     if (key && key.trim()) {
       const cleanKey = key.trim();
-      saveLicense(cleanKey);
 
-      // Track successful purchase via redirect
-      trackPurchaseEvent(cleanKey);
-
-      // Clean query parameters from address bar cleanly
+      // Clean query parameters from address bar immediately for privacy
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
+
+      // Verify before storing and tracking
+      const result = await verifyDodoLicense(cleanKey);
+      if (result.status === 'valid') {
+        saveLicense(cleanKey);
+        trackPurchaseEvent(cleanKey);
+      }
     }
   } catch (err) {
     console.warn('Redirect key capture error:', err);
@@ -228,7 +246,6 @@ async function handleManualKeySubmit() {
 
 // 12. Inject Modal Markup into DOM
 function injectPaywallModal() {
-  // Pre-launch button logic based on SHOPICLEAN_CONFIG.isLaunchLive
   const checkoutActionHtml = SHOPICLEAN_CONFIG.isLaunchLive
     ? `<a href="${SHOPICLEAN_CONFIG.checkoutUrl}" 
           target="_blank" 
@@ -247,10 +264,8 @@ function injectPaywallModal() {
     <div id="shopiclean-paywall-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div class="relative w-full max-w-md bg-white rounded-xl shadow-2xl border border-slate-200 p-6 text-slate-800">
         
-        <!-- Close Button -->
         <button type="button" onclick="closePaywallModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold p-1 leading-none">&times;</button>
         
-        <!-- Header -->
         <div class="text-center mb-6">
           <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 mb-3 text-2xl">
             ✓
@@ -259,7 +274,6 @@ function injectPaywallModal() {
           <p class="text-sm text-slate-500 mt-1">Unlock instant exports and fixes across all 4 utilities.</p>
         </div>
 
-        <!-- Offer Card -->
         <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
           <div class="flex justify-between items-baseline mb-1">
             <span class="font-semibold text-slate-900 text-base">7-Day Launch Pass</span>
@@ -274,7 +288,6 @@ function injectPaywallModal() {
 
           ${checkoutActionHtml}
 
-          <!-- Micro Guarantee Breakdown -->
           <div class="mt-3 pt-2.5 border-t border-slate-200 text-center">
             <p class="text-[11px] font-semibold text-slate-700">
               🛡️ 100% Money-Back Clean Import Guarantee
@@ -285,12 +298,10 @@ function injectPaywallModal() {
           </div>
         </div>
 
-        <!-- Privacy & Local Processing Notice -->
         <p class="text-[11px] text-slate-400 text-center leading-normal mb-4">
           Your catalog data is processed 100% locally in your browser. We never see or store your files. Only your license key is verified via Dodo Payments.
         </p>
 
-        <!-- Restore / Enter License -->
         <div class="border-t border-slate-100 pt-3 text-center">
           <button type="button" id="toggle-key-input" onclick="toggleKeyRestore()" class="text-xs text-slate-500 hover:text-slate-800 underline">
             Already have a license key? Restore access

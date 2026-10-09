@@ -8,17 +8,35 @@
   <link rel="canonical" href="https://shopiclean.com/privacy-policy/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
+  <!-- OpenGraph Metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ShopiClean">
+  <meta property="og:url" content="https://shopiclean.com/privacy-policy/">
+  <meta property="og:title" content="Privacy Policy — ShopiClean">
+  <meta property="og:description" content="ShopiClean Privacy Policy. Learn about our client-side data processing architecture, local browser storage usage, and third-party payment processing.">
+  <meta property="og:image" content="https://shopiclean.com/og-image.png">
+  <meta property="og:image:secure_url" content="https://shopiclean.com/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy — ShopiClean">
+  <meta name="twitter:description" content="ShopiClean Privacy Policy. Learn about our client-side data processing architecture, local browser storage usage, and third-party payment processing.">
+  <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
+
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-JP9PZNZTLN');
-</script>
+    gtag('config', 'G-JP9PZNZTLN');
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
@@ -97,6 +115,7 @@
         <ul class="list-disc pl-5 space-y-1 text-slate-600">
           <li>Your alphanumeric license key</li>
           <li>The license activation timestamp and pass expiration date</li>
+          <li>Unique purchase tracking flags to prevent duplicate analytics events</li>
           <li>Temporary local preferences (such as column re-mapping states)</li>
         </ul>
         <p>
@@ -117,7 +136,10 @@
       <section class="space-y-3">
         <h2 class="text-base font-bold text-slate-900">5. Web Analytics &amp; Cookies</h2>
         <p>
-          We do not use invasive third-party cross-site behavioral tracking cookies. Any analytical logging employed is strictly privacy-compliant, aggregate-level server telemetry (such as page visit counts and browser user-agent types) used to optimize page performance and server uptime.
+          We use <strong>Google Analytics 4 (GA4)</strong>, identified by measurement ID <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded font-mono text-xs">G-JP9PZNZTLN</code>, to collect aggregate, privacy-compliant usage metrics. This includes general technical telemetry such as browser type, operating system, approximate geographic region (country/city level), referring pages, page visit duration, and feature interaction events (e.g., checkout initiation and tool interactions).
+        </p>
+        <p>
+          Google Analytics uses first-party cookies to distinguish unique website visitors. We do not pass personally identifiable customer information, CSV contents, or raw catalog spreadsheets to Google Analytics. You can prevent Google Analytics tracking at any time by enabling "Do Not Track" in your browser settings or installing an ad-blocking extension.
         </p>
       </section>
 

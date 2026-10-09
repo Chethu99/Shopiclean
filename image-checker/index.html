@@ -15,6 +15,8 @@
   <meta property="og:title" content="Shopify CSV Image URL Checker & Validator — ShopiClean">
   <meta property="og:description" content="Validate Shopify product image URLs in bulk. Fix missing HTTPS protocols, unencoded spaces, and broken image links client-side before CSV import.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
+  <meta property="og:image:secure_url" content="https://shopiclean.com/og-image.png">
+  <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
@@ -96,7 +98,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="../" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
+      <a href="/" class="flex items-center gap-2 group" title="Return to ShopiClean Home">
         <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-500 transition-colors">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -106,11 +108,10 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <!-- Guaranteed hidden by default via inline style -->
         <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
-        <a href="../" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
+        <a href="/" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/80">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
@@ -208,7 +209,7 @@
           </div>
         </div>
 
-        <!-- Standardized 14-Day Import Success Guarantee Callout -->
+        <!-- 14-Day Import Success Guarantee Callout -->
         <div class="mt-6 pt-4 border-t border-slate-100">
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
             <div class="flex items-center gap-2 font-bold text-slate-900">
@@ -218,10 +219,10 @@
               <span>14-Day Import Success Guarantee</span>
             </div>
             <p class="leading-relaxed">
-              If an exported CSV fails to import due to structural or formatting errors this utility is designed to repair, contact <a href="mailto:support@shopiclean.com" class="text-blue-600 underline font-medium">support@shopiclean.com</a> within 14 days for a 100% refund.
+              If an exported CSV fails to import due to structural or formatting errors this utility is designed to repair, contact <a href="mailto:support@shopiclean.com" class="text-blue-600 underline font-medium">support@shopiclean.com</a> within 14 days for a 100% refund[cite: 3].
             </p>
             <div class="pt-2 border-t border-slate-200/60 text-[11px] text-slate-500 leading-normal">
-              <strong class="text-slate-700">Claim Requirements:</strong> Provide your original file, repaired export, and the Shopify Admin error log/screenshot[cite: 3]. Excludes account-level store limits, app conflicts, or files exceeding 15MB[cite: 3]. See <a href="../terms/" class="text-blue-600 underline">Terms</a>[cite: 3].
+              <strong class="text-slate-700">Claim Requirements:</strong> Provide your original file, repaired export, and the Shopify Admin error log/screenshot[cite: 3]. Excludes account-level store limits, app conflicts, or files exceeding 15MB[cite: 3]. See <a href="/terms/" class="text-blue-600 underline">Terms</a>[cite: 3].
             </div>
           </div>
         </div>
@@ -294,9 +295,9 @@
         <p class="text-xs text-slate-600 mt-0.5">Need to format CSV headers, split variants, or convert supplier sheets?</p>
       </div>
       <div class="flex flex-wrap gap-2 text-xs font-semibold">
-        <a href="../csv-validator/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">CSV Validator</a>
-        <a href="../supplier-converter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Supplier Converter</a>
-        <a href="../variant-splitter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Variant Splitter</a>
+        <a href="/csv-validator/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">CSV Validator</a>
+        <a href="/supplier-converter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Supplier Converter</a>
+        <a href="/variant-splitter/" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg hover:border-blue-500 hover:text-blue-600 transition-colors">Variant Splitter</a>
       </div>
     </div>
 

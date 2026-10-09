@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopify Variant Splitter & CSV Linker | ShopiClean</title>
-  <meta name="description" content="Split Shopify products over the 100-variant limit and link broken variant rows. Synchronize handles and preserve SKU hierarchy client-side without uploads.">
+  <meta name="description" content="Split multi-variant Shopify catalogs into standalone listings and link broken variant rows. Synchronize handles and preserve SKU hierarchy 100% in-browser.">
   <link rel="canonical" href="https://shopiclean.com/variant-splitter/">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="ShopiClean">
   <meta property="og:url" content="https://shopiclean.com/variant-splitter/">
   <meta property="og:title" content="Shopify Variant Splitter & CSV Linker | ShopiClean">
-  <meta property="og:description" content="Split Shopify products over the 100-variant limit and link broken variant rows. Synchronize handles and preserve SKU hierarchy client-side without uploads.">
+  <meta property="og:description" content="Split multi-variant Shopify catalogs into standalone listings and link broken variant rows. Synchronize handles and preserve SKU hierarchy 100% in-browser.">
   <meta property="og:image" content="https://shopiclean.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://shopiclean.com/variant-splitter/">
   <meta name="twitter:title" content="Shopify Variant Splitter & CSV Linker | ShopiClean">
-  <meta name="twitter:description" content="Split Shopify products over the 100-variant limit and link broken variant rows. Synchronize handles and preserve SKU hierarchy client-side without uploads.">
+  <meta name="twitter:description" content="Split multi-variant Shopify catalogs into standalone listings and link broken variant rows. Synchronize handles and preserve SKU hierarchy 100% in-browser.">
   <meta name="twitter:image" content="https://shopiclean.com/og-image.png">
 
   <!-- WebApplication Structured Data -->
@@ -60,10 +60,10 @@
       },
       {
         "@type": "Question",
-        "name": "Does this tool help bypass Shopify's 100-variant limit?",
+        "name": "Why should I split complex variants into separate parent listings?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. It can cleanly split products with more than 100 variants into separate parent handles (e.g., partitioned by color or style) while keeping your SKUs and pricing intact."
+          "text": "Splitting variants by color or style gives each option its own unique product URL, direct Google Shopping indexing, and custom media gallery, preventing collection pages from feeling cluttered."
         }
       },
       {
@@ -106,7 +106,6 @@
       </a>
 
       <div class="flex items-center gap-3">
-        <!-- Guaranteed hidden by default via inline style -->
         <span id="passStatusBadge" style="display: none !important;" class="items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
           ✓ 7-Day Pass Active
         </span>
@@ -124,7 +123,7 @@
   <main class="flex-grow max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8">
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Variant Architecture</span>
-      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Variant Splitter & Linker</h1>
+      <h1 class="text-3xl font-black text-slate-900 mt-1">Shopify Variant Splitter &amp; Linker</h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
         Synchronize parent handles across multi-row options (sizes, colors) so Shopify attaches them as single-product variants instead of creating multiple duplicated product listings. Optimize large catalogs for Google Shopping SEO and theme performance.
       </p>
@@ -143,7 +142,6 @@
         <p class="text-xs text-slate-400 mt-1">Max 15MB (Shopify's native import limit) • Processed 100% locally in your browser</p>
       </div>
 
-      <!-- Action-Oriented Interactive Demo Link -->
       <div class="mt-3 text-center">
         <span class="text-xs text-slate-500">Want to test it first?</span>
         <button type="button" id="loadSampleBtn" class="text-xs text-blue-600 hover:text-blue-800 underline font-semibold ml-1">
@@ -208,7 +206,7 @@
           </div>
         </div>
 
-        <!-- Standardized 14-Day Import Success Guarantee Callout -->
+        <!-- 14-Day Import Guarantee Callout -->
         <div class="mt-6 pt-4 border-t border-slate-100">
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-2">
             <div class="flex items-center gap-2 font-bold text-slate-900">
@@ -296,11 +294,11 @@
         </details>
         <details class="group bg-white border border-slate-200 rounded-lg p-4 cursor-pointer">
           <summary class="text-xs font-bold text-slate-800 flex justify-between items-center">
-            Why split variants instead of keeping hundreds under one product?
+            Why split variants into separate parent product listings?
             <span class="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
           </summary>
           <p class="text-xs text-slate-500 mt-2 leading-relaxed">
-            Even with modern variant capacities, bundling dozens of colors under one listing hides colorways from Google Shopping search results and exhausts Shopify's 250-media image cap. Splitting items by color gives each option its own dedicated landing page, custom photography, and direct Google Shopping traffic.
+            Bundling excessive option combinations under one listing hides colorways from Google Shopping search results and exhausts image gallery real estate. Splitting items by color gives each option its own dedicated landing page, custom photography, and direct search traffic.
           </p>
         </details>
       </div>
@@ -382,7 +380,6 @@
     const diffPreviewContainer = document.getElementById('diffPreviewContainer');
     const diffPreviewBody = document.getElementById('diffPreviewBody');
 
-    // 15MB safety ceiling (Shopify caps native imports at 15MB)
     const MAX_FILE_SIZE_MB = 15;
     const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
@@ -396,7 +393,6 @@
 invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,Home,Title,Default Title,MUG-001,14.50
 ,100% Organic Cotton Hoodie (Limited!),Winter warmth,EcoWear,Apparel,Size,One Size,HD-ORG-01,54.00`;
 
-    // Only unhide badge if auth actually succeeds
     document.addEventListener('DOMContentLoaded', () => {
       if (typeof hasActiveLicense === 'function' && hasActiveLicense()) {
         passStatusBadge.style.display = 'inline-flex';
@@ -432,7 +428,6 @@ invalid handle with spaces!,Ceramic Coffee Mug - 12oz,Handmade pottery,Artisan,H
         return;
       }
 
-      // Memory & browser crash protection
       if (file.size > MAX_FILE_BYTES) {
         const actualSizeMB = (file.size / (1024 * 1024)).toFixed(1);
         alert(`File too large (${actualSizeMB}MB). Shopify's native import limit is 15MB. Please upload a file under ${MAX_FILE_SIZE_MB}MB.`);
