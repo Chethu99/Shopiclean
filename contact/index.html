@@ -28,13 +28,25 @@
 
   <script src="/js/auth.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+
+  <!-- Google Consent Mode v2 Default Settings -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
+    // Check saved choice before establishing default consent state
+    const userConsent = localStorage.getItem('shopiclean_cookie_consent');
+
+    gtag('consent', 'default', {
+      'analytics_storage': userConsent === 'granted' ? 'granted' : 'denied',
+      'ad_storage': 'denied'
+    });
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JP9PZNZTLN"></script>
+  <script>
+    gtag('js', new Date());
     gtag('config', 'G-JP9PZNZTLN');
   </script>
 </head>

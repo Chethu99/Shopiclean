@@ -516,3 +516,54 @@ function injectPaywallModal() {
 
   document.body.insertAdjacentHTML('beforeend', modalHtml);
 }
+
+// 13. Universal Cookie Consent Banner Module
+(function initCookieConsent() {
+  const choice = localStorage.getItem('shopiclean_cookie_consent');
+  if (choice) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'cookie-consent-banner';
+  banner.className = 'fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-white border border-slate-200/90 shadow-2xl rounded-2xl p-4 z-50 text-slate-700 flex flex-col gap-3 font-sans ring-1 ring-slate-900/5';
+  banner.innerHTML = `
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="text-sm font-bold text-slate-900">Cookie Preferences</span>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        We use essential and analytics cookies to measure site performance and improve your experience. Learn more in our <a href="/privacy-policy/" class="text-blue-600 hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+    <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
+      <button id="reject-cookies" type="button" class="px-3.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 font-semibold text-xs text-slate-600 transition-colors">
+        Decline
+      </button>
+      <button id="accept-cookies" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors shadow-xs">
+        Accept All
+      </button>
+    </div>
+  `;
+
+  const renderBanner = () => {
+    document.body.appendChild(banner);
+
+    document.getElementById('accept-cookies').addEventListener('click', () => {
+      localStorage.setItem('shopiclean_cookie_consent', 'granted');
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+      banner.remove();
+    });
+
+    document.getElementById('reject-cookies').addEventListener('click', () => {
+      localStorage.setItem('shopiclean_cookie_consent', 'denied');
+      banner.remove();
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderBanner);
+  } else {
+    renderBanner();
+  }
+})();

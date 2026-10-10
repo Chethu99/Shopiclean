@@ -28,3 +28,7 @@ TODO.md
 .idea/
 .DS_Store
 Thumbs.db
+
+# Test fixtures & sample datasets
+
+samples/
