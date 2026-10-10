@@ -11,8 +11,22 @@ const SHOPICLEAN_CONFIG = {
   // Dodo Payments Checkout URL (Ready to swap to live on Oct 12/14)
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
   // Endpoints
-  validationEndpoint: 'https://test.dodopayments.com/licenses/validate'
+  validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
+  // If Dodo can't be reached, allow exports for this many hours after the last successful
+  // verification. Set to 0 for strict mode (no export without a live verification).
+  offlineGraceHours: 24,
+  lastVerifiedKey: 'shopiclean_last_verified'
 };
+
+// Safety guard: warn loudly if live mode is on while test Dodo URLs are still configured
+(function launchConfigGuard() {
+  try {
+    const c = SHOPICLEAN_CONFIG;
+    if (c.isLaunchLive && (/\/\/test\./.test(c.checkoutUrl) || /\/\/test\./.test(c.validationEndpoint))) {
+      console.error('[ShopiClean] isLaunchLive is true but test Dodo URLs are still configured. Swap both to live URLs.');
+    }
+  } catch (e) { /* no-op */ }
+})();
 
 // GA4 Tracking Helpers
 function trackGA4Event(eventName, params = {}) {
@@ -21,9 +35,37 @@ function trackGA4Event(eventName, params = {}) {
   }
 }
 
-function trackPurchaseEvent(licenseKey) {
+// One-way hash so the real license key is never sent to analytics or used as a storage key name
+async function anonymizeLicenseKey(licenseKey) {
+  try {
+    const bytes = new TextEncoder().encode(String(licenseKey));
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    return 'pass_' + Array.from(new Uint8Array(digest))
+      .slice(0, 8)
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  } catch (e) {
+    return null; // Hashing unavailable: skip tracking rather than leak the key
+  }
+}
+
+async function trackPurchaseEvent(licenseKey) {
   if (!licenseKey) return;
-  const trackingFlagKey = `shopiclean_tracked_purchase_${licenseKey}`;
+
+  const transactionId = await anonymizeLicenseKey(licenseKey);
+  if (!transactionId) return;
+
+  const trackingFlagKey = `shopiclean_tracked_purchase_${transactionId}`;
+  const legacyFlagKey = `shopiclean_tracked_purchase_${licenseKey}`;
+
+  // Clean up older flags that stored the raw key in their name, and don't re-track those
+  try {
+    if (localStorage.getItem(legacyFlagKey)) {
+      localStorage.removeItem(legacyFlagKey);
+      localStorage.setItem(trackingFlagKey, 'true');
+      return;
+    }
+  } catch (e) { /* no-op */ }
 
   // Guard against duplicate purchase telemetry
   if (localStorage.getItem(trackingFlagKey)) {
@@ -31,7 +73,7 @@ function trackPurchaseEvent(licenseKey) {
   }
 
   trackGA4Event('purchase', {
-    transaction_id: licenseKey,
+    transaction_id: transactionId,
     value: 9.00,
     currency: 'USD',
     items: [{
@@ -66,6 +108,25 @@ function saveLicense(key) {
 // 4. Clear license key (resets local access)
 function clearSavedLicense() {
   localStorage.removeItem(SHOPICLEAN_CONFIG.storageKey);
+  localStorage.removeItem(SHOPICLEAN_CONFIG.lastVerifiedKey);
+}
+
+// 4b. Remember when a key was last confirmed valid by Dodo (used for the offline grace window)
+function markLicenseVerified() {
+  try {
+    localStorage.setItem(SHOPICLEAN_CONFIG.lastVerifiedKey, String(Date.now()));
+  } catch (e) { /* no-op */ }
+}
+
+function isWithinOfflineGrace() {
+  try {
+    const graceMs = (SHOPICLEAN_CONFIG.offlineGraceHours || 0) * 60 * 60 * 1000;
+    if (graceMs <= 0) return false;
+    const last = parseInt(localStorage.getItem(SHOPICLEAN_CONFIG.lastVerifiedKey) || '0', 10);
+    return last > 0 && (Date.now() - last) <= graceMs;
+  } catch (e) {
+    return false;
+  }
 }
 
 // 5. Query Dodo Payments API with graceful network fault tolerance
@@ -84,12 +145,13 @@ async function verifyDodoLicense(key) {
       })
     });
 
-    if (response.status === 401 || response.status === 403 || response.status === 404) {
+    // 4xx = Dodo rejected the key (except timeout / rate-limit, which are temporary)
+    if (response.status >= 400 && response.status < 500 && response.status !== 408 && response.status !== 429) {
       return { status: 'invalid' };
     }
 
     if (!response.ok) {
-      // 5xx server issues or unexpected gateway responses
+      // 5xx, 408, 429 or unexpected gateway responses
       console.warn('Dodo API temporary gateway issue:', response.status);
       return { status: 'network_error' };
     }
@@ -118,10 +180,29 @@ async function exportWithLicenseCheck(downloadCallback) {
 
   const result = await verifyDodoLicense(savedKey);
 
-  if (result.status === 'valid' || result.status === 'network_error') {
-    // Pass verification or fail-soft on temporary network blips
+  if (result.status === 'valid') {
+    markLicenseVerified();
     if (typeof downloadCallback === 'function') {
       downloadCallback();
+    }
+  } else if (result.status === 'network_error') {
+    if (isWithinOfflineGrace()) {
+      // Dodo unreachable, but this key was verified recently: fail soft for paying users
+      if (typeof downloadCallback === 'function') {
+        downloadCallback();
+      }
+    } else {
+      // Can't verify and no recent verification: keep the key, ask the user to retry
+      openPaywallModal(downloadCallback);
+      toggleKeyRestore(true);
+      const input = document.getElementById('manual-license-input');
+      if (input) input.value = savedKey;
+      const feedback = document.getElementById('license-feedback');
+      if (feedback) {
+        feedback.classList.remove('hidden', 'text-emerald-600', 'text-slate-500', 'text-red-500');
+        feedback.classList.add('text-amber-600');
+        feedback.textContent = "We couldn't verify your pass right now. Check your connection and click Verify to retry.";
+      }
     }
   } else {
     // Only wipe when explicitly confirmed invalid/revoked/expired
@@ -197,6 +278,7 @@ async function handleManualKeySubmit() {
 
   if (result.status === 'valid') {
     saveLicense(key);
+    markLicenseVerified();
     trackPurchaseEvent(key);
 
     feedback.classList.remove('text-slate-500');
@@ -232,10 +314,17 @@ async function handleManualKeySubmit() {
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
 
-      // Verify before storing and tracking
+      // Verify before tracking. Junk keys are never stored; on a temporary network
+      // problem the key is kept (it gets verified on the first export) so a paying
+      // customer isn't left locked out.
       const result = await verifyDodoLicense(cleanKey);
-      if (result.status === 'valid') {
+      if (result.status === 'valid' || result.status === 'network_error') {
         saveLicense(cleanKey);
+        const badge = document.getElementById('passStatusBadge');
+        if (badge) badge.style.display = 'inline-flex';
+      }
+      if (result.status === 'valid') {
+        markLicenseVerified();
         trackPurchaseEvent(cleanKey);
       }
     }

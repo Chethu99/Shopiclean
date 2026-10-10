@@ -6,6 +6,7 @@ _.spec.js
 
 # Build sources & config files
 
+generate_large_csv.py
 input.css
 tailwind.config.js
 package.json
