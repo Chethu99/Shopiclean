@@ -90,11 +90,14 @@
     function gtag(){dataLayer.push(arguments);}
 
     // Check saved choice before establishing default consent state
-    const userConsent = localStorage.getItem('shopiclean_cookie_consent');
+    let userConsent = null;
+    try { userConsent = localStorage.getItem('shopiclean_cookie_consent'); } catch (e) { /* storage blocked: stay on denied */ }
 
     gtag('consent', 'default', {
       'analytics_storage': userConsent === 'granted' ? 'granted' : 'denied',
-      'ad_storage': 'denied'
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied'
     });
   </script>
 
@@ -387,6 +390,7 @@
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
           <ul class="space-y-2">
             <li><a href="/privacy-policy/" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            <li><a href="#" data-cookie-settings class="hover:text-blue-600 transition-colors">Cookie Settings</a></li>
             <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
             <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
             <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>

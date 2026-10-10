@@ -35,11 +35,14 @@
     function gtag(){dataLayer.push(arguments);}
 
     // Check saved choice before establishing default consent state
-    const userConsent = localStorage.getItem('shopiclean_cookie_consent');
+    let userConsent = null;
+    try { userConsent = localStorage.getItem('shopiclean_cookie_consent'); } catch (e) { /* storage blocked: stay on denied */ }
 
     gtag('consent', 'default', {
       'analytics_storage': userConsent === 'granted' ? 'granted' : 'denied',
-      'ad_storage': 'denied'
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied'
     });
   </script>
 
@@ -134,6 +137,7 @@
           <li>Your alphanumeric license key</li>
           <li>The Dodo Payments activation ID for this browser and the time your pass was last verified</li>
           <li>One-way hashed purchase tracking flags (not your license key) to prevent duplicate analytics events</li>
+          <li>Your cookie-consent choice (accepted or declined)</li>
           <li>Temporary local preferences (such as column re-mapping states)</li>
         </ul>
         <p>
@@ -158,6 +162,9 @@
         </p>
         <p>
           Google Analytics uses first-party cookies to distinguish unique website visitors. We do not pass personally identifiable customer information, CSV contents, or raw catalog spreadsheets to Google Analytics, and purchase events use a one-way hashed identifier, never your license key. You can opt out by installing the Google Analytics Opt-out Browser Add-on or an ad-blocking extension. Your browser’s “Do Not Track” setting is not guaranteed to disable Google Analytics.
+        </p>
+        <p>
+          Analytics cookies are set only after you click <strong>Accept All</strong> on the cookie banner. Until then, analytics storage is denied and Google Analytics operates in a limited mode without analytics cookies. Your choice is saved in your browser, and you can change or withdraw it at any time using the “Cookie Settings” link in the page footer; declining or withdrawing consent also removes existing Google Analytics cookies for this site.
         </p>
       </section>
 
@@ -226,6 +233,7 @@
           <div class="font-bold text-slate-900 uppercase tracking-wider text-[11px] mb-3">Trust &amp; Legal</div>
           <ul class="space-y-2">
             <li><a href="/privacy-policy/" class="text-blue-600 font-bold">Privacy Policy</a></li>
+            <li><a href="#" data-cookie-settings class="hover:text-blue-600 transition-colors">Cookie Settings</a></li>
             <li><a href="/terms/" class="hover:text-blue-600 transition-colors">Terms of Service &amp; Refunds</a></li>
             <li><a href="/about/" class="hover:text-blue-600 transition-colors">About Us</a></li>
             <li><a href="/contact/" class="hover:text-blue-600 transition-colors">Contact Support</a></li>
