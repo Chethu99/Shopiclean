@@ -75,7 +75,7 @@
     <header class="mb-10 pb-6 border-b border-slate-200">
       <span class="text-xs font-bold uppercase tracking-widest text-blue-600">Transparency &amp; Trust</span>
       <h1 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1.5">Privacy Policy</h1>
-      <p class="text-xs text-slate-500 mt-2">Effective Date: October 1, 2026</p>
+      <p class="text-xs text-slate-500 mt-2">Effective Date: October 1, 2026 &bull; Last updated: October 10, 2026</p>
     </header>
 
     <article class="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 leading-relaxed space-y-8">
@@ -95,14 +95,20 @@
       <section class="space-y-3">
         <h2 class="text-base font-bold text-slate-900">2. External Network Communications &amp; Payment Processing</h2>
         <p>
-          While spreadsheet processing is 100% local, the website interacts with external services in only two specific instances:
+          While spreadsheet processing is 100% local, the website connects to a small number of external services. None of them receive your spreadsheet files:
         </p>
         <ul class="list-disc pl-5 space-y-2 text-slate-600">
           <li>
             <strong>Payment Processing:</strong> All financial transactions, card billing, and checkout flows are handled directly by our Merchant of Record and payment processor, <strong>Dodo Payments</strong>. We do not collect, view, or store your credit card numbers, billing addresses, or bank details.
           </li>
           <li>
-            <strong>License Key Validation:</strong> When you purchase or restore access to a 7-Day Launch Pass, your browser communicates with Dodo Payments’ secure license API endpoints to verify license key validity, expiration dates, and activation quotas.
+            <strong>License Key Validation:</strong> When you purchase or restore access to a 7-Day Launch Pass, your browser communicates with Dodo Payments’ secure license API endpoints to verify license key validity, expiration dates, and activation quotas. To enforce the device limit, your browser sends your license key and a generic device label (for example, “ShopiClean Web (Win32)”) so that browser can be registered as one activation.
+          </li>
+          <li>
+            <strong>Web Analytics:</strong> We use Google Analytics 4 (see Section 5), which Google serves from googletagmanager.com. Google receives standard request data such as your IP address and browser details.
+          </li>
+          <li>
+            <strong>Third-Party Script Libraries:</strong> Page styling and CSV-parsing libraries are loaded from public content delivery networks (cdn.tailwindcss.com and cdnjs.cloudflare.com). As with any web request, those providers can see your IP address and browser details, but never your files.
           </li>
         </ul>
       </section>
@@ -114,8 +120,8 @@
         </p>
         <ul class="list-disc pl-5 space-y-1 text-slate-600">
           <li>Your alphanumeric license key</li>
-          <li>The license activation timestamp and pass expiration date</li>
-          <li>Unique purchase tracking flags to prevent duplicate analytics events</li>
+          <li>The Dodo Payments activation ID for this browser and the time your pass was last verified</li>
+          <li>One-way hashed purchase tracking flags (not your license key) to prevent duplicate analytics events</li>
           <li>Temporary local preferences (such as column re-mapping states)</li>
         </ul>
         <p>
@@ -136,15 +142,25 @@
       <section class="space-y-3">
         <h2 class="text-base font-bold text-slate-900">5. Web Analytics &amp; Cookies</h2>
         <p>
-          We use <strong>Google Analytics 4 (GA4)</strong>, identified by measurement ID <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded font-mono text-xs">G-JP9PZNZTLN</code>, to collect aggregate, privacy-compliant usage metrics. This includes general technical telemetry such as browser type, operating system, approximate geographic region (country/city level), referring pages, page visit duration, and feature interaction events (e.g., checkout initiation and tool interactions).
+          We use <strong>Google Analytics 4 (GA4)</strong>, identified by measurement ID <code class="text-slate-800 bg-slate-100 px-1 py-0.5 rounded font-mono text-xs">G-JP9PZNZTLN</code>, to collect aggregate usage metrics. This includes general technical telemetry such as browser type, operating system, approximate geographic region (country/city level), referring pages, page visit duration, and feature interaction events (e.g., checkout initiation and tool interactions).
         </p>
         <p>
-          Google Analytics uses first-party cookies to distinguish unique website visitors. We do not pass personally identifiable customer information, CSV contents, or raw catalog spreadsheets to Google Analytics. You can prevent Google Analytics tracking at any time by enabling "Do Not Track" in your browser settings or installing an ad-blocking extension.
+          Google Analytics uses first-party cookies to distinguish unique website visitors. We do not pass personally identifiable customer information, CSV contents, or raw catalog spreadsheets to Google Analytics, and purchase events use a one-way hashed identifier, never your license key. You can opt out by installing the Google Analytics Opt-out Browser Add-on or an ad-blocking extension. Your browser’s “Do Not Track” setting is not guaranteed to disable Google Analytics.
         </p>
       </section>
 
       <section class="space-y-3">
-        <h2 class="text-base font-bold text-slate-900">6. Contact Information</h2>
+        <h2 class="text-base font-bold text-slate-900">6. Your Rights &amp; Choices</h2>
+        <p>
+          Depending on where you live (for example the United Kingdom, the European Economic Area, Canada, Australia, or India), you may have the right to request access to, correction of, or deletion of personal data we hold about you, to object to or restrict certain processing, and to withdraw consent. Because your spreadsheets never reach our servers, the personal data we hold is limited to support emails you send us and aggregate analytics.
+        </p>
+        <p>
+          You can clear your browser’s site storage at any time to remove your license key and related data from your device, and you can opt out of analytics as described in Section 5. To make a request, email <a href="mailto:support@shopiclean.com" class="text-blue-600 underline">support@shopiclean.com</a>; we aim to respond within 30 days.
+        </p>
+      </section>
+
+      <section class="space-y-3">
+        <h2 class="text-base font-bold text-slate-900">7. Contact Information</h2>
         <p>
           For privacy inquiries, license management questions, or support assistance, contact us at:
         </p>
