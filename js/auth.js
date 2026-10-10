@@ -10,8 +10,13 @@ const SHOPICLEAN_CONFIG = {
   isLaunchLive: false,
   // Dodo Payments Checkout URL (Ready to swap to live on Oct 12/14)
   checkoutUrl: 'https://test.checkout.dodopayments.com/buy/pdt_0NoiP2d0U9zaohffab1pf?quantity=1',
-  // Endpoints
+  // Endpoints. ON OCT 12 swap BOTH to https://live.dodopayments.com/... (checkoutUrl above too)
   validationEndpoint: 'https://test.dodopayments.com/licenses/validate',
+  activationEndpoint: 'https://test.dodopayments.com/licenses/activate',
+  // Where this browser's Dodo activation instance id is remembered (enforces the device limit)
+  instanceStorageKey: 'shopiclean_license_instance',
+  // Shown when a key has used all of its device activations
+  supportEmail: 'support@shopiclean.com',
   // If Dodo can't be reached, allow exports for this many hours after the last successful
   // verification. Set to 0 for strict mode (no export without a live verification).
   offlineGraceHours: 24,
@@ -22,8 +27,9 @@ const SHOPICLEAN_CONFIG = {
 (function launchConfigGuard() {
   try {
     const c = SHOPICLEAN_CONFIG;
-    if (c.isLaunchLive && (/\/\/test\./.test(c.checkoutUrl) || /\/\/test\./.test(c.validationEndpoint))) {
-      console.error('[ShopiClean] isLaunchLive is true but test Dodo URLs are still configured. Swap both to live URLs.');
+    const testUrl = (u) => /\/\/test\./.test(u || '');
+    if (c.isLaunchLive && (testUrl(c.checkoutUrl) || testUrl(c.validationEndpoint) || testUrl(c.activationEndpoint))) {
+      console.error('[ShopiClean] isLaunchLive is true but test Dodo URLs are still configured. Swap checkoutUrl, validationEndpoint and activationEndpoint to live URLs.');
     }
   } catch (e) { /* no-op */ }
 })();
@@ -109,6 +115,7 @@ function saveLicense(key) {
 function clearSavedLicense() {
   localStorage.removeItem(SHOPICLEAN_CONFIG.storageKey);
   localStorage.removeItem(SHOPICLEAN_CONFIG.lastVerifiedKey);
+  localStorage.removeItem(SHOPICLEAN_CONFIG.instanceStorageKey);
 }
 
 // 4b. Remember when a key was last confirmed valid by Dodo (used for the offline grace window)
@@ -129,44 +136,122 @@ function isWithinOfflineGrace() {
   }
 }
 
-// 5. Query Dodo Payments API with graceful network fault tolerance
+// 5. Query Dodo Payments: activate this device (enforces the device limit) and validate the key.
+//    Resolves to { status: 'valid' | 'invalid' | 'limit_reached' | 'network_error' }
+
+// 5a. Small POST helper: never throws. Returns { networkError } or { ok, httpStatus, data }
+async function dodoPost(url, payload) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    let data = null;
+    try { data = await response.json(); } catch (e) { data = null; }
+    return { ok: response.ok, httpStatus: response.status, data };
+  } catch (err) {
+    // Network disconnection, offline mode, ad-blocker drop
+    console.warn('Dodo network request failed. Retaining local state:', err);
+    return { networkError: true };
+  }
+}
+
+// Temporary problems are never the customer's fault: 5xx, timeouts, rate limits, network drops
+function isTemporaryFailure(res) {
+  return !!res.networkError || res.httpStatus >= 500 || res.httpStatus === 408 || res.httpStatus === 429 || res.httpStatus < 200 ||
+    (res.httpStatus >= 300 && res.httpStatus < 400);
+}
+
+// 5b. Remember which Dodo activation instance belongs to this browser
+function getSavedInstance(key) {
+  try {
+    const raw = localStorage.getItem(SHOPICLEAN_CONFIG.instanceStorageKey);
+    if (!raw) return null;
+    const saved = JSON.parse(raw);
+    return saved && saved.key === key && saved.id ? saved.id : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveInstance(key, instanceId) {
+  try {
+    localStorage.setItem(SHOPICLEAN_CONFIG.instanceStorageKey, JSON.stringify({ key: key, id: instanceId }));
+  } catch (e) { /* no-op */ }
+}
+
+function clearSavedInstance() {
+  try {
+    localStorage.removeItem(SHOPICLEAN_CONFIG.instanceStorageKey);
+  } catch (e) { /* no-op */ }
+}
+
+function getDeviceName() {
+  try {
+    const platform = (typeof navigator !== 'undefined' && navigator.platform) ? navigator.platform : 'browser';
+    return ('ShopiClean Web (' + platform + ')').slice(0, 80);
+  } catch (e) {
+    return 'ShopiClean Web';
+  }
+}
+
+// 5c. Is the key active, unexpired, and (when an instance id is given) still activated here?
+async function validateStep(key, instanceId) {
+  const payload = { license_key: key };
+  if (instanceId) payload.license_key_instance_id = instanceId;
+
+  const res = await dodoPost(SHOPICLEAN_CONFIG.validationEndpoint, payload);
+  if (isTemporaryFailure(res)) return { status: 'network_error' };
+
+  if (res.ok && res.data) {
+    const isValid = typeof res.data.valid === 'boolean' ? res.data.valid : res.data.status === 'active';
+    if (isValid) return { status: 'valid' };
+  }
+  // Any other 4xx (or valid:false) means Dodo rejected the key / instance
+  return { status: 'invalid' };
+}
+
+// 5d. Register this browser as one of the key's allowed devices
+async function activateStep(key) {
+  const res = await dodoPost(SHOPICLEAN_CONFIG.activationEndpoint, {
+    license_key: key,
+    name: getDeviceName()
+  });
+  if (isTemporaryFailure(res)) return { status: 'network_error' };
+
+  if (res.ok) {
+    return { status: 'activated', instanceId: res.data && res.data.id ? res.data.id : null };
+  }
+  // Dodo returns 422 when the key has reached its activation limit
+  if (res.httpStatus === 422) return { status: 'limit_reached' };
+  // 403 (key not active/expired), 404 (unknown key) and other 4xx
+  return { status: 'invalid' };
+}
+
 async function verifyDodoLicense(key) {
   const cleanKey = (key || '').trim();
   if (!cleanKey) return { status: 'invalid' };
 
-  try {
-    const response = await fetch(SHOPICLEAN_CONFIG.validationEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        license_key: cleanKey
-      })
-    });
-
-    // 4xx = Dodo rejected the key (except timeout / rate-limit, which are temporary)
-    if (response.status >= 400 && response.status < 500 && response.status !== 408 && response.status !== 429) {
-      return { status: 'invalid' };
-    }
-
-    if (!response.ok) {
-      // 5xx, 408, 429 or unexpected gateway responses
-      console.warn('Dodo API temporary gateway issue:', response.status);
-      return { status: 'network_error' };
-    }
-
-    const data = await response.json();
-    if (data && (data.valid === true || data.status === 'active')) {
-      return { status: 'valid' };
-    }
-
-    return { status: 'invalid' };
-  } catch (err) {
-    // Network disconnection, offline mode, ad-blocker drop
-    console.warn('Dodo network request failed. Retaining local state:', err);
-    return { status: 'network_error' };
+  // Known device: a cheap validate that also confirms this device's slot still exists
+  const savedInstance = getSavedInstance(cleanKey);
+  if (savedInstance) {
+    const known = await validateStep(cleanKey, savedInstance);
+    if (known.status === 'valid' || known.status === 'network_error') return known;
+    // Slot was freed or the key changed state: fall through and try to activate again
+    clearSavedInstance();
   }
+
+  // New device (or lost slot): activate, which is where the device limit is enforced
+  const activation = await activateStep(cleanKey);
+  if (activation.status !== 'activated') return { status: activation.status };
+
+  // Confirm the freshly activated key is active and unexpired
+  const check = await validateStep(cleanKey, activation.instanceId);
+  if ((check.status === 'valid' || check.status === 'network_error') && activation.instanceId) {
+    saveInstance(cleanKey, activation.instanceId);
+  }
+  return check;
 }
 
 // 6. Master Export Gate
@@ -203,6 +288,18 @@ async function exportWithLicenseCheck(downloadCallback) {
         feedback.classList.add('text-amber-600');
         feedback.textContent = "We couldn't verify your pass right now. Check your connection and click Verify to retry.";
       }
+    }
+  } else if (result.status === 'limit_reached') {
+    // Key is valid but already active on the maximum number of devices
+    clearSavedLicense();
+    openPaywallModal(downloadCallback);
+
+    toggleKeyRestore(true);
+    const feedback = document.getElementById('license-feedback');
+    if (feedback) {
+      feedback.classList.remove('hidden', 'text-emerald-600', 'text-slate-500', 'text-amber-600');
+      feedback.classList.add('text-red-500');
+      feedback.textContent = 'This key is already active on its maximum number of devices. Email ' + SHOPICLEAN_CONFIG.supportEmail + ' to free up a slot.';
     }
   } else {
     // Only wipe when explicitly confirmed invalid/revoked/expired
@@ -295,6 +392,10 @@ async function handleManualKeySubmit() {
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-amber-600');
     feedback.textContent = 'Connection error. Please check your network and retry.';
+  } else if (result.status === 'limit_reached') {
+    feedback.classList.remove('text-slate-500');
+    feedback.classList.add('text-red-500');
+    feedback.textContent = 'This key is already active on its maximum number of devices. Email ' + SHOPICLEAN_CONFIG.supportEmail + ' to free up a slot.';
   } else {
     feedback.classList.remove('text-slate-500');
     feedback.classList.add('text-red-500');
